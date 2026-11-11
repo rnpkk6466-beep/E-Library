@@ -1,0 +1,1977 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบห้องสมุดออนไลน์ (School E-Library)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --surface: #ffffff;
+      --surface-alt: #f8fafc;
+      --border: #e2e8f0;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --brand: #1d4ed8;
+      --brand-hover: #1e40af;
+      --brand-soft: #eff6ff;
+      --brand-ink: #ffffff;
+      --accent: #0284c7;
+      --success: #15803d;
+      --success-bg: #dcfce7;
+      --warning: #b45309;
+      --warning-bg: #fef3c7;
+      --danger: #b91c1c;
+      --danger-bg: #fee2e2;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
+      --sidebar-width: 260px;
+      --navbar-height: 64px;
+      --font: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* ================= ENTRY GATE SCREEN ================= */
+    .entry-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #0284c7 100%);
+    }
+
+    .entry-card {
+      background: var(--surface);
+      width: 100%;
+      max-width: 520px;
+      border-radius: 16px;
+      padding: 36px 32px;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+
+    .entry-logo {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 16px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .entry-title {
+      font-size: 26px;
+      font-weight: 700;
+      margin: 0 0 8px;
+      color: var(--ink);
+    }
+
+    .entry-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      margin: 0 0 24px;
+    }
+
+    .entry-form {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      padding: 10px 14px;
+      font: inherit;
+      font-size: 15px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--ink);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+    }
+
+    .btn {
+      font: inherit;
+      font-weight: 600;
+      padding: 11px 20px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s, transform 0.1s, border-color 0.15s;
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: var(--brand);
+      color: var(--brand-ink);
+    }
+
+    .btn-primary:hover {
+      background: var(--brand-hover);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--ink);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-alt);
+    }
+
+    .btn-enter {
+      width: 100%;
+      padding: 14px 24px;
+      font-size: 17px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
+    }
+
+    .entry-note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+
+    /* ================= APP SHELL (NAVBAR + SIDEBAR + MAIN + FOOTER) ================= */
+    .app-shell {
+      display: none;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    .app-shell.active {
+      display: flex;
+    }
+
+    /* Navbar */
+    .navbar {
+      height: var(--navbar-height);
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hamburger-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .hamburger-btn:hover {
+      background: var(--surface-alt);
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--brand);
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .sample-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--warning-bg);
+      color: var(--warning);
+      border: 1px solid #fde68a;
+    }
+
+    .user-chip {
+      font-size: 13px;
+      color: var(--muted);
+      background: var(--surface-alt);
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+
+    /* Body Layout */
+    .app-body {
+      display: flex;
+      flex: 1;
+      position: relative;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: fixed;
+      top: var(--navbar-height);
+      bottom: 0;
+      left: 0;
+      z-index: 50;
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+      overflow-y: auto;
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: var(--navbar-height) 0 0 0;
+      background: rgba(15, 23, 42, 0.4);
+      z-index: 45;
+    }
+
+    .sidebar-backdrop.open {
+      display: block;
+    }
+
+    .sidebar-nav {
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sidebar-section-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      padding: 6px 12px;
+    }
+
+    .nav-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-item:hover {
+      background: var(--surface-alt);
+    }
+
+    .nav-item.active {
+      background: var(--brand-soft);
+      color: var(--brand);
+      font-weight: 700;
+    }
+
+    .sidebar-footer-box {
+      padding: 16px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Main Content + Footer Wrapper */
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 24px 20px;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 1024px) {
+      .hamburger-btn {
+        display: none;
+      }
+      .sidebar {
+        position: sticky;
+        top: var(--navbar-height);
+        height: calc(100vh - var(--navbar-height));
+        transform: translateX(0);
+        flex-shrink: 0;
+      }
+      .sidebar-backdrop {
+        display: none !important;
+      }
+      .main-content {
+        padding: 28px 32px;
+      }
+    }
+
+    /* Page Sections */
+    .view-section {
+      display: none;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    .page-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 4px 0 0;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+
+    /* ================= 5-COLUMN BOOK GRID & PAGINATION ================= */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      background: var(--surface);
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .filter-search {
+      flex: 1 1 240px;
+    }
+
+    .filter-category {
+      flex: 0 1 200px;
+    }
+
+    /* Responsive grid that reaches 5 columns on desktop */
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    @media (min-width: 480px) {
+      .book-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .book-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .book-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .book-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+
+    .book-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .book-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .book-cover-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background: #e2e8f0;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .book-cover-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .book-status-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+
+    .status-available {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .status-borrowed {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .book-info {
+      padding: 12px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .book-category-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--brand);
+      background: var(--brand-soft);
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+
+    .book-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0 0 4px;
+      color: var(--ink);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .book-author {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .book-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .book-actions .btn {
+      flex: 1;
+      padding: 7px 10px;
+      font-size: 13px;
+    }
+
+    /* Pagination */
+    .pagination-wrap {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pagination-info {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .pagination-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .page-btn {
+      min-width: 38px;
+      height: 38px;
+      padding: 0 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      background: var(--surface-alt);
+      border-color: #cbd5e1;
+    }
+
+    .page-btn.active {
+      background: var(--brand);
+      color: var(--brand-ink);
+      border-color: var(--brand);
+    }
+
+    .page-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: var(--surface);
+    }
+
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--surface-alt);
+      font-weight: 700;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: #f8fafc;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 18px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      z-index: 60;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      max-width: 560px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .code-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      font-family: monospace;
+      font-size: 12px;
+      overflow-x: auto;
+      white-space: pre;
+      line-height: 1.45;
+    }
+
+    .auth-gate-card {
+      max-width: 460px;
+      margin: 24px auto;
+      text-align: center;
+      padding: 28px 24px;
+    }
+
+    .auth-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 12px;
+      border-radius: 14px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-error {
+      display: none;
+      margin-bottom: 14px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      background: var(--danger-bg);
+      color: var(--danger);
+      font-size: 13px;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    .auth-error.show {
+      display: block;
+    }
+
+    .auth-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      background: var(--brand-soft);
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+    }
+  </style>
+<style data-link-removed-style>a[data-link-removed],a[href*="zPythonSafez"]:not([onclick]){pointer-events:none!important;cursor:default!important;opacity:.6}</style></head>
+<body>
+
+  <!-- ================= 1. หน้าเริ่มต้นก่อนเข้าใช้งาน (เก็บข้อมูลการเข้าใช้งานของโรงเรียน) ================= -->
+  <section id="entryScreen" class="entry-screen">
+    <div class="entry-card">
+      <div class="entry-logo" aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+      </div>
+      <h1 class="entry-title">ระบบห้องสมุดออนไลน์ (E-Library)</h1>
+      <p class="entry-subtitle">กรุณาระบุข้อมูลผู้เข้าใช้งานและกดปุ่มด้านล่างเพื่อบันทึกสถิติการเข้าใช้งานของโรงเรียน</p>
+
+      <form id="entryForm" class="entry-form">
+        <div class="form-group">
+          <label class="form-label" for="visitorName">ชื่อ-นามสกุล หรือ รหัสนักเรียน/บุคลากร (ไม่บังคับ)</label>
+          <input type="text" id="visitorName" class="form-input" placeholder="เช่น ด.ช.สมชาย ใจดี หรือ 67001">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="visitorRole">ประเภทผู้เข้าใช้งาน</label>
+          <select id="visitorRole" class="form-select">
+            <option value="นักเรียน">นักเรียน (Student)</option>
+            <option value="ครู / อาจารย์">ครู / อาจารย์ (Teacher)</option>
+            <option value="บุคลากรโรงเรียน">บุคลากรโรงเรียน (Staff)</option>
+            <option value="บุคคลทั่วไป">บุคคลทั่วไป (Guest)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-enter">
+          <span>เข้าสู่ระบบ E-Library และบันทึกการเข้าใช้งาน</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </button>
+      </form>
+      <div class="entry-note">
+        ระบบจะบันทึกวัน-เวลาเข้าใช้งานลงในประวัติของโรงเรียนโดยอัตโนมัติและพาไปยังหน้ารายการหนังสือ
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 2. โครงสร้างหลักของระบบ (Navbar + Sidebar + Main + Footer) ================= -->
+  <div id="appShell" class="app-shell">
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="navbar-left">
+        <button id="hamburgerBtn" class="hamburger-btn" type="button" aria-label="เปิด/ปิดเมนู Sidebar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <div class="brand-mark">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+          </svg>
+          <span>School E-Library</span>
+        </div>
+      </div>
+
+      <div class="navbar-right">
+        <span class="sample-badge" title="ข้อมูลหนังสือที่แสดงเป็นข้อมูลตัวอย่างสำหรับทดสอบระบบ">ข้อมูลตัวอย่าง (Sample Data)</span>
+        <span id="currentUserChip" class="user-chip">ผู้ใช้งาน: นักเรียน</span>
+        <button id="backToGateBtn" type="button" class="btn btn-secondary" style="padding: 6px 12px; font-size: 13px;">
+          หน้าลงชื่อเข้าใช้
+        </button>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <!-- Backdrop สำหรับหน้าจอมือถือ -->
+      <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
+      <!-- Sidebar -->
+      <aside id="sidebar" class="sidebar" aria-label="เมนูหลักของระบบ">
+        <nav class="sidebar-nav">
+          <div class="sidebar-section-label">เมนูระบบ E-Library</div>
+          <button type="button" class="nav-item" data-view="home">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>เมนูหลัก</span>
+          </button>
+
+          <button type="button" class="nav-item active" data-view="books">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <span>เมนูรายการหนังสือ</span>
+          </button>
+
+          <button type="button" class="nav-item" data-view="borrow">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="17 1 21 5 17 9"></polyline>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+              <polyline points="7 23 3 19 7 15"></polyline>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+            </svg>
+            <span>เมนูยืม-คืน</span>
+          </button>
+
+          <button type="button" class="nav-item" data-view="staff">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>เมนูเจ้าหน้าที่</span>
+          </button>
+
+          <button type="button" class="nav-item" data-view="admin">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            <span>เมนู Admin</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer-box">
+          <div>สถานะฐานข้อมูล:</div>
+          <strong id="dbStatusText" style="color: var(--brand);">โหมดข้อมูลตัวอย่าง (พร้อมเชื่อม Google Sheets)</strong>
+        </div>
+      </aside>
+
+      <!-- Main Wrapper -->
+      <div class="main-wrapper">
+        <main class="main-content">
+
+          <!-- VIEW 1: เมนูหลัก -->
+          <section id="view-home" class="view-section">
+            <div class="page-header">
+              <div>
+                <h2 class="page-title">เมนูหลัก (หน้าภาพรวมระบบ E-Library)</h2>
+                <p class="page-subtitle">ยินดีต้อนรับสู่ระบบห้องสมุดดิจิทัลของโรงเรียน รองรับการฝากไฟล์บน GitHub Pages ร่วมกับ Google Sheets</p>
+              </div>
+              <button type="button" class="btn btn-primary" onclick="switchView('books')">
+                ไปที่เมนูรายการหนังสือ
+              </button>
+            </div>
+
+            <div class="grid-2">
+              <div class="card">
+                <h3 style="margin-top:0; font-size:18px;">การบันทึกการเข้าใช้งานล่าสุด</h3>
+                <p style="color:var(--muted); font-size:14px;">ข้อมูลเมื่อกดปุ่มเข้าใช้งานจากหน้าแรกจะถูกเก็บรวบรวมเพื่อให้โรงเรียนนำไปสรุปยอดผู้ใช้บริการ</p>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>เวลาที่เข้าใช้</th>
+                        <th>ชื่อ/รหัสประจำตัว</th>
+                        <th>ประเภท</th>
+                      </tr>
+                    </thead>
+                    <tbody id="recentAccessBody"></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="card">
+                <h3 style="margin-top:0; font-size:18px;">ทางลัดการใช้งาน</h3>
+                <p style="color:var(--muted); font-size:14px;">เลือกเมนูที่ต้องการใช้งานจากรายการด้านล่างหรือแถบ Sidebar ด้านซ้าย</p>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="switchView('books')">
+                    📚 เมนูรายการหนังสือ (แสดง 5 คอลัมน์, หน้าละ 20 เล่ม พร้อมเลขหน้า 1 2 3...)
+                  </button>
+                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="switchView('borrow')">
+                    🔄 เมนูยืม-คืน (ทำรายการยืมและคืนหนังสือออนไลน์)
+                  </button>
+                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="switchView('staff')">
+                    📋 เมนูเจ้าหน้าที่ (ตรวจสอบประวัติการเข้าใช้งานโรงเรียนและรายการยืม-คืน)
+                  </button>
+                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="switchView('admin')">
+                    ⚙️ เมนู Admin (เพิ่มหนังสือใหม่ และตั้งค่าลิงก์ Google Apps Script)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- VIEW 2: เมนูรายการหนังสือ (5 คอลัมน์, 20 รายการต่อหน้า, Pagination 1 2 3 ...) -->
+          <section id="view-books" class="view-section active">
+            <div class="page-header">
+              <div>
+                <h2 class="page-title">เมนูรายการหนังสือ</h2>
+                <p class="page-subtitle">แสดงหน้าปกหนังสือเรียง 5 คอลัมน์ (บนจอขนาดใหญ่) จำนวน 20 รายการต่อหน้า พร้อมหมายเลขหน้า</p>
+              </div>
+            </div>
+
+            <div class="filter-bar">
+              <div class="filter-search">
+                <input type="text" id="bookSearchInput" class="form-input" placeholder="ค้นหาชื่อหนังสือ หรือ ชื่อผู้แต่ง...">
+              </div>
+              <div class="filter-category">
+                <select id="bookCategorySelect" class="form-select">
+                  <option value="ALL">ทุกหมวดหมู่</option>
+                  <option value="วิทยาศาสตร์">วิทยาศาสตร์</option>
+                  <option value="คณิตศาสตร์">คณิตศาสตร์</option>
+                  <option value="ภาษาและวรรณกรรม">ภาษาและวรรณกรรม</option>
+                  <option value="เทคโนโลยีและคอมพิวเตอร์">เทคโนโลยีและคอมพิวเตอร์</option>
+                  <option value="ประวัติศาสตร์และสังคม">ประวัติศาสตร์และสังคม</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- ตารางแสดงปกหนังสือ 5 คอลัมน์ -->
+            <div id="bookGrid" class="book-grid"></div>
+
+            <!-- ตัวเลขเปลี่ยนหน้า 1 2 3 ... -->
+            <div class="pagination-wrap">
+              <div id="paginationInfo" class="pagination-info"></div>
+              <div id="paginationControls" class="pagination-list"></div>
+            </div>
+          </section>
+
+          <!-- VIEW 3: เมนูยืม-คืน -->
+          <section id="view-borrow" class="view-section">
+            <div class="page-header">
+              <div>
+                <h2 class="page-title">เมนูยืม-คืน</h2>
+                <p class="page-subtitle">บันทึกการยืมและคืนหนังสือ E-Library</p>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="card">
+                <h3 style="margin-top:0; font-size:18px;">ทำรายการยืมหนังสือ</h3>
+                <form id="borrowForm">
+                  <div class="form-group">
+                    <label class="form-label" for="borrowBookSelect">เลือกหนังสือที่ต้องการยืม</label>
+                    <select id="borrowBookSelect" class="form-select" required></select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="borrowerNameInput">ชื่อ-นามสกุล / รหัสผู้ยืม</label>
+                    <input type="text" id="borrowerNameInput" class="form-input" placeholder="ระบุชื่อผู้ยืม" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary">ยืนยันการยืมหนังสือ</button>
+                </form>
+              </div>
+
+              <div class="card">
+                <h3 style="margin-top:0; font-size:18px;">รายการหนังสือที่กำลังยืมและรอคืน</h3>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>รหัส</th>
+                        <th>ชื่อหนังสือ</th>
+                        <th>ผู้ยืม</th>
+                        <th>สถานะ / การจัดการ</th>
+                      </tr>
+                    </thead>
+                    <tbody id="borrowListBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- VIEW 4: เมนูเจ้าหน้าที่ -->
+          <section id="view-staff" class="view-section">
+            <div class="page-header">
+              <div>
+                <h2 class="page-title">เมนูเจ้าหน้าที่</h2>
+                <p class="page-subtitle">สำหรับเจ้าหน้าที่เพื่อเพิ่มหนังสือ ตรวจสอบการยืม-คืน และดูประวัติการเข้าใช้งาน (ไม่รวมการตั้งค่าระบบ)</p>
+              </div>
+            </div>
+
+            <!-- หน้ากรอกรหัสผ่านสำหรับเจ้าหน้าที่ -->
+            <div id="staffAuthGate" class="card auth-gate-card">
+              <div class="auth-icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <h3 style="margin:0 0 6px; font-size:20px;">ยืนยันตัวตนเข้าสู่เมนูเจ้าหน้าที่</h3>
+              <p style="margin:0 0 18px; font-size:14px; color:var(--muted);">
+                กรุณากรอกรหัสเจ้าหน้าที่ (ค่าเริ่มต้น <strong>123456</strong>) หรือรหัส Admin (<strong>999999</strong>) เพื่อเข้าใช้งาน
+              </p>
+              <div id="staffAuthError" class="auth-error">รหัสผ่านไม่ถูกต้อง กรุณาตรวจสอบและลองใหม่อีกครั้ง</div>
+              <form id="staffLoginForm" style="text-align:left;">
+                <div class="form-group">
+                  <label class="form-label" for="staffPinInput">รหัสเข้าใช้งานเจ้าหน้าที่</label>
+                  <input type="password" id="staffPinInput" class="form-input" placeholder="กรอกรหัสเจ้าหน้าที่ (เช่น 123456)" autocomplete="off" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">เข้าสู่เมนูเจ้าหน้าที่</button>
+              </form>
+            </div>
+
+            <!-- เนื้อหาสำหรับเจ้าหน้าที่เมื่อผ่านการยืนยันรหัสแล้ว -->
+            <div id="staffProtectedContent" style="display:none;">
+              <div class="auth-bar">
+                <div>
+                  <strong>สถานะการเข้าใช้งาน:</strong>
+                  <span id="staffSessionLabel">เจ้าหน้าที่ห้องสมุด (สิทธิ์เพิ่มหนังสือและตรวจสอบการยืม-คืน)</span>
+                </div>
+                <button type="button" id="staffLogoutBtn" class="btn btn-secondary" style="padding:6px 12px; font-size:13px;">
+                  ล็อกเอาต์ออกจากเมนูเจ้าหน้าที่
+                </button>
+              </div>
+
+              <div class="grid-2" style="margin-bottom:20px;">
+                <div class="card">
+                  <h3 style="margin-top:0; font-size:18px;">เพิ่มหนังสือเข้าคลัง (สำหรับเจ้าหน้าที่)</h3>
+                  <form id="staffAddBookForm">
+                    <div class="form-group">
+                      <label class="form-label" for="staffBookTitle">ชื่อหนังสือ</label>
+                      <input type="text" id="staffBookTitle" class="form-input" placeholder="เช่น คู่มือวิทยาศาสตร์ ม.ปลาย" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="staffBookAuthor">ชื่อผู้แต่ง</label>
+                      <input type="text" id="staffBookAuthor" class="form-input" placeholder="เช่น อ.สมศรี มีความรู้" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="staffBookCategory">หมวดหมู่</label>
+                      <select id="staffBookCategory" class="form-select">
+                        <option value="วิทยาศาสตร์">วิทยาศาสตร์</option>
+                        <option value="คณิตศาสตร์">คณิตศาสตร์</option>
+                        <option value="ภาษาและวรรณกรรม">ภาษาและวรรณกรรม</option>
+                        <option value="เทคโนโลยีและคอมพิวเตอร์">เทคโนโลยีและคอมพิวเตอร์</option>
+                        <option value="ประวัติศาสตร์และสังคม">ประวัติศาสตร์และสังคม</option>
+                      </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">เพิ่มหนังสือลงในระบบ</button>
+                  </form>
+                </div>
+
+                <div class="card">
+                  <h3 style="margin-top:0; font-size:18px;">ตรวจสอบและจัดการการยืม-คืนหนังสือ</h3>
+                  <div class="table-wrap">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>รหัสหนังสือ</th>
+                          <th>ชื่อหนังสือ</th>
+                          <th>ผู้ยืม</th>
+                          <th>เวลาที่ยืม</th>
+                          <th>สถานะ / การจัดการ</th>
+                        </tr>
+                      </thead>
+                      <tbody id="staffBorrowLogBody"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <h3 style="margin-top:0; font-size:18px;">ประวัติการกดปุ่มเข้าใช้งานระบบของโรงเรียน</h3>
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>ลำดับ</th>
+                        <th>วัน-เวลา</th>
+                        <th>ชื่อผู้เข้าใช้งาน / รหัส</th>
+                        <th>กลุ่มผู้ใช้</th>
+                      </tr>
+                    </thead>
+                    <tbody id="staffAccessLogBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- VIEW 5: เมนู Admin -->
+          <section id="view-admin" class="view-section">
+            <div class="page-header">
+              <div>
+                <h2 class="page-title">เมนู Admin</h2>
+                <p class="page-subtitle">ใช้งานได้ครบทุกฟังก์ชัน: จัดการเพิ่มเจ้าหน้าที่ เพิ่มรายการหนังสือ ตรวจสอบข้อมูล และตั้งค่าระบบ</p>
+              </div>
+            </div>
+
+            <!-- หน้ากรอกรหัสผ่านสำหรับ Admin -->
+            <div id="adminAuthGate" class="card auth-gate-card">
+              <div class="auth-icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <h3 style="margin:0 0 6px; font-size:20px;">ยืนยันตัวตนเข้าสู่เมนู Admin</h3>
+              <p style="margin:0 0 18px; font-size:14px; color:var(--muted);">
+                กรุณากรอกรหัส Admin (<strong>999999</strong>) เพื่อเข้าใช้งานครบทุกฟังก์ชันและจัดการระบบ
+              </p>
+              <div id="adminAuthError" class="auth-error">รหัส Admin ไม่ถูกต้อง (รหัสของเจ้าหน้าที่ไม่สามารถเข้าเมนูตั้งค่าระบบ Admin ได้)</div>
+              <form id="adminLoginForm" style="text-align:left;">
+                <div class="form-group">
+                  <label class="form-label" for="adminPinInput">รหัสเข้าใช้งาน Admin</label>
+                  <input type="password" id="adminPinInput" class="form-input" placeholder="กรอกรหัส Admin (999999)" autocomplete="off" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">เข้าสู่เมนู Admin</button>
+              </form>
+            </div>
+
+            <!-- เนื้อหาสำหรับ Admin เมื่อผ่านการยืนยันรหัส 999999 แล้ว -->
+            <div id="adminProtectedContent" style="display:none;">
+              <div class="auth-bar">
+                <div>
+                  <strong>สถานะการเข้าใช้งาน:</strong>
+                  <span>ผู้ดูแลระบบสูงสุด (Admin - ใช้งานได้ครบทุกฟังก์ชันและจัดการเจ้าหน้าที่)</span>
+                </div>
+                <button type="button" id="adminLogoutBtn" class="btn btn-secondary" style="padding:6px 12px; font-size:13px;">
+                  ล็อกเอาต์ออกจาก Admin
+                </button>
+              </div>
+
+              <!-- ส่วนเพิ่มและจัดการเจ้าหน้าที่ (เฉพาะ Admin) -->
+              <div class="grid-2" style="margin-bottom:20px;">
+                <div class="card">
+                  <h3 style="margin-top:0; font-size:18px;">เพิ่มเจ้าหน้าที่ห้องสมุด</h3>
+                  <p style="font-size:13px; color:var(--muted); margin-top:0;">
+                    กำหนดชื่อและรหัสผ่านสำหรับเจ้าหน้าที่ใหม่ เพื่อให้ใช้ล็อกอินเข้าใช้งานเมนูเจ้าหน้าที่ได้
+                  </p>
+                  <form id="addStaffForm">
+                    <div class="form-group">
+                      <label class="form-label" for="newStaffName">ชื่อ-นามสกุล / ตำแหน่งเจ้าหน้าที่</label>
+                      <input type="text" id="newStaffName" class="form-input" placeholder="เช่น ครูบรรณารักษ์ สมหญิง" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="newStaffPin">รหัสเข้าใช้งานของเจ้าหน้าที่</label>
+                      <input type="text" id="newStaffPin" class="form-input" placeholder="เช่น 123456 หรือรหัสเฉพาะบุคคล" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">เพิ่มเจ้าหน้าที่</button>
+                  </form>
+                </div>
+
+                <div class="card">
+                  <h3 style="margin-top:0; font-size:18px;">รายชื่อเจ้าหน้าที่ที่มีสิทธิ์เข้าใช้งาน</h3>
+                  <div class="table-wrap">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>รหัสประจำตัว</th>
+                          <th>ชื่อเจ้าหน้าที่</th>
+                          <th>รหัสเข้าใช้งาน (PIN)</th>
+                          <th>การจัดการ</th>
+                        </tr>
+                      </thead>
+                      <tbody id="staffAccountsBody"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid-2">
+                <div class="card">
+                  <h3 style="margin-top:0; font-size:18px;">เพิ่มหนังสือเข้าคลัง</h3>
+                  <form id="addBookForm">
+                    <div class="form-group">
+                      <label class="form-label" for="newBookTitle">ชื่อหนังสือ</label>
+                      <input type="text" id="newBookTitle" class="form-input" placeholder="เช่น คู่มือการเขียนโปรแกรมเบื้องต้น" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="newBookAuthor">ชื่อผู้แต่ง</label>
+                      <input type="text" id="newBookAuthor" class="form-input" placeholder="เช่น อ.วิชัย พัฒนา" required>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label" for="newBookCategory">หมวดหมู่</label>
+                      <select id="newBookCategory" class="form-select">
+                        <option value="วิทยาศาสตร์">วิทยาศาสตร์</option>
+                        <option value="คณิตศาสตร์">คณิตศาสตร์</option>
+                        <option value="ภาษาและวรรณกรรม">ภาษาและวรรณกรรม</option>
+                        <option value="เทคโนโลยีและคอมพิวเตอร์">เทคโนโลยีและคอมพิวเตอร์</option>
+                        <option value="ประวัติศาสตร์และสังคม">ประวัติศาสตร์และสังคม</option>
+                      </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">เพิ่มหนังสือลงในระบบ</button>
+                  </form>
+                </div>
+
+                <div class="card">
+                  <h3 style="margin-top:0; font-size:18px;">ตั้งค่าเชื่อมต่อ Google Apps Script (Web App URL)</h3>
+                  <p style="font-size:13px; color:var(--muted); margin-top:0;">
+                    เมื่อนำไฟล์ <code>index.html</code> ไปวางบน GitHub Pages คุณสามารถนำ Web App URL จาก Google Apps Script มาใส่เพื่อดึงหนังสือจริงและส่งข้อมูลการเข้าใช้งานของโรงเรียนเข้า Google Sheets
+                  </p>
+                  <form id="gasConfigForm">
+                    <div class="form-group">
+                      <label class="form-label" for="gasUrlInput">Google Apps Script Web App URL</label>
+                      <input type="url" id="gasUrlInput" class="form-input" placeholder="วาง Web App URL ของ Google Apps Script ที่นี่">
+                    </div>
+                    <button type="submit" class="btn btn-secondary">บันทึก URL และทดสอบดึงข้อมูล</button>
+                  </form>
+
+                  <div style="margin-top:16px;">
+                    <div class="form-label">ตัวอย่างโค้ด Google Apps Script (คัดลอกไปวางใน Extensions &gt; Apps Script):</div>
+                    <div class="code-box">function doGet() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Books');
+  const rows = sheet.getDataRange().getValues();
+  const headers = rows.shift();
+  const data = rows.map(r =&gt; Object.fromEntries(headers.map((h, i) =&gt; [h, r[i]])));
+  return ContentService.createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  const logSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('AccessLogs');
+  const body = JSON.parse(e.postData.contents);
+  logSheet.appendRow([new Date(), body.name, body.role, body.action]);
+  return ContentService.createTextOutput(JSON.stringify({status: 'ok'}))
+    .setMimeType(ContentService.MimeType.JSON);
+}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+          ระบบห้องสมุดออนไลน์ (School E-Library) • รองรับการทำงานบน GitHub Pages + Google Sheets &amp; Google Drive • รองรับทุกขนาดหน้าจอ (Responsive Design)
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal เปิดอ่านรายละเอียดหนังสือ -->
+  <div id="bookModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalBookTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalBookTitle" class="modal-title">ชื่อหนังสือ</h3>
+        <button type="button" id="closeModalBtn" class="btn btn-secondary" style="padding:6px 12px;">ปิด</button>
+      </div>
+      <div id="modalBookContent" style="font-size:14px; color:var(--ink);"></div>
+    </div>
+  </div>
+
+  <script>
+    // ================= ข้อมูลตัวอย่าง 45 เล่ม เพื่อแสดงผล 5 คอลัมน์ และแบ่งหน้า 20 รายการต่อหน้า (หน้า 1, 2, 3) =================
+    const CATEGORIES = [
+      'วิทยาศาสตร์',
+      'คณิตศาสตร์',
+      'ภาษาและวรรณกรรม',
+      'เทคโนโลยีและคอมพิวเตอร์',
+      'ประวัติศาสตร์และสังคม'
+    ];
+
+    const PALETTES = [
+      ['#1d4ed8', '#60a5fa'],
+      ['#0f766e', '#2dd4bf'],
+      ['#7c3aed', '#c084fc'],
+      ['#b45309', '#fbbf24'],
+      ['#be123c', '#fb7185']
+    ];
+
+    const SAMPLE_TITLES = [
+      'ดาราศาสตร์และอวกาศน่ารู้', 'คณิตคิดเร็วระดับมัธยม', 'วรรณคดีไทยและบทกวี', 'การพัฒนาเว็บด้วย HTML & CSS', 'ประวัติศาสตร์ไทยร่วมสมัย',
+      'ฟิสิกส์พื้นฐานในชีวิตประจำวัน', 'เรขาคณิตและการพิสูจน์', 'ทักษะการอ่านภาษาอังกฤษ', 'อัลกอริทึมและการเขียนโปรแกรม', 'ภูมิศาสตร์โลกและสิ่งแวดล้อม',
+      'เคมีอินทรีย์ฉบับเข้าใจง่าย', 'สถิติและความน่าจะเป็น', 'การเขียนเรียงความเชิงวิชาการ', 'ฐานข้อมูล Google Sheets เบื้องต้น', 'อารยธรรมโลกยุคโบราณ',
+      'ชีววิทยาของเซลล์และพืช', 'พีชคณิตเชิงเส้นเบื้องต้น', 'นิทานพื้นบ้านและวัฒนธรรม', 'การสร้าง Web App ด้วย JavaScript', 'หน้าที่พลเมืองและจริยธรรม',
+      'พลังงานทดแทนเพื่ออนาคต', 'แคลคูลัสเบื้องต้นสำหรับนักเรียน', 'การสื่อสารภาษาจีนเบื้องต้น', 'ระบบเครือข่ายและความปลอดภัย', 'เศรษฐศาสตร์ในชีวิตประจำวัน',
+      'การทดลองวิทยาศาสตร์แสนสนุก', 'ทฤษฎีจำนวนเบื้องต้น', 'วรรณกรรมเยาวชนสร้างแรงบันดาลใจ', 'การใช้งาน GitHub Pages ฉบับสมบูรณ์', 'อาเซียนศึกษาและประเทศเพื่อนบ้าน',
+      'ระบบนิเวศและความหลากหลาย', 'คณิตศาสตร์โอลิมปิกเบื้องต้น', 'ไวยากรณ์ภาษาอังกฤษฉบับพกพา', 'ปัญญาประดิษฐ์ (AI) รอบตัวเรา', 'ประวัติศาสตร์ท้องถิ่นของเรา',
+      'ธรณีวิทยาและทรัพยากรธรรมชาติ', 'ตรรกศาสตร์และการให้เหตุผล', 'ศิลปะการพูดในที่ชุมชน', 'การออกแบบ UI/UX สำหรับเว็บไซต์', 'กฎหมายเบื้องต้นสำหรับเยาวชน',
+      'คลื่นแม่เหล็กไฟฟ้าและแสง', 'ลำดับและอนุกรมคณิตศาสตร์', 'การแปลภาษาอังกฤษ-ไทย', 'โครงสร้างข้อมูลเบื้องต้น', 'ปรัชญาและแนวคิดทางการศึกษา'
+    ];
+
+    function createCoverSvgDataUri(id, title, category, paletteIndex) {
+      const [c1, c2] = PALETTES[paletteIndex % PALETTES.length];
+      const safeTitle = title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const safeCat = category.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400">
+        <defs>
+          <linearGradient id="g${id}" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="${c1}"/>
+            <stop offset="100%" stop-color="${c2}"/>
+          </linearGradient>
+        </defs>
+        <rect width="300" height="400" fill="url(#g${id})"/>
+        <rect x="18" y="18" width="264" height="364" rx="8" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
+        <circle cx="150" cy="135" r="42" fill="rgba(255,255,255,0.18)"/>
+        <text x="150" y="145" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="24" font-weight="bold">BOOK #${id}</text>
+        <text x="150" y="230" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="16" font-weight="bold">${safeTitle.slice(0, 22)}</text>
+        <text x="150" y="256" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="sans-serif" font-size="13">${safeCat}</text>
+        <text x="150" y="355" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-family="sans-serif" font-size="11">SCHOOL E-LIBRARY SAMPLE</text>
+      </svg>`;
+      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    }
+
+    const ITEMS_PER_PAGE = 20;
+    let currentPage = 1;
+    let gasWebAppUrl = '';
+
+    // สร้างข้อมูลตัวอย่าง 45 รายการ
+    let booksData = SAMPLE_TITLES.map((title, idx) => {
+      const id = idx + 1;
+      const category = CATEGORIES[idx % CATEGORIES.length];
+      return {
+        id: 'B' + String(id).padStart(3, '0'),
+        title: title,
+        author: 'คณาจารย์ห้องสมุดโรงเรียน (' + id + ')',
+        category: category,
+        status: idx % 7 === 0 ? 'ถูกยืม' : 'ว่าง',
+        cover_url: createCoverSvgDataUri(id, title, category, idx)
+      };
+    });
+
+    // ประวัติการเข้าใช้งานของโรงเรียน
+    let accessLogs = [];
+    // ประวัติการยืม-คืน
+    let borrowLogs = [
+      {
+        bookId: 'B001',
+        bookTitle: SAMPLE_TITLES[0],
+        borrower: 'ตัวอย่าง นักเรียน ม.4/1',
+        borrowedAt: 'วันนี้ 08:30 น.',
+        status: 'กำลังยืม'
+      }
+    ];
+
+    // ================= 1. การทำงานหน้าปุ่มเข้าใช้งานระบบ E-Library =================
+    const entryScreen = document.getElementById('entryScreen');
+    const appShell = document.getElementById('appShell');
+    const entryForm = document.getElementById('entryForm');
+    const currentUserChip = document.getElementById('currentUserChip');
+
+    entryForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const rawName = document.getElementById('visitorName').value.trim();
+      const role = document.getElementById('visitorRole').value;
+      const visitorName = rawName || 'ผู้เข้าใช้งานทั่วไป';
+      const nowStr = new Date().toLocaleString('th-TH');
+
+      // บันทึกข้อมูลการเข้าใช้งานของโรงเรียน
+      const logEntry = {
+        timestamp: nowStr,
+        name: visitorName,
+        role: role
+      };
+      accessLogs.unshift(logEntry);
+
+      // หากตั้งค่า Google Apps Script URL ไว้ จะส่งข้อมูลเข้า Google Sheets ด้วย
+      if (gasWebAppUrl) {
+        try {
+          fetch(gasWebAppUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify({ name: visitorName, role: role, action: 'ENTER_LIBRARY' })
+          });
+        } catch (_) {}
+      }
+
+      currentUserChip.textContent = `ผู้ใช้งาน: ${visitorName} (${role})`;
+      document.getElementById('borrowerNameInput').value = visitorName;
+
+      // เปลี่ยนหน้าเข้าสู่ระบบ E-Library และเปิดหน้ารายการหนังสือทันที
+      entryScreen.style.display = 'none';
+      appShell.classList.add('active');
+      switchView('books');
+      renderAccessLogs();
+      renderBorrowSection();
+    });
+
+    document.getElementById('backToGateBtn').addEventListener('click', function () {
+      appShell.classList.remove('active');
+      entryScreen.style.display = 'flex';
+    });
+
+    // ================= 2. ระบบ Sidebar และปุ่มแฮมเบอร์เกอร์สำหรับหน้าจอเล็ก =================
+    const sidebar = document.getElementById('sidebar');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+    function toggleSidebar(forceOpen) {
+      const isOpen = typeof forceOpen === 'boolean' ? forceOpen : !sidebar.classList.contains('open');
+      sidebar.classList.toggle('open', isOpen);
+      sidebarBackdrop.classList.toggle('open', isOpen);
+    }
+
+    hamburgerBtn.addEventListener('click', function () {
+      toggleSidebar();
+    });
+
+    sidebarBackdrop.addEventListener('click', function () {
+      toggleSidebar(false);
+    });
+
+    function switchView(viewKey) {
+      document.querySelectorAll('.nav-item').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-view') === viewKey);
+      });
+      document.querySelectorAll('.view-section').forEach(sec => {
+        sec.classList.toggle('active', sec.id === 'view-' + viewKey);
+      });
+      // ปิดเมนูแฮมเบอร์เกอร์อัตโนมัติบนหน้าจอขนาดเล็กเมื่อกดเลือกเมนู
+      toggleSidebar(false);
+    }
+
+    document.querySelectorAll('.nav-item').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const viewKey = this.getAttribute('data-view');
+        switchView(viewKey);
+      });
+    });
+
+    // ================= 3. การแสดงรายการหนังสือ 5 คอลัมน์ และแบ่งหน้า 20 รายการ (1 2 3 ...) =================
+    const bookGrid = document.getElementById('bookGrid');
+    const paginationInfo = document.getElementById('paginationInfo');
+    const paginationControls = document.getElementById('paginationControls');
+    const bookSearchInput = document.getElementById('bookSearchInput');
+    const bookCategorySelect = document.getElementById('bookCategorySelect');
+
+    function getFilteredBooks() {
+      const q = bookSearchInput.value.trim().toLowerCase();
+      const cat = bookCategorySelect.value;
+      return booksData.filter(b => {
+        const matchQuery = !q || b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q) || b.id.toLowerCase().includes(q);
+        const matchCat = cat === 'ALL' || b.category === cat;
+        return matchQuery && matchCat;
+      });
+    }
+
+    function renderBooksAndPagination() {
+      const filtered = getFilteredBooks();
+      const totalItems = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(totalItems / ITEMS_PER_PAGE));
+
+      if (currentPage > totalPages) {
+        currentPage = totalPages;
+      }
+
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
+      const pageItems = filtered.slice(startIndex, endIndex);
+
+      if (pageItems.length === 0) {
+        bookGrid.innerHTML = `<div class="card" style="grid-column: 1 / -1; text-align:center; color:var(--muted);">ไม่พบหนังสือที่ตรงกับคำค้นหา</div>`;
+      } else {
+        bookGrid.innerHTML = pageItems.map(book => {
+          const isAvailable = book.status === 'ว่าง';
+          return `
+            <article class="book-card">
+              <div class="book-cover-wrap">
+                <img src="${book.cover_url}" alt="ปกหนังสือ ${book.title}" class="book-cover-svg" loading="lazy">
+                <span class="book-status-badge ${isAvailable ? 'status-available' : 'status-borrowed'}">${book.status}</span>
+              </div>
+              <div class="book-info">
+                <div>
+                  <span class="book-category-tag">${book.category}</span>
+                  <h3 class="book-title" title="${book.title}">${book.title}</h3>
+                  <p class="book-author">${book.author}</p>
+                </div>
+                <div class="book-actions">
+                  <button type="button" class="btn btn-primary" onclick="openBookModal('${book.id}')">เปิดอ่าน</button>
+                  <button type="button" class="btn btn-secondary" onclick="quickBorrow('${book.id}')" ${!isAvailable ? 'disabled' : ''}>
+                    ${isAvailable ? 'ยืม' : 'ถูกยืม'}
+                  </button>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join('');
+      }
+
+      // แสดงข้อมูลหน้าและปุ่มตัวเลข 1 2 3 ...
+      paginationInfo.textContent = totalItems > 0
+        ? `แสดงรายการที่ ${startIndex + 1} - ${endIndex} จากทั้งหมด ${totalItems} รายการ (หน้าละ ${ITEMS_PER_PAGE} รายการ)`
+        : 'ไม่มีรายการที่แสดง';
+
+      let buttonsHtml = '';
+      buttonsHtml += `<button type="button" class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>&laquo; ก่อนหน้า</button>`;
+
+      for (let p = 1; p <= totalPages; p++) {
+        buttonsHtml += `<button type="button" class="page-btn ${p === currentPage ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>`;
+      }
+
+      buttonsHtml += `<button type="button" class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>ถัดไป &raquo;</button>`;
+      paginationControls.innerHTML = buttonsHtml;
+    }
+
+    window.goToPage = function (page) {
+      currentPage = page;
+      renderBooksAndPagination();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    bookSearchInput.addEventListener('input', function () {
+      currentPage = 1;
+      renderBooksAndPagination();
+    });
+
+    bookCategorySelect.addEventListener('change', function () {
+      currentPage = 1;
+      renderBooksAndPagination();
+    });
+
+    // ================= 4. Modal เปิดอ่านหนังสือ =================
+    const bookModal = document.getElementById('bookModal');
+    const modalBookTitle = document.getElementById('modalBookTitle');
+    const modalBookContent = document.getElementById('modalBookContent');
+
+    window.openBookModal = function (bookId) {
+      const book = booksData.find(b => b.id === bookId);
+      if (!book) return;
+      modalBookTitle.textContent = `${book.id} - ${book.title}`;
+      modalBookContent.innerHTML = `
+        <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:16px;">
+          <img src="${book.cover_url}" alt="${book.title}" style="width:120px; border-radius:8px; border:1px solid var(--border);">
+          <div style="flex:1; min-width:200px;">
+            <p style="margin:0 0 8px;"><strong>หมวดหมู่:</strong> ${book.category}</p>
+            <p style="margin:0 0 8px;"><strong>ผู้แต่ง:</strong> ${book.author}</p>
+            <p style="margin:0 0 8px;"><strong>สถานะ:</strong> ${book.status}</p>
+            <p style="margin:0; color:var(--muted); font-size:13px;">
+              เมื่อเชื่อมต่อกับ Google Drive จริง สามารถนำรหัสไฟล์ (FILE_ID) มาฝังหน้าอ่าน PDF ในกรอบด้านล่างนี้ได้ทันที
+            </p>
+          </div>
+        </div>
+        <div style="padding:16px; background:var(--surface-alt); border:1px dashed var(--border); border-radius:8px; text-align:center; color:var(--muted);">
+          พื้นที่จำลองการแสดงผลไฟล์ E-Book (Google Drive PDF Preview) สำหรับเรื่อง <strong>"${book.title}"</strong>
+        </div>
+      `;
+      bookModal.classList.add('open');
+    };
+
+    document.getElementById('closeModalBtn').addEventListener('click', function () {
+      bookModal.classList.remove('open');
+    });
+
+    bookModal.addEventListener('click', function (e) {
+      if (e.target === bookModal) bookModal.classList.remove('open');
+    });
+
+    // ================= 5. ระบบยืม-คืน และข้อมูลเจ้าหน้าที่ =================
+    function renderAccessLogs() {
+      const recentBody = document.getElementById('recentAccessBody');
+      const staffBody = document.getElementById('staffAccessLogBody');
+
+      if (accessLogs.length === 0) {
+        recentBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--muted);">ยังไม่มีประวัติการเข้าใช้งาน</td></tr>`;
+        staffBody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--muted);">ยังไม่มีประวัติการเข้าใช้งาน</td></tr>`;
+        return;
+      }
+
+      recentBody.innerHTML = accessLogs.slice(0, 5).map(item => `
+        <tr>
+          <td>${item.timestamp}</td>
+          <td>${item.name}</td>
+          <td>${item.role}</td>
+        </tr>
+      `).join('');
+
+      staffBody.innerHTML = accessLogs.map((item, idx) => `
+        <tr>
+          <td>${accessLogs.length - idx}</td>
+          <td>${item.timestamp}</td>
+          <td>${item.name}</td>
+          <td>${item.role}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderBorrowSection() {
+      const select = document.getElementById('borrowBookSelect');
+      const availableBooks = booksData.filter(b => b.status === 'ว่าง');
+      select.innerHTML = availableBooks.map(b => `<option value="${b.id}">${b.id} - ${b.title}</option>`).join('');
+
+      const borrowListBody = document.getElementById('borrowListBody');
+      const activeBorrows = borrowLogs.filter(item => item.status === 'กำลังยืม');
+
+      if (activeBorrows.length === 0) {
+        borrowListBody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--muted);">ไม่มีรายการหนังสือค้างส่งคืน</td></tr>`;
+      } else {
+        borrowListBody.innerHTML = activeBorrows.map((item) => `
+          <tr>
+            <td>${item.bookId}</td>
+            <td>${item.bookTitle}</td>
+            <td>${item.borrower}</td>
+            <td>
+              <button type="button" class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="returnBook('${item.bookId}')">
+                กดคืนหนังสือ
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      const staffBorrowBody = document.getElementById('staffBorrowLogBody');
+      staffBorrowBody.innerHTML = borrowLogs.map(item => `
+        <tr>
+          <td>${item.bookId}</td>
+          <td>${item.bookTitle}</td>
+          <td>${item.borrower}</td>
+          <td>${item.borrowedAt}</td>
+          <td>
+            ${item.status === 'กำลังยืม'
+              ? `<span style="color:var(--warning); font-weight:600; margin-right:8px;">กำลังยืม</span>
+                 <button type="button" class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="returnBook('${item.bookId}')">รับคืนหนังสือ</button>`
+              : `<span style="color:var(--success); font-weight:600;">คืนแล้ว</span>`
+            }
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.quickBorrow = function (bookId) {
+      switchView('borrow');
+      const select = document.getElementById('borrowBookSelect');
+      if (select) select.value = bookId;
+    };
+
+    document.getElementById('borrowForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const bookId = document.getElementById('borrowBookSelect').value;
+      const borrower = document.getElementById('borrowerNameInput').value.trim();
+      const book = booksData.find(b => b.id === bookId);
+      if (!book || !borrower) return;
+
+      book.status = 'ถูกยืม';
+      borrowLogs.unshift({
+        bookId: book.id,
+        bookTitle: book.title,
+        borrower: borrower,
+        borrowedAt: new Date().toLocaleString('th-TH'),
+        status: 'กำลังยืม'
+      });
+
+      renderBooksAndPagination();
+      renderBorrowSection();
+    });
+
+    window.returnBook = function (bookId) {
+      const book = booksData.find(b => b.id === bookId);
+      if (book) book.status = 'ว่าง';
+      const log = borrowLogs.find(l => l.bookId === bookId && l.status === 'กำลังยืม');
+      if (log) log.status = 'คืนแล้ว';
+
+      renderBooksAndPagination();
+      renderBorrowSection();
+    };
+
+    // ================= 6. ระบบรหัสผ่านแยกสิทธิ์ เจ้าหน้าที่ (123456) และ Admin (999999) =================
+    const ADMIN_PIN = '999999';
+    let staffAccounts = [
+      {
+        id: 'STF-01',
+        name: 'เจ้าหน้าที่ห้องสมุดหลัก (ค่าเริ่มต้น)',
+        pin: '123456',
+        isDefault: true
+      }
+    ];
+
+    let isStaffAuthenticated = false;
+    let isAdminAuthenticated = false;
+    let currentStaffName = '';
+
+    function updateAuthUI() {
+      const staffGate = document.getElementById('staffAuthGate');
+      const staffContent = document.getElementById('staffProtectedContent');
+      const staffLabel = document.getElementById('staffSessionLabel');
+
+      if (isStaffAuthenticated || isAdminAuthenticated) {
+        staffGate.style.display = 'none';
+        staffContent.style.display = 'block';
+        staffLabel.textContent = isAdminAuthenticated
+          ? 'ผู้ดูแลระบบสูงสุด (Admin รหัส 999999 - ใช้งานได้ครบทุกฟังก์ชัน)'
+          : `${currentStaffName} (สิทธิ์เจ้าหน้าที่: เพิ่มหนังสือและตรวจสอบการยืม-คืน)`;
+      } else {
+        staffGate.style.display = 'block';
+        staffContent.style.display = 'none';
+      }
+
+      const adminGate = document.getElementById('adminAuthGate');
+      const adminContent = document.getElementById('adminProtectedContent');
+
+      if (isAdminAuthenticated) {
+        adminGate.style.display = 'none';
+        adminContent.style.display = 'block';
+      } else {
+        adminGate.style.display = 'block';
+        adminContent.style.display = 'none';
+      }
+    }
+
+    function renderStaffAccounts() {
+      const tbody = document.getElementById('staffAccountsBody');
+      if (!tbody) return;
+      tbody.innerHTML = staffAccounts.map(acc => `
+        <tr>
+          <td>${acc.id}</td>
+          <td>${acc.name}</td>
+          <td><code>${acc.pin}</code></td>
+          <td>
+            ${acc.isDefault
+              ? `<span style="color:var(--muted); font-size:12px;">รหัสมาตรฐาน</span>`
+              : `<button type="button" class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="removeStaffAccount('${acc.id}')">ลบรายชื่อ</button>`
+            }
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.removeStaffAccount = function (staffId) {
+      staffAccounts = staffAccounts.filter(s => s.id !== staffId || s.isDefault);
+      renderStaffAccounts();
+    };
+
+    // ล็อกอินเข้าเมนูเจ้าหน้าที่ (รองรับรหัสเจ้าหน้าที่ 123456 หรือที่ Admin เพิ่มไว้ และรองรับรหัส Admin 999999)
+    document.getElementById('staffLoginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const pin = document.getElementById('staffPinInput').value.trim();
+      const errBox = document.getElementById('staffAuthError');
+
+      if (pin === ADMIN_PIN) {
+        isAdminAuthenticated = true;
+        isStaffAuthenticated = true;
+        currentStaffName = 'Admin';
+        errBox.classList.remove('show');
+        document.getElementById('staffPinInput').value = '';
+        updateAuthUI();
+        return;
+      }
+
+      const matchedStaff = staffAccounts.find(acc => acc.pin === pin);
+      if (matchedStaff) {
+        isStaffAuthenticated = true;
+        currentStaffName = matchedStaff.name;
+        errBox.classList.remove('show');
+        document.getElementById('staffPinInput').value = '';
+        updateAuthUI();
+      } else {
+        errBox.classList.add('show');
+      }
+    });
+
+    document.getElementById('staffLogoutBtn').addEventListener('click', function () {
+      isStaffAuthenticated = false;
+      isAdminAuthenticated = false;
+      currentStaffName = '';
+      updateAuthUI();
+    });
+
+    // ล็อกอินเข้าเมนู Admin (เฉพาะรหัส 999999 เท่านั้น)
+    document.getElementById('adminLoginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const pin = document.getElementById('adminPinInput').value.trim();
+      const errBox = document.getElementById('adminAuthError');
+
+      if (pin === ADMIN_PIN) {
+        isAdminAuthenticated = true;
+        isStaffAuthenticated = true;
+        currentStaffName = 'Admin';
+        errBox.classList.remove('show');
+        document.getElementById('adminPinInput').value = '';
+        updateAuthUI();
+      } else {
+        errBox.classList.add('show');
+      }
+    });
+
+    document.getElementById('adminLogoutBtn').addEventListener('click', function () {
+      isAdminAuthenticated = false;
+      isStaffAuthenticated = false;
+      currentStaffName = '';
+      updateAuthUI();
+    });
+
+    // ฟอร์มเพิ่มเจ้าหน้าที่ใหม่ (ในเมนู Admin)
+    document.getElementById('addStaffForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.getElementById('newStaffName').value.trim();
+      const pin = document.getElementById('newStaffPin').value.trim();
+      if (!name || !pin) return;
+
+      const nextIdx = staffAccounts.length + 1;
+      staffAccounts.push({
+        id: 'STF-' + String(nextIdx).padStart(2, '0'),
+        name: name,
+        pin: pin,
+        isDefault: false
+      });
+
+      document.getElementById('newStaffName').value = '';
+      document.getElementById('newStaffPin').value = '';
+      renderStaffAccounts();
+    });
+
+    // ฟังก์ชันเพิ่มหนังสือส่วนกลาง (ใช้ได้ทั้งจากเมนูเจ้าหน้าที่และเมนู Admin)
+    function addNewBookToCatalog(title, author, category) {
+      const nextNum = booksData.length + 1;
+      const newId = 'B' + String(nextNum).padStart(3, '0');
+      booksData.unshift({
+        id: newId,
+        title: title,
+        author: author,
+        category: category,
+        status: 'ว่าง',
+        cover_url: createCoverSvgDataUri(nextNum, title, category, nextNum)
+      });
+      currentPage = 1;
+      renderBooksAndPagination();
+      renderBorrowSection();
+      switchView('books');
+    }
+
+    // เพิ่มหนังสือจากเมนูเจ้าหน้าที่
+    document.getElementById('staffAddBookForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const title = document.getElementById('staffBookTitle').value.trim();
+      const author = document.getElementById('staffBookAuthor').value.trim();
+      const category = document.getElementById('staffBookCategory').value;
+      if (!title || !author) return;
+
+      document.getElementById('staffBookTitle').value = '';
+      document.getElementById('staffBookAuthor').value = '';
+      addNewBookToCatalog(title, author, category);
+    });
+
+    // เพิ่มหนังสือจากเมนู Admin
+    document.getElementById('addBookForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const title = document.getElementById('newBookTitle').value.trim();
+      const author = document.getElementById('newBookAuthor').value.trim();
+      const category = document.getElementById('newBookCategory').value;
+      if (!title || !author) return;
+
+      document.getElementById('newBookTitle').value = '';
+      document.getElementById('newBookAuthor').value = '';
+      addNewBookToCatalog(title, author, category);
+    });
+
+    document.getElementById('gasConfigForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const url = document.getElementById('gasUrlInput').value.trim();
+      gasWebAppUrl = url;
+      const statusText = document.getElementById('dbStatusText');
+      if (!url) {
+        statusText.textContent = 'โหมดข้อมูลตัวอย่าง (พร้อมเชื่อม Google Sheets)';
+        return;
+      }
+      statusText.textContent = 'กำลังเชื่อมต่อ Google Apps Script...';
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          booksData = data.map((item, i) => ({
+            id: item.id || ('B' + String(i + 1).padStart(3, '0')),
+            title: item.title || 'ไม่มีชื่อเรื่อง',
+            author: item.author || '-',
+            category: item.category || 'ทั่วไป',
+            status: item.status || 'ว่าง',
+            cover_url: item.cover_url || createCoverSvgDataUri(i + 1, item.title || 'Book', item.category || '', i)
+          }));
+          currentPage = 1;
+          renderBooksAndPagination();
+          renderBorrowSection();
+          statusText.textContent = 'เชื่อมต่อ Google Sheets สำเร็จ (' + booksData.length + ' เล่ม)';
+        }
+      } catch (_) {
+        statusText.textContent = 'บันทึก URL แล้ว (ใช้ข้อมูลตัวอย่างหากยังไม่ได้ตั้งค่า CORS)';
+      }
+    });
+
+    // เริ่มต้นเรนเดอร์รายการหนังสือและข้อมูลเจ้าหน้าที่
+    renderBooksAndPagination();
+    renderAccessLogs();
+    renderBorrowSection();
+    renderStaffAccounts();
+    updateAuthUI();
+  </script>
+</body>
+</html>
