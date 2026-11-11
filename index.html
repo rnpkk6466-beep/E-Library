@@ -51,11 +51,15 @@
     /* ================= ENTRY GATE SCREEN ================= */
     .entry-screen {
       min-height: 100vh;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       padding: 24px;
       background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #0284c7 100%);
+    }
+
+    .entry-screen.active {
+      display: flex;
     }
 
     .entry-card {
@@ -876,6 +880,112 @@
       border-radius: var(--radius-sm);
       font-size: 14px;
     }
+
+    /* ================= DASHBOARD (HOME VIEW) ================= */
+    .dashboard-card {
+      margin-bottom: 20px;
+    }
+
+    .dashboard-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .dashboard-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    @media (min-width: 540px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+
+    .stat-box {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .stat-box.stat-total {
+      background: var(--brand-soft);
+      border-color: #bfdbfe;
+    }
+
+    .stat-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .stat-box.stat-total .stat-label {
+      color: var(--brand);
+    }
+
+    .stat-value {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .stat-box.stat-total .stat-value {
+      color: var(--brand);
+    }
+
+    .stat-unit {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-left: 4px;
+    }
+
+    .stat-bar-track {
+      width: 100%;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .stat-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--brand);
+      width: 0%;
+      transition: width 0.25s ease;
+    }
   </style>
 </head>
 <body>
@@ -913,6 +1023,9 @@
             <path d="m12 5 7 7-7 7"></path>
           </svg>
         </button>
+        <button type="button" id="cancelGateBtn" class="btn btn-secondary" style="width:100%; margin-top:10px;">
+          กลับไปหน้าเมนูหลัก
+        </button>
       </form>
       <div class="entry-note">
         ระบบจะบันทึกวัน-เวลาเข้าใช้งานลงในประวัติของโรงเรียนโดยอัตโนมัติและพาไปยังหน้ารายการหนังสือ
@@ -921,7 +1034,7 @@
   </section>
 
   <!-- ================= 2. โครงสร้างหลักของระบบ (Navbar + Sidebar + Main + Footer) ================= -->
-  <div id="appShell" class="app-shell">
+  <div id="appShell" class="app-shell active">
     <!-- Navbar -->
     <header class="navbar">
       <div class="navbar-left">
@@ -943,7 +1056,7 @@
 
       <div class="navbar-right">
         <span class="sample-badge" id="sourceBadge" title="สถานะฐานข้อมูล">ข้อมูลตัวอย่าง (Sample Data)</span>
-        <span id="currentUserChip" class="user-chip">ผู้ใช้งาน: นักเรียน</span>
+        <span id="currentUserChip" class="user-chip">ผู้ใช้งาน: ผู้เยี่ยมชม</span>
         <!-- ปุ่มออกจากระบบสำหรับเจ้าหน้าที่ / Admin (จะแสดงเมื่อล็อกอินแล้ว) -->
         <button id="navRoleLogoutBtn" type="button" class="btn btn-danger" style="display: none; padding: 6px 12px; font-size: 13px;">
           ออกจากระบบ (เจ้าหน้าที่/Admin)
@@ -962,7 +1075,7 @@
       <aside id="sidebar" class="sidebar" aria-label="เมนูหลักของระบบ">
         <nav class="sidebar-nav">
           <div class="sidebar-section-label">เมนูระบบ E-Library</div>
-          <button type="button" class="nav-item" data-view="home">
+          <button type="button" class="nav-item active" data-view="home">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
               <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -970,7 +1083,7 @@
             <span>เมนูหลัก</span>
           </button>
 
-          <button type="button" class="nav-item active" data-view="books">
+          <button type="button" class="nav-item" data-view="books">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
               <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
@@ -1017,18 +1130,98 @@
       <div class="main-wrapper">
         <main class="main-content">
 
-          <!-- VIEW 1: เมนูหลัก -->
-          <section id="view-home" class="view-section">
+          <!-- VIEW 1: เมนูหลัก (แสดงเป็นหน้าแรกเมื่อเปิดเว็บ) -->
+          <section id="view-home" class="view-section active">
             <div class="page-header">
               <div>
                 <h2 class="page-title">เมนูหลัก (หน้าภาพรวมระบบ E-Library)</h2>
                 <p class="page-subtitle">ยินดีต้อนรับสู่ระบบห้องสมุดดิจิทัลของโรงเรียน รองรับการฝากไฟล์บน GitHub Pages ร่วมกับ Google Sheets</p>
               </div>
-              <button type="button" class="btn btn-primary" onclick="switchView('books')">
-                ไปที่เมนูรายการหนังสือ
+              <button type="button" id="goToBooksGateBtn" class="btn btn-primary" onclick="openEntryGate()">
+                ไปที่รายการหนังสือ
               </button>
             </div>
 
+            <!-- แดชบอร์ดจำนวนการเข้าใช้งานแบ่งออกตามประเภทผู้เข้าใช้งาน -->
+            <div class="card dashboard-card">
+              <div class="dashboard-header">
+                <div>
+                  <h3 class="dashboard-title">แดชบอร์ดจำนวนการเข้าใช้งานแบ่งตามประเภทผู้เข้าใช้งาน</h3>
+                  <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">
+                    สรุปสถิติผู้เข้าใช้งานระบบห้องสมุดออนไลน์ของโรงเรียนแยกตามกลุ่มผู้ใช้งาน
+                  </p>
+                </div>
+              </div>
+
+              <div class="dashboard-grid">
+                <div class="stat-box stat-total">
+                  <div class="stat-top">
+                    <span class="stat-label">รวมการเข้าใช้งานทั้งหมด</span>
+                  </div>
+                  <div>
+                    <span id="statTotalCount" class="stat-value">0</span>
+                    <span class="stat-unit">ครั้ง</span>
+                  </div>
+                  <div class="stat-bar-track">
+                    <div id="statTotalBar" class="stat-bar-fill" style="width: 100%;"></div>
+                  </div>
+                </div>
+
+                <div class="stat-box">
+                  <div class="stat-top">
+                    <span class="stat-label">นักเรียน (Student)</span>
+                  </div>
+                  <div>
+                    <span id="statStudentCount" class="stat-value">0</span>
+                    <span class="stat-unit">ครั้ง</span>
+                  </div>
+                  <div class="stat-bar-track">
+                    <div id="statStudentBar" class="stat-bar-fill"></div>
+                  </div>
+                </div>
+
+                <div class="stat-box">
+                  <div class="stat-top">
+                    <span class="stat-label">ครู / อาจารย์ (Teacher)</span>
+                  </div>
+                  <div>
+                    <span id="statTeacherCount" class="stat-value">0</span>
+                    <span class="stat-unit">ครั้ง</span>
+                  </div>
+                  <div class="stat-bar-track">
+                    <div id="statTeacherBar" class="stat-bar-fill" style="background:#0f766e;"></div>
+                  </div>
+                </div>
+
+                <div class="stat-box">
+                  <div class="stat-top">
+                    <span class="stat-label">บุคลากรโรงเรียน (Staff)</span>
+                  </div>
+                  <div>
+                    <span id="statStaffCount" class="stat-value">0</span>
+                    <span class="stat-unit">ครั้ง</span>
+                  </div>
+                  <div class="stat-bar-track">
+                    <div id="statStaffBar" class="stat-bar-fill" style="background:#7c3aed;"></div>
+                  </div>
+                </div>
+
+                <div class="stat-box">
+                  <div class="stat-top">
+                    <span class="stat-label">บุคคลทั่วไป (Guest)</span>
+                  </div>
+                  <div>
+                    <span id="statGuestCount" class="stat-value">0</span>
+                    <span class="stat-unit">ครั้ง</span>
+                  </div>
+                  <div class="stat-bar-track">
+                    <div id="statGuestBar" class="stat-bar-fill" style="background:#b45309;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- หัวข้อ "การบันทึกการเข้าใช้งานล่าสุด" และ "ทางลัดการใช้งาน" อยู่ใต้แดชบอร์ด -->
             <div class="grid-2">
               <div class="card">
                 <h3 style="margin-top:0; font-size:18px;">การบันทึกการเข้าใช้งานล่าสุด</h3>
@@ -1051,7 +1244,7 @@
                 <h3 style="margin-top:0; font-size:18px;">ทางลัดการใช้งาน</h3>
                 <p style="color:var(--muted); font-size:14px;">เลือกเมนูที่ต้องการใช้งานจากรายการด้านล่างหรือแถบ Sidebar ด้านซ้าย</p>
                 <div style="display:flex; flex-direction:column; gap:10px;">
-                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="switchView('books')">
+                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="openEntryGate()">
                     📚 เมนูรายการหนังสือ (แสดง 5 คอลัมน์, หน้าละ 20 เล่ม พร้อมเลขหน้า 1 2 3...)
                   </button>
                   <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="switchView('borrow')">
@@ -1069,7 +1262,7 @@
           </section>
 
           <!-- VIEW 2: เมนูรายการหนังสือ (5 คอลัมน์, 20 รายการต่อหน้า, Pagination 1 2 3 ...) -->
-          <section id="view-books" class="view-section active">
+          <section id="view-books" class="view-section">
             <div class="page-header">
               <div>
                 <h2 class="page-title">เมนูรายการหนังสือ</h2>
@@ -1663,6 +1856,21 @@ function unlockAdminAccount() {
     const entryForm = document.getElementById('entryForm');
     const currentUserChip = document.getElementById('currentUserChip');
 
+    // เปิดหน้า "ระบบห้องสมุดออนไลน์ (E-Library)" เมื่อกดปุ่ม "ไปที่รายการหนังสือ"
+    window.openEntryGate = function () {
+      toggleSidebar(false);
+      appShell.classList.remove('active');
+      entryScreen.classList.add('active');
+      entryScreen.style.display = 'flex';
+    };
+
+    document.getElementById('cancelGateBtn').addEventListener('click', function () {
+      entryScreen.classList.remove('active');
+      entryScreen.style.display = 'none';
+      appShell.classList.add('active');
+      switchView('home');
+    });
+
     entryForm.addEventListener('submit', async function (e) {
       e.preventDefault();
       const rawName = document.getElementById('visitorName').value.trim();
@@ -1685,6 +1893,7 @@ function unlockAdminAccount() {
       currentUserChip.textContent = `ผู้ใช้งาน: ${visitorName} (${role})`;
       document.getElementById('borrowerNameInput').value = visitorName;
 
+      entryScreen.classList.remove('active');
       entryScreen.style.display = 'none';
       appShell.classList.add('active');
       switchView('books');
@@ -1693,8 +1902,7 @@ function unlockAdminAccount() {
     });
 
     document.getElementById('backToGateBtn').addEventListener('click', function () {
-      appShell.classList.remove('active');
-      entryScreen.style.display = 'flex';
+      window.openEntryGate();
     });
 
     // ================= 2. ระบบ Sidebar และปุ่มแฮมเบอร์เกอร์สำหรับหน้าจอเล็ก =================
@@ -1860,7 +2068,52 @@ function unlockAdminAccount() {
     });
 
     // ================= 5. ระบบยืม-คืน =================
+    function renderAccessDashboard() {
+      const total = accessLogs.length;
+      const counts = {
+        'นักเรียน': 0,
+        'ครู / อาจารย์': 0,
+        'บุคลากรโรงเรียน': 0,
+        'บุคคลทั่วไป': 0
+      };
+
+      accessLogs.forEach(item => {
+        const r = item.role || 'บุคคลทั่วไป';
+        if (Object.prototype.hasOwnProperty.call(counts, r)) {
+          counts[r]++;
+        } else {
+          counts['บุคคลทั่วไป']++;
+        }
+      });
+
+      const pct = (val) => (total > 0 ? Math.round((val / total) * 100) : 0);
+
+      const totalEl = document.getElementById('statTotalCount');
+      const studentEl = document.getElementById('statStudentCount');
+      const teacherEl = document.getElementById('statTeacherCount');
+      const staffEl = document.getElementById('statStaffCount');
+      const guestEl = document.getElementById('statGuestCount');
+
+      if (totalEl) totalEl.textContent = total;
+      if (studentEl) studentEl.textContent = counts['นักเรียน'];
+      if (teacherEl) teacherEl.textContent = counts['ครู / อาจารย์'];
+      if (staffEl) staffEl.textContent = counts['บุคลากรโรงเรียน'];
+      if (guestEl) guestEl.textContent = counts['บุคคลทั่วไป'];
+
+      const studentBar = document.getElementById('statStudentBar');
+      const teacherBar = document.getElementById('statTeacherBar');
+      const staffBar = document.getElementById('statStaffBar');
+      const guestBar = document.getElementById('statGuestBar');
+
+      if (studentBar) studentBar.style.width = pct(counts['นักเรียน']) + '%';
+      if (teacherBar) teacherBar.style.width = pct(counts['ครู / อาจารย์']) + '%';
+      if (staffBar) staffBar.style.width = pct(counts['บุคลากรโรงเรียน']) + '%';
+      if (guestBar) guestBar.style.width = pct(counts['บุคคลทั่วไป']) + '%';
+    }
+
     function renderAccessLogs() {
+      renderAccessDashboard();
+
       const recentBody = document.getElementById('recentAccessBody');
       const staffBody = document.getElementById('staffAccessLogBody');
 
