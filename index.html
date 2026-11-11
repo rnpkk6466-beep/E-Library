@@ -173,6 +173,16 @@
       background: var(--surface-alt);
     }
 
+    .btn-danger {
+      background: var(--danger);
+      color: #ffffff;
+      border-color: var(--danger);
+    }
+
+    .btn-danger:hover {
+      background: #991b1b;
+    }
+
     .btn-enter {
       width: 100%;
       padding: 14px 24px;
@@ -756,10 +766,10 @@
     }
 
     .auth-gate-card {
-      max-width: 460px;
+      max-width: 480px;
       margin: 24px auto;
       text-align: center;
-      padding: 28px 24px;
+      padding: 30px 24px;
     }
 
     .auth-icon {
@@ -777,7 +787,7 @@
     .auth-error {
       display: none;
       margin-bottom: 14px;
-      padding: 10px 12px;
+      padding: 10px 14px;
       border-radius: var(--radius-sm);
       background: var(--danger-bg);
       color: var(--danger);
@@ -788,6 +798,69 @@
 
     .auth-error.show {
       display: block;
+    }
+
+    .lock-banner {
+      display: none;
+      margin-bottom: 16px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--danger-bg);
+      border: 1px solid #fecaca;
+      color: var(--danger);
+      font-size: 14px;
+      text-align: left;
+      line-height: 1.55;
+    }
+
+    .lock-banner.show {
+      display: block;
+    }
+
+    .attempt-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .attempt-pill.warn {
+      background: var(--warning-bg);
+      border-color: #fde68a;
+      color: var(--warning);
+    }
+
+    .attempt-pill.locked {
+      background: var(--danger-bg);
+      border-color: #fecaca;
+      color: var(--danger);
+    }
+
+    .unlock-guide-box {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      text-align: left;
+      font-size: 13px;
+      color: var(--ink);
+    }
+
+    .unlock-guide-box ol {
+      margin: 8px 0 0;
+      padding-left: 20px;
+    }
+
+    .unlock-guide-box li {
+      margin-bottom: 6px;
     }
 
     .auth-bar {
@@ -804,7 +877,7 @@
       font-size: 14px;
     }
   </style>
-<style data-link-removed-style>a[data-link-removed],a[href*="zPythonSafez"]:not([onclick]){pointer-events:none!important;cursor:default!important;opacity:.6}</style></head>
+</head>
 <body>
 
   <!-- ================= 1. หน้าเริ่มต้นก่อนเข้าใช้งาน (เก็บข้อมูลการเข้าใช้งานของโรงเรียน) ================= -->
@@ -869,8 +942,12 @@
       </div>
 
       <div class="navbar-right">
-        <span class="sample-badge" title="ข้อมูลหนังสือที่แสดงเป็นข้อมูลตัวอย่างสำหรับทดสอบระบบ">ข้อมูลตัวอย่าง (Sample Data)</span>
+        <span class="sample-badge" id="sourceBadge" title="สถานะฐานข้อมูล">ข้อมูลตัวอย่าง (Sample Data)</span>
         <span id="currentUserChip" class="user-chip">ผู้ใช้งาน: นักเรียน</span>
+        <!-- ปุ่มออกจากระบบสำหรับเจ้าหน้าที่ / Admin (จะแสดงเมื่อล็อกอินแล้ว) -->
+        <button id="navRoleLogoutBtn" type="button" class="btn btn-danger" style="display: none; padding: 6px 12px; font-size: 13px;">
+          ออกจากระบบ (เจ้าหน้าที่/Admin)
+        </button>
         <button id="backToGateBtn" type="button" class="btn btn-secondary" style="padding: 6px 12px; font-size: 13px;">
           หน้าลงชื่อเข้าใช้
         </button>
@@ -932,7 +1009,7 @@
 
         <div class="sidebar-footer-box">
           <div>สถานะฐานข้อมูล:</div>
-          <strong id="dbStatusText" style="color: var(--brand);">โหมดข้อมูลตัวอย่าง (พร้อมเชื่อม Google Sheets)</strong>
+          <strong id="dbStatusText" style="color: var(--brand);">รอตั้งค่า Web App URL</strong>
         </div>
       </aside>
 
@@ -955,7 +1032,7 @@
             <div class="grid-2">
               <div class="card">
                 <h3 style="margin-top:0; font-size:18px;">การบันทึกการเข้าใช้งานล่าสุด</h3>
-                <p style="color:var(--muted); font-size:14px;">ข้อมูลเมื่อกดปุ่มเข้าใช้งานจากหน้าแรกจะถูกเก็บรวบรวมเพื่อให้โรงเรียนนำไปสรุปยอดผู้ใช้บริการ</p>
+                <p style="color:var(--muted); font-size:14px;">ข้อมูลเมื่อกดปุ่มเข้าใช้งานจากหน้าแรกจะถูกส่งไปบันทึกลง Google Sheets เพื่อให้โรงเรียนนำไปสรุปยอดผู้ใช้บริการ</p>
                 <div class="table-wrap">
                   <table>
                     <thead>
@@ -984,7 +1061,7 @@
                     📋 เมนูเจ้าหน้าที่ (ตรวจสอบประวัติการเข้าใช้งานโรงเรียนและรายการยืม-คืน)
                   </button>
                   <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="switchView('admin')">
-                    ⚙️ เมนู Admin (เพิ่มหนังสือใหม่ และตั้งค่าลิงก์ Google Apps Script)
+                    ⚙️ เมนู Admin (เพิ่มเจ้าหน้าที่, เพิ่มหนังสือ, ตั้งค่า Google Apps Script)
                   </button>
                 </div>
               </div>
@@ -1088,16 +1165,27 @@
                 </svg>
               </div>
               <h3 style="margin:0 0 6px; font-size:20px;">ยืนยันตัวตนเข้าสู่เมนูเจ้าหน้าที่</h3>
-              <p style="margin:0 0 18px; font-size:14px; color:var(--muted);">
-                กรุณากรอกรหัสเจ้าหน้าที่ (ค่าเริ่มต้น <strong>123456</strong>) หรือรหัส Admin (<strong>999999</strong>) เพื่อเข้าใช้งาน
+              <p style="margin:0 0 14px; font-size:14px; color:var(--muted);">
+                รหัสผ่านจะถูกตรวจสอบความถูกต้องผ่าน Google Apps Script โดยตรงเพื่อความปลอดภัย
               </p>
+
+              <!-- แจ้งเตือนสถานะการใส่รหัส / การล็อก -->
+              <div id="staffAttemptPill" class="attempt-pill">จำนวนครั้งที่ผิด: 0 / 3 ครั้ง</div>
+              <div id="staffLockBanner" class="lock-banner">
+                🔒 <strong>รหัสเจ้าหน้าที่ถูกระงับการใช้งานชั่วคราว!</strong><br>
+                เนื่องจากมีการกรอกรหัสผิดเกิน 3 ครั้ง เพื่อความปลอดภัยของระบบ กรุณาติดต่อ Admin ผู้ดูแลระบบเพื่อทำการปลดล็อคให้ครับ
+              </div>
+
               <div id="staffAuthError" class="auth-error">รหัสผ่านไม่ถูกต้อง กรุณาตรวจสอบและลองใหม่อีกครั้ง</div>
+
               <form id="staffLoginForm" style="text-align:left;">
                 <div class="form-group">
                   <label class="form-label" for="staffPinInput">รหัสเข้าใช้งานเจ้าหน้าที่</label>
-                  <input type="password" id="staffPinInput" class="form-input" placeholder="กรอกรหัสเจ้าหน้าที่ (เช่น 123456)" autocomplete="off" required>
+                  <input type="password" id="staffPinInput" class="form-input" placeholder="กรอกรหัสเจ้าหน้าที่" autocomplete="off" required>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width:100%;">เข้าสู่เมนูเจ้าหน้าที่</button>
+                <button type="submit" id="staffLoginSubmitBtn" class="btn btn-primary" style="width:100%;">
+                  เข้าสู่เมนูเจ้าหน้าที่
+                </button>
               </form>
             </div>
 
@@ -1108,8 +1196,8 @@
                   <strong>สถานะการเข้าใช้งาน:</strong>
                   <span id="staffSessionLabel">เจ้าหน้าที่ห้องสมุด (สิทธิ์เพิ่มหนังสือและตรวจสอบการยืม-คืน)</span>
                 </div>
-                <button type="button" id="staffLogoutBtn" class="btn btn-secondary" style="padding:6px 12px; font-size:13px;">
-                  ล็อกเอาต์ออกจากเมนูเจ้าหน้าที่
+                <button type="button" class="btn btn-danger role-logout-btn" style="padding:6px 14px; font-size:13px;">
+                  ออกจากระบบ
                 </button>
               </div>
 
@@ -1182,7 +1270,7 @@
             <div class="page-header">
               <div>
                 <h2 class="page-title">เมนู Admin</h2>
-                <p class="page-subtitle">ใช้งานได้ครบทุกฟังก์ชัน: จัดการเพิ่มเจ้าหน้าที่ เพิ่มรายการหนังสือ ตรวจสอบข้อมูล และตั้งค่าระบบ</p>
+                <p class="page-subtitle">ใช้งานได้ครบทุกฟังก์ชัน: จัดการเพิ่มเจ้าหน้าที่ ปลดล็อคบัญชี เพิ่มรายการหนังสือ และตั้งค่าระบบ</p>
               </div>
             </div>
 
@@ -1194,29 +1282,66 @@
                 </svg>
               </div>
               <h3 style="margin:0 0 6px; font-size:20px;">ยืนยันตัวตนเข้าสู่เมนู Admin</h3>
-              <p style="margin:0 0 18px; font-size:14px; color:var(--muted);">
-                กรุณากรอกรหัส Admin (<strong>999999</strong>) เพื่อเข้าใช้งานครบทุกฟังก์ชันและจัดการระบบ
+              <p style="margin:0 0 14px; font-size:14px; color:var(--muted);">
+                รหัสผ่านจะถูกเก็บและตรวจสอบบน Google Apps Script (Script Properties) โดยตรง ไม่มีรหัสฝังในไฟล์ HTML
               </p>
-              <div id="adminAuthError" class="auth-error">รหัส Admin ไม่ถูกต้อง (รหัสของเจ้าหน้าที่ไม่สามารถเข้าเมนูตั้งค่าระบบ Admin ได้)</div>
+
+              <div id="adminAttemptPill" class="attempt-pill">จำนวนครั้งที่ผิด: 0 / 3 ครั้ง</div>
+              
+              <div id="adminLockBanner" class="lock-banner">
+                🔒 <strong>รหัส Admin ถูกระงับการใช้งานชั่วคราว!</strong><br>
+                เนื่องจากมีการกรอกรหัส Admin ผิดเกิน 3 ครั้ง ระบบได้ระงับการเข้าสู่หน้า Admin ผ่านเว็บไซต์โดยอัตโนมัติ
+                
+                <div class="unlock-guide-box">
+                  <strong>📌 วิธีการปลดล็อครหัส Admin ที่ถูกล็อค:</strong>
+                  <ol>
+                    <li>เปิดไฟล์ Google Sheets <code>E-Library Database</code> ของโรงเรียน</li>
+                    <li>ไปที่เมนู <strong>ส่วนขยาย (Extensions) &gt; Apps Script</strong></li>
+                    <li>ที่แถบเครื่องมือด้านบน ในช่องเลือกชื่อฟังก์ชัน ให้เลือกฟังก์ชัน <strong><code>unlockAdminAccount</code></strong></li>
+                    <li>กดปุ่ม <strong>เรียกใช้ (Run)</strong> จำนวน 1 ครั้ง</li>
+                    <li>ระบบจะรีเซ็ตจำนวนครั้งที่ผิดเป็น 0 และปลดล็อคให้ Admin สามารถกลับมาล็อกอินบนหน้าเว็บได้ทันทีครับ</li>
+                  </ol>
+                </div>
+              </div>
+
+              <div id="adminAuthError" class="auth-error">รหัส Admin ไม่ถูกต้อง กรุณาตรวจสอบและลองใหม่อีกครั้ง</div>
+
               <form id="adminLoginForm" style="text-align:left;">
                 <div class="form-group">
                   <label class="form-label" for="adminPinInput">รหัสเข้าใช้งาน Admin</label>
-                  <input type="password" id="adminPinInput" class="form-input" placeholder="กรอกรหัส Admin (999999)" autocomplete="off" required>
+                  <input type="password" id="adminPinInput" class="form-input" placeholder="กรอกรหัส Admin" autocomplete="off" required>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width:100%;">เข้าสู่เมนู Admin</button>
+                <button type="submit" id="adminLoginSubmitBtn" class="btn btn-primary" style="width:100%;">
+                  เข้าสู่เมนู Admin
+                </button>
               </form>
             </div>
 
-            <!-- เนื้อหาสำหรับ Admin เมื่อผ่านการยืนยันรหัส 999999 แล้ว -->
+            <!-- เนื้อหาสำหรับ Admin เมื่อผ่านการยืนยันรหัสแล้ว -->
             <div id="adminProtectedContent" style="display:none;">
               <div class="auth-bar">
                 <div>
                   <strong>สถานะการเข้าใช้งาน:</strong>
-                  <span>ผู้ดูแลระบบสูงสุด (Admin - ใช้งานได้ครบทุกฟังก์ชันและจัดการเจ้าหน้าที่)</span>
+                  <span>ผู้ดูแลระบบสูงสุด (Admin - สิทธิ์เต็มทุกฟังก์ชัน)</span>
                 </div>
-                <button type="button" id="adminLogoutBtn" class="btn btn-secondary" style="padding:6px 12px; font-size:13px;">
-                  ล็อกเอาต์ออกจาก Admin
+                <button type="button" class="btn btn-danger role-logout-btn" style="padding:6px 14px; font-size:13px;">
+                  ออกจากระบบ
                 </button>
+              </div>
+
+              <!-- ส่วนจัดการสถานะความปลอดภัยและการปลดล็อคเจ้าหน้าที่ (เฉพาะ Admin) -->
+              <div class="card" style="margin-bottom:20px; border-left: 4px solid var(--brand);">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                  <div>
+                    <h3 style="margin:0 0 4px; font-size:17px;">การจัดการความปลอดภัยและปลดล็อครหัสผ่าน</h3>
+                    <p style="margin:0; font-size:13px; color:var(--muted);">
+                      สถานะรหัสเจ้าหน้าที่: <strong id="adminStaffStatusText">ปกติ (0/3)</strong>
+                    </p>
+                  </div>
+                  <button type="button" id="adminUnlockStaffBtn" class="btn btn-secondary">
+                    🔓 ปลดล็อครหัสเจ้าหน้าที่ (รีเซ็ตเป็น 0 ครั้ง)
+                  </button>
+                </div>
               </div>
 
               <!-- ส่วนเพิ่มและจัดการเจ้าหน้าที่ (เฉพาะ Admin) -->
@@ -1224,7 +1349,7 @@
                 <div class="card">
                   <h3 style="margin-top:0; font-size:18px;">เพิ่มเจ้าหน้าที่ห้องสมุด</h3>
                   <p style="font-size:13px; color:var(--muted); margin-top:0;">
-                    กำหนดชื่อและรหัสผ่านสำหรับเจ้าหน้าที่ใหม่ เพื่อให้ใช้ล็อกอินเข้าใช้งานเมนูเจ้าหน้าที่ได้
+                    กำหนดชื่อและรหัสผ่านสำหรับเจ้าหน้าที่ใหม่ โดยข้อมูลจะบันทึกลงแผ่นงาน StaffAccounts ใน Google Sheets
                   </p>
                   <form id="addStaffForm">
                     <div class="form-group">
@@ -1233,21 +1358,20 @@
                     </div>
                     <div class="form-group">
                       <label class="form-label" for="newStaffPin">รหัสเข้าใช้งานของเจ้าหน้าที่</label>
-                      <input type="text" id="newStaffPin" class="form-input" placeholder="เช่น 123456 หรือรหัสเฉพาะบุคคล" required>
+                      <input type="password" id="newStaffPin" class="form-input" placeholder="กำหนดรหัสผ่านเฉพาะบุคคล" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">เพิ่มเจ้าหน้าที่</button>
+                    <button type="submit" class="btn btn-primary">เพิ่มเจ้าหน้าที่ลงระบบ</button>
                   </form>
                 </div>
 
                 <div class="card">
-                  <h3 style="margin-top:0; font-size:18px;">รายชื่อเจ้าหน้าที่ที่มีสิทธิ์เข้าใช้งาน</h3>
+                  <h3 style="margin-top:0; font-size:18px;">รายชื่อเจ้าหน้าที่ในระบบ</h3>
                   <div class="table-wrap">
                     <table>
                       <thead>
                         <tr>
-                          <th>รหัสประจำตัว</th>
+                          <th>รหัส</th>
                           <th>ชื่อเจ้าหน้าที่</th>
-                          <th>รหัสเข้าใช้งาน (PIN)</th>
                           <th>การจัดการ</th>
                         </tr>
                       </thead>
@@ -1286,33 +1410,46 @@
                 <div class="card">
                   <h3 style="margin-top:0; font-size:18px;">ตั้งค่าเชื่อมต่อ Google Apps Script (Web App URL)</h3>
                   <p style="font-size:13px; color:var(--muted); margin-top:0;">
-                    เมื่อนำไฟล์ <code>index.html</code> ไปวางบน GitHub Pages คุณสามารถนำ Web App URL จาก Google Apps Script มาใส่เพื่อดึงหนังสือจริงและส่งข้อมูลการเข้าใช้งานของโรงเรียนเข้า Google Sheets
+                    วาง Web App URL ที่ได้จากขั้นตอน Deploy ใน Google Apps Script เพื่อให้ระบบเชื่อมกับ Google Sheets จริง
                   </p>
                   <form id="gasConfigForm">
                     <div class="form-group">
                       <label class="form-label" for="gasUrlInput">Google Apps Script Web App URL</label>
-                      <input type="url" id="gasUrlInput" class="form-input" placeholder="วาง Web App URL ของ Google Apps Script ที่นี่">
+                      <input type="url" id="gasUrlInput" class="form-input" placeholder="วาง Web App URL ที่ได้จากการ Deploy ที่นี่">
                     </div>
                     <button type="submit" class="btn btn-secondary">บันทึก URL และทดสอบดึงข้อมูล</button>
                   </form>
 
                   <div style="margin-top:16px;">
-                    <div class="form-label">ตัวอย่างโค้ด Google Apps Script (คัดลอกไปวางใน Extensions &gt; Apps Script):</div>
-                    <div class="code-box">function doGet() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Books');
-  const rows = sheet.getDataRange().getValues();
-  const headers = rows.shift();
-  const data = rows.map(r =&gt; Object.fromEntries(headers.map((h, i) =&gt; [h, r[i]])));
-  return ContentService.createTextOutput(JSON.stringify(data))
-    .setMimeType(ContentService.MimeType.JSON);
+                    <div class="form-label">ตัวอย่างโค้ด Google Apps Script (ฉบับสมบูรณ์พร้อมระบบความปลอดภัย):</div>
+                    <div class="code-box">// วางโค้ดนี้ใน Apps Script &gt; กด Run setupDatabase &gt; Deploy as Web App
+function setupDatabase() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheets = {
+    'Books': ['id', 'title', 'author', 'category', 'status', 'cover_url', 'pdf_url'],
+    'AccessLogs': ['timestamp', 'name', 'role', 'action'],
+    'BorrowLogs': ['bookId', 'bookTitle', 'borrower', 'borrowedAt', 'status'],
+    'StaffAccounts': ['id', 'name', 'pin', 'isDefault']
+  };
+  for (let s in sheets) {
+    if (!ss.getSheetByName(s)) {
+      const sh = ss.insertSheet(s);
+      sh.appendRow(sheets[s]);
+    }
+  }
+  const p = PropertiesService.getScriptProperties();
+  if (!p.getProperty('STAFF_PIN')) p.setProperty('STAFF_PIN', '123456');
+  if (!p.getProperty('ADMIN_PIN')) p.setProperty('ADMIN_PIN', '999999');
+  if (!p.getProperty('STAFF_FAILS')) p.setProperty('STAFF_FAILS', '0');
+  if (!p.getProperty('ADMIN_FAILS')) p.setProperty('ADMIN_FAILS', '0');
+  if (!p.getProperty('STAFF_LOCKED')) p.setProperty('STAFF_LOCKED', 'FALSE');
+  if (!p.getProperty('ADMIN_LOCKED')) p.setProperty('ADMIN_LOCKED', 'FALSE');
 }
 
-function doPost(e) {
-  const logSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('AccessLogs');
-  const body = JSON.parse(e.postData.contents);
-  logSheet.appendRow([new Date(), body.name, body.role, body.action]);
-  return ContentService.createTextOutput(JSON.stringify({status: 'ok'}))
-    .setMimeType(ContentService.MimeType.JSON);
+function unlockAdminAccount() {
+  const p = PropertiesService.getScriptProperties();
+  p.setProperty('ADMIN_FAILS', '0');
+  p.setProperty('ADMIN_LOCKED', 'FALSE');
 }</div>
                   </div>
                 </div>
@@ -1342,7 +1479,21 @@ function doPost(e) {
   </div>
 
   <script>
-    // ================= ข้อมูลตัวอย่าง 45 เล่ม เพื่อแสดงผล 5 คอลัมน์ และแบ่งหน้า 20 รายการต่อหน้า (หน้า 1, 2, 3) =================
+    // =========================================================================
+    // ⚙️ การตั้งค่า Google Apps Script Web App URL สำหรับใช้งานจริงบน GitHub Pages
+    // นำ Web App URL ที่ได้จากการ Deploy ใน Google Apps Script มาวางแทนที่ข้อความด้านล่างนี้:
+    let gasWebAppUrl = 'https://script.google.com/macros/s/AKfycbwUOZwQDSh2S0NNe9Evl3hGmm1TxMu0EWbbwvJhFAZmm-oh5jFqMGqDrnuuqe28XhJN/exec';
+    // =========================================================================
+
+    // ตรวจสอบว่าเคยบันทึก URL ไว้ใน localStorage หรือไม่
+    try {
+      const savedUrl = localStorage.getItem('school_elibrary_gas_url');
+      if (savedUrl && savedUrl.startsWith('https://')) {
+        gasWebAppUrl = savedUrl;
+      }
+    } catch (_) {}
+
+    // หมวดหมู่และสีสำหรับสร้างภาพหน้าปกจำลอง
     const CATEGORIES = [
       'วิทยาศาสตร์',
       'คณิตศาสตร์',
@@ -1373,8 +1524,8 @@ function doPost(e) {
 
     function createCoverSvgDataUri(id, title, category, paletteIndex) {
       const [c1, c2] = PALETTES[paletteIndex % PALETTES.length];
-      const safeTitle = title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      const safeCat = category.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const safeTitle = (title || 'หนังสือ').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const safeCat = (category || 'ทั่วไป').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400">
         <defs>
           <linearGradient id="g${id}" x1="0" y1="0" x2="1" y2="1">
@@ -1395,9 +1546,8 @@ function doPost(e) {
 
     const ITEMS_PER_PAGE = 20;
     let currentPage = 1;
-    let gasWebAppUrl = '';
 
-    // สร้างข้อมูลตัวอย่าง 45 รายการ
+    // ข้อมูลหนังสือเริ่มต้น (Sample Data 45 เล่ม)
     let booksData = SAMPLE_TITLES.map((title, idx) => {
       const id = idx + 1;
       const category = CATEGORIES[idx % CATEGORIES.length];
@@ -1411,9 +1561,7 @@ function doPost(e) {
       };
     });
 
-    // ประวัติการเข้าใช้งานของโรงเรียน
     let accessLogs = [];
-    // ประวัติการยืม-คืน
     let borrowLogs = [
       {
         bookId: 'B001',
@@ -1423,6 +1571,91 @@ function doPost(e) {
         status: 'กำลังยืม'
       }
     ];
+
+    let staffAccounts = [
+      { id: 'STF-01', name: 'เจ้าหน้าที่ห้องสมุดหลัก', isDefault: true }
+    ];
+
+    // สถานะความปลอดภัย (ดึงจาก GAS และจำลองกรณีออฟไลน์)
+    let securityState = {
+      staffFails: 0,
+      staffLocked: false,
+      adminFails: 0,
+      adminLocked: false
+    };
+
+    let isStaffAuthenticated = false;
+    let isAdminAuthenticated = false;
+    let currentStaffName = '';
+
+    // ฟังก์ชันส่วนกลางสำหรับเรียก Google Apps Script แบบไม่ติด CORS
+    async function callGasApi(payload) {
+      if (!gasWebAppUrl || gasWebAppUrl === 'วาง_WEB_APP_URL_ของคุณที่นี่') {
+        throw new Error('NO_GAS_URL');
+      }
+      const response = await fetch(gasWebAppUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      return await response.json();
+    }
+
+    // ฟังก์ชันดึงข้อมูลทั้งหมดจาก Google Sheets เมื่อเริ่มต้น
+    async function fetchDatabaseFromGas() {
+      const dbStatus = document.getElementById('dbStatusText');
+      const badge = document.getElementById('sourceBadge');
+
+      if (!gasWebAppUrl || gasWebAppUrl === 'วาง_WEB_APP_URL_ของคุณที่นี่') {
+        dbStatus.textContent = 'โหมดข้อมูลตัวอย่าง (ยังไม่วาง Web App URL)';
+        badge.textContent = 'ข้อมูลตัวอย่าง (Sample Data)';
+        return;
+      }
+
+      dbStatus.textContent = 'กำลังเชื่อมต่อ Google Sheets...';
+      try {
+        const res = await fetch(gasWebAppUrl);
+        const data = await res.json();
+        if (data && data.status === 'ok') {
+          if (Array.isArray(data.books) && data.books.length > 0) {
+            booksData = data.books.map((b, i) => ({
+              id: b.id || ('B' + String(i + 1).padStart(3, '0')),
+              title: b.title || 'ไม่มีชื่อเรื่อง',
+              author: b.author || '-',
+              category: b.category || 'ทั่วไป',
+              status: b.status || 'ว่าง',
+              cover_url: b.cover_url || createCoverSvgDataUri(i + 1, b.title || 'Book', b.category || '', i),
+              pdf_url: b.pdf_url || ''
+            }));
+          }
+          if (Array.isArray(data.accessLogs)) accessLogs = data.accessLogs;
+          if (Array.isArray(data.borrowLogs)) borrowLogs = data.borrowLogs;
+          if (Array.isArray(data.staffAccounts)) staffAccounts = data.staffAccounts;
+          if (data.security) {
+            securityState = {
+              staffFails: data.security.staffFails || 0,
+              staffLocked: !!data.security.staffLocked,
+              adminFails: data.security.adminFails || 0,
+              adminLocked: !!data.security.adminLocked
+            };
+          }
+
+          dbStatus.textContent = `เชื่อมต่อ Google Sheets สำเร็จ (${booksData.length} เล่ม)`;
+          badge.textContent = 'เชื่อม Google Sheets เรียบร้อย';
+          badge.style.background = 'var(--success-bg)';
+          badge.style.color = 'var(--success)';
+          badge.style.borderColor = '#bbf7d0';
+
+          renderBooksAndPagination();
+          renderAccessLogs();
+          renderBorrowSection();
+          renderStaffAccounts();
+          updateSecurityUI();
+        }
+      } catch (err) {
+        dbStatus.textContent = 'ใช้ข้อมูลตัวอย่าง (ตรวจสอบสิทธิ์ Web App ใน GAS)';
+      }
+    }
 
     // ================= 1. การทำงานหน้าปุ่มเข้าใช้งานระบบ E-Library =================
     const entryScreen = document.getElementById('entryScreen');
@@ -1437,7 +1670,6 @@ function doPost(e) {
       const visitorName = rawName || 'ผู้เข้าใช้งานทั่วไป';
       const nowStr = new Date().toLocaleString('th-TH');
 
-      // บันทึกข้อมูลการเข้าใช้งานของโรงเรียน
       const logEntry = {
         timestamp: nowStr,
         name: visitorName,
@@ -1445,21 +1677,14 @@ function doPost(e) {
       };
       accessLogs.unshift(logEntry);
 
-      // หากตั้งค่า Google Apps Script URL ไว้ จะส่งข้อมูลเข้า Google Sheets ด้วย
-      if (gasWebAppUrl) {
-        try {
-          fetch(gasWebAppUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: JSON.stringify({ name: visitorName, role: role, action: 'ENTER_LIBRARY' })
-          });
-        } catch (_) {}
-      }
+      // ส่งข้อมูลเข้า Google Sheets หากตั้งค่า Web App URL ไว้
+      try {
+        callGasApi({ action: 'ENTER_LIBRARY', name: visitorName, role: role });
+      } catch (_) {}
 
       currentUserChip.textContent = `ผู้ใช้งาน: ${visitorName} (${role})`;
       document.getElementById('borrowerNameInput').value = visitorName;
 
-      // เปลี่ยนหน้าเข้าสู่ระบบ E-Library และเปิดหน้ารายการหนังสือทันที
       entryScreen.style.display = 'none';
       appShell.classList.add('active');
       switchView('books');
@@ -1498,7 +1723,6 @@ function doPost(e) {
       document.querySelectorAll('.view-section').forEach(sec => {
         sec.classList.toggle('active', sec.id === 'view-' + viewKey);
       });
-      // ปิดเมนูแฮมเบอร์เกอร์อัตโนมัติบนหน้าจอขนาดเล็กเมื่อกดเลือกเมนู
       toggleSidebar(false);
     }
 
@@ -1568,7 +1792,6 @@ function doPost(e) {
         }).join('');
       }
 
-      // แสดงข้อมูลหน้าและปุ่มตัวเลข 1 2 3 ...
       paginationInfo.textContent = totalItems > 0
         ? `แสดงรายการที่ ${startIndex + 1} - ${endIndex} จากทั้งหมด ${totalItems} รายการ (หน้าละ ${ITEMS_PER_PAGE} รายการ)`
         : 'ไม่มีรายการที่แสดง';
@@ -1617,12 +1840,12 @@ function doPost(e) {
             <p style="margin:0 0 8px;"><strong>ผู้แต่ง:</strong> ${book.author}</p>
             <p style="margin:0 0 8px;"><strong>สถานะ:</strong> ${book.status}</p>
             <p style="margin:0; color:var(--muted); font-size:13px;">
-              เมื่อเชื่อมต่อกับ Google Drive จริง สามารถนำรหัสไฟล์ (FILE_ID) มาฝังหน้าอ่าน PDF ในกรอบด้านล่างนี้ได้ทันที
+              เมื่อเชื่อมต่อกับ Google Drive และ Google Sheets ระบบจะดึงลิงก์อ่านไฟล์ PDF มาแสดงผลในกรอบด้านล่างนี้ได้โดยอัตโนมัติ
             </p>
           </div>
         </div>
         <div style="padding:16px; background:var(--surface-alt); border:1px dashed var(--border); border-radius:8px; text-align:center; color:var(--muted);">
-          พื้นที่จำลองการแสดงผลไฟล์ E-Book (Google Drive PDF Preview) สำหรับเรื่อง <strong>"${book.title}"</strong>
+          พื้นที่จำลองการแสดงผลไฟล์ E-Book สำหรับเรื่อง <strong>"${book.title}"</strong>
         </div>
       `;
       bookModal.classList.add('open');
@@ -1636,7 +1859,7 @@ function doPost(e) {
       if (e.target === bookModal) bookModal.classList.remove('open');
     });
 
-    // ================= 5. ระบบยืม-คืน และข้อมูลเจ้าหน้าที่ =================
+    // ================= 5. ระบบยืม-คืน =================
     function renderAccessLogs() {
       const recentBody = document.getElementById('recentAccessBody');
       const staffBody = document.getElementById('staffAccessLogBody');
@@ -1722,13 +1945,18 @@ function doPost(e) {
       if (!book || !borrower) return;
 
       book.status = 'ถูกยืม';
+      const nowStr = new Date().toLocaleString('th-TH');
       borrowLogs.unshift({
         bookId: book.id,
         bookTitle: book.title,
         borrower: borrower,
-        borrowedAt: new Date().toLocaleString('th-TH'),
+        borrowedAt: nowStr,
         status: 'กำลังยืม'
       });
+
+      try {
+        callGasApi({ action: 'BORROW_BOOK', bookId: book.id, bookTitle: book.title, borrower: borrower });
+      } catch (_) {}
 
       renderBooksAndPagination();
       renderBorrowSection();
@@ -1740,35 +1968,80 @@ function doPost(e) {
       const log = borrowLogs.find(l => l.bookId === bookId && l.status === 'กำลังยืม');
       if (log) log.status = 'คืนแล้ว';
 
+      try {
+        callGasApi({ action: 'RETURN_BOOK', bookId: bookId });
+      } catch (_) {}
+
       renderBooksAndPagination();
       renderBorrowSection();
     };
 
-    // ================= 6. ระบบรหัสผ่านแยกสิทธิ์ เจ้าหน้าที่ (123456) และ Admin (999999) =================
-    const ADMIN_PIN = '999999';
-    let staffAccounts = [
-      {
-        id: 'STF-01',
-        name: 'เจ้าหน้าที่ห้องสมุดหลัก (ค่าเริ่มต้น)',
-        pin: '123456',
-        isDefault: true
-      }
-    ];
+    // ================= 6. ระบบรักษาความปลอดภัย: ไม่ฝังรหัสผ่านใน HTML + ล็อกเมื่อผิดเกิน 3 ครั้ง =================
+    function updateSecurityUI() {
+      // 1. ตรวจสอบสถานะของเจ้าหน้าที่
+      const staffPill = document.getElementById('staffAttemptPill');
+      const staffBanner = document.getElementById('staffLockBanner');
+      const staffInput = document.getElementById('staffPinInput');
+      const staffSubmit = document.getElementById('staffLoginSubmitBtn');
 
-    let isStaffAuthenticated = false;
-    let isAdminAuthenticated = false;
-    let currentStaffName = '';
+      if (securityState.staffLocked) {
+        staffPill.textContent = 'สถานะ: บัญชีถูกระงับชั่วคราว (ผิดเกิน 3 ครั้ง)';
+        staffPill.className = 'attempt-pill locked';
+        staffBanner.classList.add('show');
+        staffInput.disabled = true;
+        staffSubmit.disabled = true;
+      } else {
+        staffPill.textContent = `จำนวนครั้งที่ผิด: ${securityState.staffFails} / 3 ครั้ง`;
+        staffPill.className = securityState.staffFails > 0 ? 'attempt-pill warn' : 'attempt-pill';
+        staffBanner.classList.remove('show');
+        staffInput.disabled = false;
+        staffSubmit.disabled = false;
+      }
+
+      // 2. ตรวจสอบสถานะของ Admin
+      const adminPill = document.getElementById('adminAttemptPill');
+      const adminBanner = document.getElementById('adminLockBanner');
+      const adminInput = document.getElementById('adminPinInput');
+      const adminSubmit = document.getElementById('adminLoginSubmitBtn');
+
+      if (securityState.adminLocked) {
+        adminPill.textContent = 'สถานะ: บัญชีถูกระงับชั่วคราว (ผิดเกิน 3 ครั้ง)';
+        adminPill.className = 'attempt-pill locked';
+        adminBanner.classList.add('show');
+        adminInput.disabled = true;
+        adminSubmit.disabled = true;
+      } else {
+        adminPill.textContent = `จำนวนครั้งที่ผิด: ${securityState.adminFails} / 3 ครั้ง`;
+        adminPill.className = securityState.adminFails > 0 ? 'attempt-pill warn' : 'attempt-pill';
+        adminBanner.classList.remove('show');
+        adminInput.disabled = false;
+        adminSubmit.disabled = false;
+      }
+
+      // ป้ายสถานะในหน้า Admin
+      const adminStaffStatus = document.getElementById('adminStaffStatusText');
+      if (adminStaffStatus) {
+        adminStaffStatus.textContent = securityState.staffLocked
+          ? '🔒 ถูกล็อค (ใส่รหัสผิดเกิน 3 ครั้ง)'
+          : `ปกติ (ผิด ${securityState.staffFails}/3 ครั้ง)`;
+        adminStaffStatus.style.color = securityState.staffLocked ? 'var(--danger)' : 'var(--ink)';
+      }
+    }
 
     function updateAuthUI() {
       const staffGate = document.getElementById('staffAuthGate');
       const staffContent = document.getElementById('staffProtectedContent');
       const staffLabel = document.getElementById('staffSessionLabel');
+      const navLogoutBtn = document.getElementById('navRoleLogoutBtn');
 
-      if (isStaffAuthenticated || isAdminAuthenticated) {
+      const isAnyLoggedIn = isStaffAuthenticated || isAdminAuthenticated;
+      navLogoutBtn.style.display = isAnyLoggedIn ? 'inline-flex' : 'none';
+
+      if (isAnyLoggedIn) {
         staffGate.style.display = 'none';
         staffContent.style.display = 'block';
         staffLabel.textContent = isAdminAuthenticated
-          ? 'ผู้ดูแลระบบสูงสุด (Admin รหัส 999999 - ใช้งานได้ครบทุกฟังก์ชัน)'
+          ? 'ผู้ดูแลระบบสูงสุด (Admin - สิทธิ์เต็มทุกฟังก์ชัน)'
           : `${currentStaffName} (สิทธิ์เจ้าหน้าที่: เพิ่มหนังสือและตรวจสอบการยืม-คืน)`;
       } else {
         staffGate.style.display = 'block';
@@ -1785,7 +2058,139 @@ function doPost(e) {
         adminGate.style.display = 'block';
         adminContent.style.display = 'none';
       }
+
+      updateSecurityUI();
     }
+
+    // ฟังก์ชันออกจากระบบส่วนกลาง (Logout)
+    function logoutAllRoles() {
+      isStaffAuthenticated = false;
+      isAdminAuthenticated = false;
+      currentStaffName = '';
+      updateAuthUI();
+    }
+
+    // ผูกปุ่มออกจากระบบทุกจุด
+    document.querySelectorAll('.role-logout-btn').forEach(btn => {
+      btn.addEventListener('click', logoutAllRoles);
+    });
+    document.getElementById('navRoleLogoutBtn').addEventListener('click', logoutAllRoles);
+
+    // ยืนยันรหัสเข้าเมนูเจ้าหน้าที่ (ส่งตรวจสอบที่ Google Apps Script)
+    document.getElementById('staffLoginForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const pin = document.getElementById('staffPinInput').value.trim();
+      const errBox = document.getElementById('staffAuthError');
+      errBox.classList.remove('show');
+
+      if (!pin) return;
+
+      // ตรวจสอบกับ Google Apps Script
+      try {
+        const result = await callGasApi({ action: 'VERIFY_AUTH', role: 'STAFF', pin: pin });
+        if (result.ok) {
+          isStaffAuthenticated = true;
+          isAdminAuthenticated = !!result.isAdmin;
+          currentStaffName = result.staffName || 'เจ้าหน้าที่ห้องสมุด';
+          securityState.staffFails = 0;
+          securityState.staffLocked = false;
+          document.getElementById('staffPinInput').value = '';
+          updateAuthUI();
+        } else {
+          securityState.staffFails = result.fails || (securityState.staffFails + 1);
+          securityState.staffLocked = !!result.locked || securityState.staffFails >= 3;
+          updateSecurityUI();
+          if (!securityState.staffLocked) {
+            errBox.textContent = `รหัสผ่านไม่ถูกต้อง (ครั้งที่ ${securityState.staffFails} / 3)`;
+            errBox.classList.add('show');
+          }
+        }
+      } catch (err) {
+        // หากยังไม่ได้เชื่อมต่อ Google Apps Script Web App URL
+        if (err.message === 'NO_GAS_URL') {
+          alert('กรุณาตั้งค่า Google Apps Script Web App URL ก่อนใช้งานระบบยืนยันตัวตน เพื่อความปลอดภัยในการเก็บรักษารหัสผ่านบนเซิร์ฟเวอร์ครับ');
+        } else {
+          // กรณีออฟไลน์หรือเชื่อมต่อผิดพลาด ให้จำลองการนับครั้งเพื่อความปลอดภัย
+          securityState.staffFails++;
+          if (securityState.staffFails >= 3) securityState.staffLocked = true;
+          updateSecurityUI();
+          errBox.textContent = 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ Google Apps Script หรือรหัสไม่ถูกต้อง';
+          errBox.classList.add('show');
+        }
+      }
+    });
+
+    // ยืนยันรหัสเข้าเมนู Admin (ส่งตรวจสอบที่ Google Apps Script)
+    document.getElementById('adminLoginForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const pin = document.getElementById('adminPinInput').value.trim();
+      const errBox = document.getElementById('adminAuthError');
+      errBox.classList.remove('show');
+
+      if (!pin) return;
+
+      try {
+        const result = await callGasApi({ action: 'VERIFY_AUTH', role: 'ADMIN', pin: pin });
+        if (result.ok) {
+          isAdminAuthenticated = true;
+          isStaffAuthenticated = true;
+          currentStaffName = 'Admin';
+          securityState.adminFails = 0;
+          securityState.adminLocked = false;
+          document.getElementById('adminPinInput').value = '';
+          updateAuthUI();
+        } else {
+          securityState.adminFails = result.fails || (securityState.adminFails + 1);
+          securityState.adminLocked = !!result.locked || securityState.adminFails >= 3;
+          updateSecurityUI();
+          if (!securityState.adminLocked) {
+            errBox.textContent = `รหัส Admin ไม่ถูกต้อง (ครั้งที่ ${securityState.adminFails} / 3)`;
+            errBox.classList.add('show');
+          }
+        }
+      } catch (err) {
+        if (err.message === 'NO_GAS_URL') {
+          alert('กรุณานำ Web App URL จาก Google Apps Script มาใส่ในตัวแปร gasWebAppUrl ก่อนใช้งาน เพื่อตรวจสอบรหัสผ่านอย่างปลอดภัยบนเซิร์ฟเวอร์ครับ');
+        } else {
+          securityState.adminFails++;
+          if (securityState.adminFails >= 3) securityState.adminLocked = true;
+          updateSecurityUI();
+          errBox.textContent = 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ Google Apps Script หรือรหัสไม่ถูกต้อง';
+          errBox.classList.add('show');
+        }
+      }
+    });
+
+    // Admin ปลดล็อครหัสผ่านเจ้าหน้าที่
+    document.getElementById('adminUnlockStaffBtn').addEventListener('click', async function () {
+      securityState.staffFails = 0;
+      securityState.staffLocked = false;
+      updateSecurityUI();
+      try {
+        await callGasApi({ action: 'UNLOCK_STAFF' });
+      } catch (_) {}
+      alert('ปลดล็อครหัสเจ้าหน้าที่เรียบร้อยแล้ว เจ้าหน้าที่สามารถกรอกรหัสเข้าสู่ระบบได้ตามปกติครับ');
+    });
+
+    // ฟอร์มเพิ่มเจ้าหน้าที่ใหม่
+    document.getElementById('addStaffForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const name = document.getElementById('newStaffName').value.trim();
+      const pin = document.getElementById('newStaffPin').value.trim();
+      if (!name || !pin) return;
+
+      const nextId = 'STF-' + String(staffAccounts.length + 1).padStart(2, '0');
+      staffAccounts.push({ id: nextId, name: name, isDefault: false });
+
+      try {
+        await callGasApi({ action: 'ADD_STAFF', name: name, pin: pin });
+      } catch (_) {}
+
+      document.getElementById('newStaffName').value = '';
+      document.getElementById('newStaffPin').value = '';
+      renderStaffAccounts();
+      alert(`เพิ่มเจ้าหน้าที่ "${name}" เรียบร้อยแล้ว`);
+    });
 
     function renderStaffAccounts() {
       const tbody = document.getElementById('staffAccountsBody');
@@ -1794,121 +2199,48 @@ function doPost(e) {
         <tr>
           <td>${acc.id}</td>
           <td>${acc.name}</td>
-          <td><code>${acc.pin}</code></td>
           <td>
             ${acc.isDefault
-              ? `<span style="color:var(--muted); font-size:12px;">รหัสมาตรฐาน</span>`
-              : `<button type="button" class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="removeStaffAccount('${acc.id}')">ลบรายชื่อ</button>`
+              ? `<span style="color:var(--muted); font-size:12px;">บัญชีมาตรฐาน</span>`
+              : `<button type="button" class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="removeStaffAccount('${acc.id}')">ลบ</button>`
             }
           </td>
         </tr>
       `).join('');
     }
 
-    window.removeStaffAccount = function (staffId) {
+    window.removeStaffAccount = async function (staffId) {
       staffAccounts = staffAccounts.filter(s => s.id !== staffId || s.isDefault);
+      try {
+        await callGasApi({ action: 'REMOVE_STAFF', id: staffId });
+      } catch (_) {}
       renderStaffAccounts();
     };
 
-    // ล็อกอินเข้าเมนูเจ้าหน้าที่ (รองรับรหัสเจ้าหน้าที่ 123456 หรือที่ Admin เพิ่มไว้ และรองรับรหัส Admin 999999)
-    document.getElementById('staffLoginForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const pin = document.getElementById('staffPinInput').value.trim();
-      const errBox = document.getElementById('staffAuthError');
-
-      if (pin === ADMIN_PIN) {
-        isAdminAuthenticated = true;
-        isStaffAuthenticated = true;
-        currentStaffName = 'Admin';
-        errBox.classList.remove('show');
-        document.getElementById('staffPinInput').value = '';
-        updateAuthUI();
-        return;
-      }
-
-      const matchedStaff = staffAccounts.find(acc => acc.pin === pin);
-      if (matchedStaff) {
-        isStaffAuthenticated = true;
-        currentStaffName = matchedStaff.name;
-        errBox.classList.remove('show');
-        document.getElementById('staffPinInput').value = '';
-        updateAuthUI();
-      } else {
-        errBox.classList.add('show');
-      }
-    });
-
-    document.getElementById('staffLogoutBtn').addEventListener('click', function () {
-      isStaffAuthenticated = false;
-      isAdminAuthenticated = false;
-      currentStaffName = '';
-      updateAuthUI();
-    });
-
-    // ล็อกอินเข้าเมนู Admin (เฉพาะรหัส 999999 เท่านั้น)
-    document.getElementById('adminLoginForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const pin = document.getElementById('adminPinInput').value.trim();
-      const errBox = document.getElementById('adminAuthError');
-
-      if (pin === ADMIN_PIN) {
-        isAdminAuthenticated = true;
-        isStaffAuthenticated = true;
-        currentStaffName = 'Admin';
-        errBox.classList.remove('show');
-        document.getElementById('adminPinInput').value = '';
-        updateAuthUI();
-      } else {
-        errBox.classList.add('show');
-      }
-    });
-
-    document.getElementById('adminLogoutBtn').addEventListener('click', function () {
-      isAdminAuthenticated = false;
-      isStaffAuthenticated = false;
-      currentStaffName = '';
-      updateAuthUI();
-    });
-
-    // ฟอร์มเพิ่มเจ้าหน้าที่ใหม่ (ในเมนู Admin)
-    document.getElementById('addStaffForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const name = document.getElementById('newStaffName').value.trim();
-      const pin = document.getElementById('newStaffPin').value.trim();
-      if (!name || !pin) return;
-
-      const nextIdx = staffAccounts.length + 1;
-      staffAccounts.push({
-        id: 'STF-' + String(nextIdx).padStart(2, '0'),
-        name: name,
-        pin: pin,
-        isDefault: false
-      });
-
-      document.getElementById('newStaffName').value = '';
-      document.getElementById('newStaffPin').value = '';
-      renderStaffAccounts();
-    });
-
-    // ฟังก์ชันเพิ่มหนังสือส่วนกลาง (ใช้ได้ทั้งจากเมนูเจ้าหน้าที่และเมนู Admin)
+    // ฟังก์ชันเพิ่มหนังสือส่วนกลาง
     function addNewBookToCatalog(title, author, category) {
       const nextNum = booksData.length + 1;
       const newId = 'B' + String(nextNum).padStart(3, '0');
-      booksData.unshift({
+      const newBook = {
         id: newId,
         title: title,
         author: author,
         category: category,
         status: 'ว่าง',
         cover_url: createCoverSvgDataUri(nextNum, title, category, nextNum)
-      });
+      };
+      booksData.unshift(newBook);
       currentPage = 1;
+
+      try {
+        callGasApi({ action: 'ADD_BOOK', title: title, author: author, category: category, cover_url: newBook.cover_url });
+      } catch (_) {}
+
       renderBooksAndPagination();
       renderBorrowSection();
       switchView('books');
     }
 
-    // เพิ่มหนังสือจากเมนูเจ้าหน้าที่
     document.getElementById('staffAddBookForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const title = document.getElementById('staffBookTitle').value.trim();
@@ -1921,7 +2253,6 @@ function doPost(e) {
       addNewBookToCatalog(title, author, category);
     });
 
-    // เพิ่มหนังสือจากเมนู Admin
     document.getElementById('addBookForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const title = document.getElementById('newBookTitle').value.trim();
@@ -1934,44 +2265,28 @@ function doPost(e) {
       addNewBookToCatalog(title, author, category);
     });
 
-    document.getElementById('gasConfigForm').addEventListener('submit', async function (e) {
+    // ตั้งค่า Web App URL ผ่านหน้าต่างเมนู Admin
+    document.getElementById('gasConfigForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const url = document.getElementById('gasUrlInput').value.trim();
+      if (!url) return;
       gasWebAppUrl = url;
-      const statusText = document.getElementById('dbStatusText');
-      if (!url) {
-        statusText.textContent = 'โหมดข้อมูลตัวอย่าง (พร้อมเชื่อม Google Sheets)';
-        return;
-      }
-      statusText.textContent = 'กำลังเชื่อมต่อ Google Apps Script...';
       try {
-        const res = await fetch(url);
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          booksData = data.map((item, i) => ({
-            id: item.id || ('B' + String(i + 1).padStart(3, '0')),
-            title: item.title || 'ไม่มีชื่อเรื่อง',
-            author: item.author || '-',
-            category: item.category || 'ทั่วไป',
-            status: item.status || 'ว่าง',
-            cover_url: item.cover_url || createCoverSvgDataUri(i + 1, item.title || 'Book', item.category || '', i)
-          }));
-          currentPage = 1;
-          renderBooksAndPagination();
-          renderBorrowSection();
-          statusText.textContent = 'เชื่อมต่อ Google Sheets สำเร็จ (' + booksData.length + ' เล่ม)';
-        }
-      } catch (_) {
-        statusText.textContent = 'บันทึก URL แล้ว (ใช้ข้อมูลตัวอย่างหากยังไม่ได้ตั้งค่า CORS)';
-      }
+        localStorage.setItem('school_elibrary_gas_url', url);
+      } catch (_) {}
+      fetchDatabaseFromGas();
     });
 
-    // เริ่มต้นเรนเดอร์รายการหนังสือและข้อมูลเจ้าหน้าที่
+    // เริ่มต้นระบบ
+    if (gasWebAppUrl && gasWebAppUrl.startsWith('https://')) {
+      document.getElementById('gasUrlInput').value = gasWebAppUrl;
+    }
     renderBooksAndPagination();
     renderAccessLogs();
     renderBorrowSection();
     renderStaffAccounts();
     updateAuthUI();
+    fetchDatabaseFromGas();
   </script>
 </body>
 </html>
