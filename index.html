@@ -1438,8 +1438,8 @@ function setupDatabase() {
     }
   }
   const p = PropertiesService.getScriptProperties();
-  if (!p.getProperty('STAFF_PIN')) p.setProperty('STAFF_PIN', '123456');
-  if (!p.getProperty('ADMIN_PIN')) p.setProperty('ADMIN_PIN', '999999');
+  if (!p.getProperty('STAFF_PIN')) p.setProperty('STAFF_PIN', 'กำหนดรหัสผ่านเจ้าหน้าที่ตรงนี้');
+  if (!p.getProperty('ADMIN_PIN')) p.setProperty('ADMIN_PIN', 'กำหนดรหัสผ่านแอดมินตรงนี้');
   if (!p.getProperty('STAFF_FAILS')) p.setProperty('STAFF_FAILS', '0');
   if (!p.getProperty('ADMIN_FAILS')) p.setProperty('ADMIN_FAILS', '0');
   if (!p.getProperty('STAFF_LOCKED')) p.setProperty('STAFF_LOCKED', 'FALSE');
