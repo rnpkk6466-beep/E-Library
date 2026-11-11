@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- SweetAlert2 สำหรับแจ้งเตือนแบบ Pop-up สวยงาม -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     :root {
       --bg: #f4f6fb;
@@ -35,10 +37,7 @@
       --font: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: var(--font);
@@ -58,9 +57,7 @@
       background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #0284c7 100%);
     }
 
-    .entry-screen.active {
-      display: flex;
-    }
+    .entry-screen.active { display: flex; }
 
     .entry-card {
       background: var(--surface);
@@ -84,38 +81,13 @@
       justify-content: center;
     }
 
-    .entry-title {
-      font-size: 26px;
-      font-weight: 700;
-      margin: 0 0 8px;
-      color: var(--ink);
-    }
+    .entry-title { font-size: 26px; font-weight: 700; margin: 0 0 8px; }
+    .entry-subtitle { font-size: 15px; color: var(--muted); margin: 0 0 24px; }
+    .entry-form { text-align: left; margin-bottom: 20px; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
 
-    .entry-subtitle {
-      font-size: 15px;
-      color: var(--muted);
-      margin: 0 0 24px;
-    }
-
-    .entry-form {
-      text-align: left;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: var(--ink);
-    }
-
-    .form-input,
-    .form-select {
+    .form-input, .form-select {
       width: 100%;
       padding: 10px 14px;
       font: inherit;
@@ -127,11 +99,17 @@
       transition: border-color 0.15s, box-shadow 0.15s;
     }
 
-    .form-input:focus,
-    .form-select:focus {
+    .form-input:focus, .form-select:focus {
       outline: none;
       border-color: var(--brand);
       box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+    }
+
+    .form-input:disabled, .form-select:disabled {
+      background: #f1f5f9 !important;
+      color: #94a3b8 !important;
+      cursor: not-allowed;
+      border-color: #cbd5e1;
     }
 
     .btn {
@@ -145,47 +123,17 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: background 0.15s, transform 0.1s, border-color 0.15s;
+      transition: background 0.15s, transform 0.1s;
       text-decoration: none;
     }
 
-    .btn:active {
-      transform: translateY(1px);
-    }
-
-    .btn:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    .btn-primary {
-      background: var(--brand);
-      color: var(--brand-ink);
-    }
-
-    .btn-primary:hover {
-      background: var(--brand-hover);
-    }
-
-    .btn-secondary {
-      background: var(--surface);
-      color: var(--ink);
-      border-color: var(--border);
-    }
-
-    .btn-secondary:hover {
-      background: var(--surface-alt);
-    }
-
-    .btn-danger {
-      background: var(--danger);
-      color: #ffffff;
-      border-color: var(--danger);
-    }
-
-    .btn-danger:hover {
-      background: #991b1b;
-    }
+    .btn:active { transform: translateY(1px); }
+    .btn-primary { background: var(--brand); color: var(--brand-ink); }
+    .btn-primary:hover { background: var(--brand-hover); }
+    .btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--border); }
+    .btn-secondary:hover { background: var(--surface-alt); }
+    .btn-danger { background: var(--danger); color: #ffffff; }
+    .btn-danger:hover { background: #991b1b; }
 
     .btn-enter {
       width: 100%;
@@ -195,24 +143,12 @@
       box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
     }
 
-    .entry-note {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 14px;
-    }
+    .entry-note { font-size: 13px; color: var(--muted); margin-top: 14px; text-align: center; }
 
-    /* ================= APP SHELL (NAVBAR + SIDEBAR + MAIN + FOOTER) ================= */
-    .app-shell {
-      display: none;
-      min-height: 100vh;
-      flex-direction: column;
-    }
+    /* ================= APP SHELL ================= */
+    .app-shell { display: none; min-height: 100vh; flex-direction: column; }
+    .app-shell.active { display: flex; }
 
-    .app-shell.active {
-      display: flex;
-    }
-
-    /* Navbar */
     .navbar {
       height: var(--navbar-height);
       background: var(--surface);
@@ -224,15 +160,9 @@
       position: sticky;
       top: 0;
       z-index: 40;
-      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
     }
 
-    .navbar-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
+    .navbar-left { display: flex; align-items: center; gap: 12px; }
     .hamburger-btn {
       display: inline-flex;
       align-items: center;
@@ -242,12 +172,7 @@
       border-radius: var(--radius-sm);
       border: 1px solid var(--border);
       background: var(--surface);
-      color: var(--ink);
       cursor: pointer;
-    }
-
-    .hamburger-btn:hover {
-      background: var(--surface-alt);
     }
 
     .brand-mark {
@@ -259,17 +184,8 @@
       color: var(--brand);
     }
 
-    .navbar-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
+    .navbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .sample-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
       font-size: 12px;
       font-weight: 600;
       padding: 4px 10px;
@@ -288,14 +204,7 @@
       border: 1px solid var(--border);
     }
 
-    /* Body Layout */
-    .app-body {
-      display: flex;
-      flex: 1;
-      position: relative;
-    }
-
-    /* Sidebar */
+    .app-body { display: flex; flex: 1; position: relative; }
     .sidebar {
       width: var(--sidebar-width);
       background: var(--surface);
@@ -313,10 +222,7 @@
       overflow-y: auto;
     }
 
-    .sidebar.open {
-      transform: translateX(0);
-    }
-
+    .sidebar.open { transform: translateX(0); }
     .sidebar-backdrop {
       display: none;
       position: fixed;
@@ -324,23 +230,13 @@
       background: rgba(15, 23, 42, 0.4);
       z-index: 45;
     }
+    .sidebar-backdrop.open { display: block; }
 
-    .sidebar-backdrop.open {
-      display: block;
-    }
-
-    .sidebar-nav {
-      padding: 16px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
+    .sidebar-nav { padding: 16px 12px; display: flex; flex-direction: column; gap: 6px; }
     .sidebar-section-label {
       font-size: 12px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
       color: var(--muted);
       padding: 6px 12px;
     }
@@ -360,70 +256,23 @@
       font-weight: 500;
       text-align: left;
       cursor: pointer;
-      transition: background 0.15s, color 0.15s;
     }
+    .nav-item:hover { background: var(--surface-alt); }
+    .nav-item.active { background: var(--brand-soft); color: var(--brand); font-weight: 700; }
+    .sidebar-footer-box { padding: 16px; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); }
 
-    .nav-item:hover {
-      background: var(--surface-alt);
-    }
-
-    .nav-item.active {
-      background: var(--brand-soft);
-      color: var(--brand);
-      font-weight: 700;
-    }
-
-    .sidebar-footer-box {
-      padding: 16px;
-      border-top: 1px solid var(--border);
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    /* Main Content + Footer Wrapper */
-    .main-wrapper {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-      width: 100%;
-    }
-
-    .main-content {
-      flex: 1;
-      padding: 24px 20px;
-      max-width: 1280px;
-      width: 100%;
-      margin: 0 auto;
-    }
+    .main-wrapper { flex: 1; display: flex; flex-direction: column; min-width: 0; width: 100%; }
+    .main-content { flex: 1; padding: 24px 20px; max-width: 1280px; width: 100%; margin: 0 auto; }
 
     @media (min-width: 1024px) {
-      .hamburger-btn {
-        display: none;
-      }
-      .sidebar {
-        position: sticky;
-        top: var(--navbar-height);
-        height: calc(100vh - var(--navbar-height));
-        transform: translateX(0);
-        flex-shrink: 0;
-      }
-      .sidebar-backdrop {
-        display: none !important;
-      }
-      .main-content {
-        padding: 28px 32px;
-      }
+      .hamburger-btn { display: none; }
+      .sidebar { position: sticky; top: var(--navbar-height); height: calc(100vh - var(--navbar-height)); transform: translateX(0); flex-shrink: 0; }
+      .sidebar-backdrop { display: none !important; }
+      .main-content { padding: 28px 32px; }
     }
 
-    /* Page Sections */
-    .view-section {
-      display: none;
-    }
-
-    .view-section.active {
-      display: block;
-    }
+    .view-section { display: none; }
+    .view-section.active { display: block; }
 
     .page-header {
       display: flex;
@@ -433,564 +282,106 @@
       gap: 16px;
       margin-bottom: 24px;
     }
+    .page-title { font-size: 24px; font-weight: 700; margin: 0; }
+    .page-subtitle { font-size: 14px; color: var(--muted); margin: 4px 0 0; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
 
-    .page-title {
-      font-size: 24px;
-      font-weight: 700;
-      margin: 0;
-    }
+    /* DASHBOARDS */
+    .dashboard-card { margin-bottom: 20px; }
+    .dashboard-header { margin-bottom: 16px; }
+    .dashboard-title { margin: 0; font-size: 18px; font-weight: 700; }
 
-    .page-subtitle {
-      font-size: 14px;
-      color: var(--muted);
-      margin: 4px 0 0;
-    }
+    .dashboard-grid-5 { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 14px; }
+    @media (min-width: 540px) { .dashboard-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1100px) { .dashboard-grid-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 20px;
-    }
+    .dashboard-grid-4 { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 14px; }
+    @media (min-width: 540px) { .dashboard-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1024px) { .dashboard-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
-    /* ================= 5-COLUMN BOOK GRID & PAGINATION ================= */
-    .filter-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 20px;
-      background: var(--surface);
-      padding: 16px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-    }
+    .stat-box { background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; }
+    .stat-box.stat-total { background: var(--brand-soft); border-color: #bfdbfe; }
+    .stat-label { font-size: 13px; font-weight: 600; color: var(--muted); }
+    .stat-box.stat-total .stat-label { color: var(--brand); }
+    .stat-value { font-size: 26px; font-weight: 700; line-height: 1.2; }
+    .stat-unit { font-size: 12px; color: var(--muted); }
+    .stat-bar-track { width: 100%; height: 6px; background: #e2e8f0; border-radius: 999px; overflow: hidden; margin-top: 8px; }
+    .stat-bar-fill { height: 100%; border-radius: 999px; background: var(--brand); width: 0%; transition: width 0.3s; }
 
-    .filter-search {
-      flex: 1 1 240px;
-    }
-
-    .filter-category {
-      flex: 0 1 200px;
-    }
-
-    /* Responsive grid that reaches 5 columns on desktop */
-    .book-grid {
-      display: grid;
-      grid-template-columns: repeat(1, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    @media (min-width: 480px) {
-      .book-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (min-width: 768px) {
-      .book-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .book-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-    }
-
-    @media (min-width: 1200px) {
-      .book-grid {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-      }
-    }
+    /* BOOK GRID (5 COLUMNS) */
+    .filter-bar { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+    .filter-search { flex: 1 1 240px; }
+    .filter-category { flex: 0 1 200px; }
+    .book-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 18px; }
+    @media (min-width: 480px) { .book-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 768px) { .book-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (min-width: 1024px) { .book-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    @media (min-width: 1200px) { .book-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 
     .book-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
-      box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
+      box-shadow: var(--shadow);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
-
     .book-card:hover {
       transform: translateY(-3px);
       box-shadow: var(--shadow-lg);
     }
+    .book-cover-wrap { position: relative; width: 100%; aspect-ratio: 3 / 4; background: #e2e8f0; }
+    .book-cover-svg { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .book-status-badge { position: absolute; top: 8px; right: 8px; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; }
+    .status-available { background: var(--success-bg); color: var(--success); }
+    .status-borrowed { background: var(--danger-bg); color: var(--danger); }
+    .book-info { padding: 12px 14px 14px; display: flex; flex-direction: column; flex: 1; justify-content: space-between; gap: 10px; }
+    .book-category-tag { font-size: 11px; font-weight: 600; color: var(--brand); background: var(--brand-soft); padding: 2px 8px; border-radius: 4px; display: inline-block; }
+    .book-title { font-size: 14px; font-weight: 700; margin: 4px 0; }
+    .book-author { font-size: 12px; color: var(--muted); margin: 0; }
+    .book-actions { display: flex; gap: 6px; }
+    .book-actions .btn { flex: 1; padding: 7px 10px; font-size: 13px; }
 
-    .book-cover-wrap {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 3 / 4;
-      background: #e2e8f0;
-      overflow: hidden;
-      border-bottom: 1px solid var(--border);
-    }
+    .pagination-wrap { margin-top: 28px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .pagination-info { font-size: 13px; color: var(--muted); }
+    .pagination-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .page-btn { min-width: 38px; height: 38px; padding: 0 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-weight: 600; }
+    .page-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .book-cover-svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--surface); }
+    th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: var(--surface-alt); font-weight: 700; white-space: nowrap; }
 
-    .book-status-badge {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 999px;
-    }
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    @media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
 
-    .status-available {
-      background: var(--success-bg);
-      color: var(--success);
-    }
+    .auth-gate-card { max-width: 480px; margin: 24px auto; text-align: center; padding: 30px 24px; }
+    .auth-icon { width: 56px; height: 56px; margin: 0 auto 12px; border-radius: 14px; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; }
+    .auth-error { display: none; margin-bottom: 14px; padding: 10px 14px; border-radius: var(--radius-sm); background: var(--danger-bg); color: var(--danger); font-size: 13px; text-align: left; }
+    .auth-error.show { display: block; }
+    .lock-banner { display: none; margin-bottom: 16px; padding: 14px 16px; border-radius: var(--radius-sm); background: var(--danger-bg); color: var(--danger); font-size: 14px; text-align: left; }
+    .lock-banner.show { display: block; }
+    .attempt-pill { display: inline-flex; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--surface-alt); margin-bottom: 14px; border: 1px solid var(--border); }
+    .attempt-pill.warn { background: var(--warning-bg); color: var(--warning); }
+    .attempt-pill.locked { background: var(--danger-bg); color: var(--danger); }
+    .unlock-guide-box { margin-top: 16px; padding: 14px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; text-align: left; }
+    .auth-bar { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; margin-bottom: 20px; background: var(--brand-soft); border-radius: var(--radius-sm); }
+    .footer { background: var(--surface); border-top: 1px solid var(--border); padding: 18px 24px; text-align: center; font-size: 13px; color: var(--muted); }
 
-    .status-borrowed {
-      background: var(--danger-bg);
-      color: var(--danger);
-    }
-
-    .book-info {
-      padding: 12px 14px 14px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .book-category-tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--brand);
-      background: var(--brand-soft);
-      padding: 2px 8px;
-      border-radius: 4px;
-      margin-bottom: 4px;
-    }
-
-    .book-title {
-      font-size: 14px;
-      font-weight: 700;
-      margin: 0 0 4px;
-      color: var(--ink);
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .book-author {
-      font-size: 12px;
-      color: var(--muted);
-      margin: 0;
-    }
-
-    .book-actions {
-      display: flex;
-      gap: 6px;
-    }
-
-    .book-actions .btn {
-      flex: 1;
-      padding: 7px 10px;
-      font-size: 13px;
-    }
-
-    /* Pagination */
-    .pagination-wrap {
-      margin-top: 28px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .pagination-info {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .pagination-list {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .page-btn {
-      min-width: 38px;
-      height: 38px;
-      padding: 0 12px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--ink);
-      font: inherit;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.15s, border-color 0.15s;
-    }
-
-    .page-btn:hover:not(:disabled) {
-      background: var(--surface-alt);
-      border-color: #cbd5e1;
-    }
-
-    .page-btn.active {
-      background: var(--brand);
-      color: var(--brand-ink);
-      border-color: var(--brand);
-    }
-
-    .page-btn:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
-
-    /* Tables */
-    .table-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-      background: var(--surface);
-    }
-
-    th, td {
-      padding: 12px 14px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-
-    th {
-      background: var(--surface-alt);
-      font-weight: 700;
-      color: var(--ink);
-      white-space: nowrap;
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    tr:hover td {
-      background: #f8fafc;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-
-    @media (min-width: 768px) {
-      .grid-2 {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    /* Footer */
-    .footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 18px 24px;
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    /* Modal */
-    .modal-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.55);
-      z-index: 60;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-backdrop.open {
-      display: flex;
-    }
-
-    .modal-card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      max-width: 560px;
-      width: 100%;
-      padding: 24px;
-      box-shadow: var(--shadow-lg);
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .modal-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin: 0;
-    }
-
-    .code-box {
-      background: #0f172a;
-      color: #e2e8f0;
-      padding: 14px;
-      border-radius: var(--radius-sm);
-      font-family: monospace;
-      font-size: 12px;
-      overflow-x: auto;
-      white-space: pre;
-      line-height: 1.45;
-    }
-
-    .auth-gate-card {
-      max-width: 480px;
-      margin: 24px auto;
-      text-align: center;
-      padding: 30px 24px;
-    }
-
-    .auth-icon {
-      width: 56px;
-      height: 56px;
-      margin: 0 auto 12px;
-      border-radius: 14px;
-      background: var(--brand-soft);
-      color: var(--brand);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .auth-error {
-      display: none;
-      margin-bottom: 14px;
-      padding: 10px 14px;
-      border-radius: var(--radius-sm);
-      background: var(--danger-bg);
-      color: var(--danger);
-      font-size: 13px;
-      font-weight: 600;
-      text-align: left;
-    }
-
-    .auth-error.show {
-      display: block;
-    }
-
-    .lock-banner {
-      display: none;
-      margin-bottom: 16px;
-      padding: 14px 16px;
-      border-radius: var(--radius-sm);
-      background: var(--danger-bg);
-      border: 1px solid #fecaca;
-      color: var(--danger);
-      font-size: 14px;
-      text-align: left;
-      line-height: 1.55;
-    }
-
-    .lock-banner.show {
-      display: block;
-    }
-
-    .attempt-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: var(--surface-alt);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      margin-bottom: 14px;
-    }
-
-    .attempt-pill.warn {
-      background: var(--warning-bg);
-      border-color: #fde68a;
-      color: var(--warning);
-    }
-
-    .attempt-pill.locked {
-      background: var(--danger-bg);
-      border-color: #fecaca;
-      color: var(--danger);
-    }
-
-    .unlock-guide-box {
-      margin-top: 16px;
-      padding: 14px 16px;
-      border-radius: var(--radius-sm);
-      background: var(--surface-alt);
-      border: 1px solid var(--border);
-      text-align: left;
-      font-size: 13px;
-      color: var(--ink);
-    }
-
-    .unlock-guide-box ol {
-      margin: 8px 0 0;
-      padding-left: 20px;
-    }
-
-    .unlock-guide-box li {
-      margin-bottom: 6px;
-    }
-
-    .auth-bar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 16px;
-      margin-bottom: 20px;
-      background: var(--brand-soft);
-      border: 1px solid #bfdbfe;
-      border-radius: var(--radius-sm);
-      font-size: 14px;
-    }
-
-    /* ================= DASHBOARD (HOME VIEW) ================= */
-    .dashboard-card {
-      margin-bottom: 20px;
-    }
-
-    .dashboard-header {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .dashboard-title {
-      margin: 0;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--ink);
-    }
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(1, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    @media (min-width: 540px) {
-      .dashboard-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (min-width: 1100px) {
-      .dashboard-grid {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-      }
-    }
-
-    .stat-box {
-      background: var(--surface-alt);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .stat-box.stat-total {
-      background: var(--brand-soft);
-      border-color: #bfdbfe;
-    }
-
-    .stat-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .stat-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--muted);
-    }
-
-    .stat-box.stat-total .stat-label {
-      color: var(--brand);
-    }
-
-    .stat-value {
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.2;
-    }
-
-    .stat-box.stat-total .stat-value {
-      color: var(--brand);
-    }
-
-    .stat-unit {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--muted);
-      margin-left: 4px;
-    }
-
-    .stat-bar-track {
-      width: 100%;
-      height: 6px;
-      background: #e2e8f0;
-      border-radius: 999px;
-      overflow: hidden;
-    }
-
-    .stat-bar-fill {
-      height: 100%;
-      border-radius: 999px;
-      background: var(--brand);
-      width: 0%;
-      transition: width 0.25s ease;
-    }
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55); z-index: 60; align-items: center; justify-content: center; padding: 20px; }
+    .modal-backdrop.open { display: flex; }
+    .modal-card { background: var(--surface); border-radius: var(--radius); max-width: 560px; width: 100%; padding: 24px; }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .modal-title { font-size: 18px; font-weight: 700; margin: 0; }
   </style>
 </head>
 <body>
 
-  <!-- ================= 1. หน้าเริ่มต้นก่อนเข้าใช้งาน (เก็บข้อมูลการเข้าใช้งานของโรงเรียน) ================= -->
+  <!-- ================= 1. หน้าตรวจสอบสิทธิ์ก่อนเข้าใช้งาน ================= -->
   <section id="entryScreen" class="entry-screen">
     <div class="entry-card">
       <div class="entry-logo" aria-hidden="true">
@@ -1000,27 +391,33 @@
         </svg>
       </div>
       <h1 class="entry-title">ระบบห้องสมุดออนไลน์ (E-Library)</h1>
-      <p class="entry-subtitle">กรุณาระบุข้อมูลผู้เข้าใช้งานและกดปุ่มด้านล่างเพื่อบันทึกสถิติการเข้าใช้งานของโรงเรียน</p>
+      <p class="entry-subtitle">กรุณาระบุข้อมูลผู้เข้าใช้งานเพื่อบันทึกสถิติและเข้าคลังหนังสือของโรงเรียน</p>
 
       <form id="entryForm" class="entry-form">
         <div class="form-group">
-          <label class="form-label" for="visitorName">ชื่อ-นามสกุล หรือ รหัสนักเรียน/บุคลากร (ไม่บังคับ)</label>
-          <input type="text" id="visitorName" class="form-input" placeholder="เช่น ด.ช.สมชาย ใจดี หรือ 67001">
-        </div>
-        <div class="form-group">
           <label class="form-label" for="visitorRole">ประเภทผู้เข้าใช้งาน</label>
           <select id="visitorRole" class="form-select">
-            <option value="นักเรียน">นักเรียน (Student)</option>
+            <option value="นักเรียน" selected>นักเรียน (Student)</option>
             <option value="ครู / อาจารย์">ครู / อาจารย์ (Teacher)</option>
             <option value="บุคลากรโรงเรียน">บุคลากรโรงเรียน (Staff)</option>
             <option value="บุคคลทั่วไป">บุคคลทั่วไป (Guest)</option>
           </select>
         </div>
+
+        <div class="form-group" id="visitorCodeGroup">
+          <label class="form-label" for="visitorCode">รหัสประจำตัวของท่าน <span style="color: var(--danger);">*</span></label>
+          <input type="text" id="visitorCode" class="form-input" placeholder="เช่น 67001 หรือ T001" required>
+        </div>
+
+        <div class="form-group" id="visitorNameGroup" style="display: none;">
+          <label class="form-label" for="visitorName">ชื่อ-นามสกุล ผู้เข้าใช้งาน <span style="color: var(--danger);">*</span></label>
+          <input type="text" id="visitorName" class="form-input" placeholder="กรอกชื่อ-นามสกุลของคุณ">
+        </div>
+
         <button type="submit" class="btn btn-primary btn-enter">
           <span>เข้าสู่ระบบ E-Library และบันทึกการเข้าใช้งาน</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14"></path>
-            <path d="m12 5 7 7-7 7"></path>
+            <path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path>
           </svg>
         </button>
         <button type="button" id="cancelGateBtn" class="btn btn-secondary" style="width:100%; margin-top:10px;">
@@ -1028,21 +425,18 @@
         </button>
       </form>
       <div class="entry-note">
-        ระบบจะบันทึกวัน-เวลาเข้าใช้งานลงในประวัติของโรงเรียนโดยอัตโนมัติและพาไปยังหน้ารายการหนังสือ
+        ระบบจะตรวจสอบรหัสกับระบบทะเบียนโรงเรียนใน Google Sheets เพื่อค้นหาชื่อและบันทึกเวลาเข้าใช้โดยอัตโนมัติ
       </div>
     </div>
   </section>
 
-  <!-- ================= 2. โครงสร้างหลักของระบบ (Navbar + Sidebar + Main + Footer) ================= -->
+  <!-- ================= 2. โครงสร้างหลัก (Navbar + Sidebar + Main) ================= -->
   <div id="appShell" class="app-shell active">
-    <!-- Navbar -->
     <header class="navbar">
       <div class="navbar-left">
         <button id="hamburgerBtn" class="hamburger-btn" type="button" aria-label="เปิด/ปิดเมนู Sidebar">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </button>
         <div class="brand-mark">
@@ -1055,9 +449,8 @@
       </div>
 
       <div class="navbar-right">
-        <span class="sample-badge" id="sourceBadge" title="สถานะฐานข้อมูล">ข้อมูลตัวอย่าง (Sample Data)</span>
+        <span class="sample-badge" id="sourceBadge">กำลังเชื่อมต่อฐานข้อมูล...</span>
         <span id="currentUserChip" class="user-chip">ผู้ใช้งาน: ผู้เยี่ยมชม</span>
-        <!-- ปุ่มออกจากระบบสำหรับเจ้าหน้าที่ / Admin (จะแสดงเมื่อล็อกอินแล้ว) -->
         <button id="navRoleLogoutBtn" type="button" class="btn btn-danger" style="display: none; padding: 6px 12px; font-size: 13px;">
           ออกจากระบบ (เจ้าหน้าที่/Admin)
         </button>
@@ -1068,190 +461,141 @@
     </header>
 
     <div class="app-body">
-      <!-- Backdrop สำหรับหน้าจอมือถือ -->
       <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
 
-      <!-- Sidebar -->
-      <aside id="sidebar" class="sidebar" aria-label="เมนูหลักของระบบ">
+      <aside id="sidebar" class="sidebar">
         <nav class="sidebar-nav">
           <div class="sidebar-section-label">เมนูระบบ E-Library</div>
           <button type="button" class="nav-item active" data-view="home">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-            <span>เมนูหลัก</span>
+            <span>🏠 เมนูหลัก</span>
           </button>
-
           <button type="button" class="nav-item" data-view="books">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-            </svg>
-            <span>เมนูรายการหนังสือ</span>
+            <span>📚 เมนูรายการหนังสือ</span>
           </button>
-
           <button type="button" class="nav-item" data-view="borrow">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="17 1 21 5 17 9"></polyline>
-              <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
-              <polyline points="7 23 3 19 7 15"></polyline>
-              <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
-            </svg>
-            <span>เมนูยืม-คืน</span>
+            <span>🔄 เมนูยืม-คืน</span>
           </button>
-
           <button type="button" class="nav-item" data-view="staff">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-              <circle cx="9" cy="7" r="4"></circle>
-              <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-            </svg>
-            <span>เมนูเจ้าหน้าที่</span>
+            <span>📋 เมนูเจ้าหน้าที่</span>
           </button>
-
           <button type="button" class="nav-item" data-view="admin">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-            <span>เมนู Admin</span>
+            <span>⚙️ เมนู Admin</span>
           </button>
         </nav>
-
         <div class="sidebar-footer-box">
-          <div>สถานะฐานข้อมูล:</div>
-          <strong id="dbStatusText" style="color: var(--brand);">รอตั้งค่า Web App URL</strong>
+          <div>สถานะระบบ:</div>
+          <strong id="dbStatusText" style="color: var(--brand);">พร้อมทำงาน</strong>
         </div>
       </aside>
 
-      <!-- Main Wrapper -->
       <div class="main-wrapper">
         <main class="main-content">
 
-          <!-- VIEW 1: เมนูหลัก (แสดงเป็นหน้าแรกเมื่อเปิดเว็บ) -->
+          <!-- VIEW 1: เมนูหลัก + แดชบอร์ด -->
           <section id="view-home" class="view-section active">
             <div class="page-header">
               <div>
                 <h2 class="page-title">เมนูหลัก (หน้าภาพรวมระบบ E-Library)</h2>
-                <p class="page-subtitle">ยินดีต้อนรับสู่ระบบห้องสมุดดิจิทัลของโรงเรียน รองรับการฝากไฟล์บน GitHub Pages ร่วมกับ Google Sheets</p>
+                <p class="page-subtitle">ยินดีต้อนรับสู่ระบบห้องสมุดดิจิทัลของโรงเรียน รองรับการทำงานบน GitHub Pages ร่วมกับ Google Sheets</p>
               </div>
               <button type="button" id="goToBooksGateBtn" class="btn btn-primary" onclick="openEntryGate()">
                 ไปที่รายการหนังสือ
               </button>
             </div>
 
-            <!-- แดชบอร์ดจำนวนการเข้าใช้งานแบ่งออกตามประเภทผู้เข้าใช้งาน -->
-            <div class="card dashboard-card">
+            <!-- แดชบอร์ดที่ 1: สถานะหนังสือ -->
+            <div class="card dashboard-card" style="border-left: 4px solid var(--accent);">
               <div class="dashboard-header">
-                <div>
-                  <h3 class="dashboard-title">แดชบอร์ดจำนวนการเข้าใช้งานแบ่งตามประเภทผู้เข้าใช้งาน</h3>
-                  <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">
-                    สรุปสถิติผู้เข้าใช้งานระบบห้องสมุดออนไลน์ของโรงเรียนแยกตามกลุ่มผู้ใช้งาน
-                  </p>
-                </div>
+                <h3 class="dashboard-title">📖 แดชบอร์ดสถานะหนังสือในระบบห้องสมุด</h3>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">
+                  สรุปภาพรวมจำนวนหนังสือทั้งหมด อัตราการยืม และสถานะการส่งคืนหนังสือแบบเรียลไทม์
+                </p>
               </div>
-
-              <div class="dashboard-grid">
+              <div class="dashboard-grid-4">
                 <div class="stat-box stat-total">
-                  <div class="stat-top">
-                    <span class="stat-label">รวมการเข้าใช้งานทั้งหมด</span>
-                  </div>
-                  <div>
-                    <span id="statTotalCount" class="stat-value">0</span>
-                    <span class="stat-unit">ครั้ง</span>
-                  </div>
-                  <div class="stat-bar-track">
-                    <div id="statTotalBar" class="stat-bar-fill" style="width: 100%;"></div>
-                  </div>
+                  <div class="stat-label">จำนวนหนังสือทั้งหมด</div>
+                  <div class="stat-value" id="statBookTotal">0 <span class="stat-unit">เล่ม</span></div>
+                  <div class="stat-bar-track"><div id="statBookTotalBar" class="stat-bar-fill" style="width: 100%;"></div></div>
                 </div>
-
                 <div class="stat-box">
-                  <div class="stat-top">
-                    <span class="stat-label">นักเรียน (Student)</span>
-                  </div>
-                  <div>
-                    <span id="statStudentCount" class="stat-value">0</span>
-                    <span class="stat-unit">ครั้ง</span>
-                  </div>
-                  <div class="stat-bar-track">
-                    <div id="statStudentBar" class="stat-bar-fill"></div>
-                  </div>
+                  <div class="stat-label">จำนวนหนังสือที่ถูกยืม (ขณะนี้)</div>
+                  <div class="stat-value" id="statBookBorrowed" style="color:var(--warning);">0 <span class="stat-unit">เล่ม</span></div>
+                  <div class="stat-bar-track"><div id="statBookBorrowedBar" class="stat-bar-fill" style="background:var(--warning);"></div></div>
                 </div>
-
                 <div class="stat-box">
-                  <div class="stat-top">
-                    <span class="stat-label">ครู / อาจารย์ (Teacher)</span>
-                  </div>
-                  <div>
-                    <span id="statTeacherCount" class="stat-value">0</span>
-                    <span class="stat-unit">ครั้ง</span>
-                  </div>
-                  <div class="stat-bar-track">
-                    <div id="statTeacherBar" class="stat-bar-fill" style="background:#0f766e;"></div>
-                  </div>
+                  <div class="stat-label">จำนวนหนังสือที่คืนแล้ว (ทั้งหมด)</div>
+                  <div class="stat-value" id="statBookReturned" style="color:var(--success);">0 <span class="stat-unit">ครั้ง</span></div>
+                  <div class="stat-bar-track"><div id="statBookReturnedBar" class="stat-bar-fill" style="background:var(--success);"></div></div>
                 </div>
-
                 <div class="stat-box">
-                  <div class="stat-top">
-                    <span class="stat-label">บุคลากรโรงเรียน (Staff)</span>
-                  </div>
-                  <div>
-                    <span id="statStaffCount" class="stat-value">0</span>
-                    <span class="stat-unit">ครั้ง</span>
-                  </div>
-                  <div class="stat-bar-track">
-                    <div id="statStaffBar" class="stat-bar-fill" style="background:#7c3aed;"></div>
-                  </div>
-                </div>
-
-                <div class="stat-box">
-                  <div class="stat-top">
-                    <span class="stat-label">บุคคลทั่วไป (Guest)</span>
-                  </div>
-                  <div>
-                    <span id="statGuestCount" class="stat-value">0</span>
-                    <span class="stat-unit">ครั้ง</span>
-                  </div>
-                  <div class="stat-bar-track">
-                    <div id="statGuestBar" class="stat-bar-fill" style="background:#b45309;"></div>
-                  </div>
+                  <div class="stat-label">จำนวนหนังสือที่ยังไม่ได้รับคืน (ค้างส่ง)</div>
+                  <div class="stat-value" id="statBookPending" style="color:var(--danger);">0 <span class="stat-unit">รายการ</span></div>
+                  <div class="stat-bar-track"><div id="statBookPendingBar" class="stat-bar-fill" style="background:var(--danger);"></div></div>
                 </div>
               </div>
             </div>
 
-            <!-- หัวข้อ "การบันทึกการเข้าใช้งานล่าสุด" และ "ทางลัดการใช้งาน" อยู่ใต้แดชบอร์ด -->
+            <!-- แดชบอร์ดที่ 2: สถิติการเข้าใช้งาน -->
+            <div class="card dashboard-card">
+              <div class="dashboard-header">
+                <h3 class="dashboard-title">👥 แดชบอร์ดจำนวนการเข้าใช้งานแบ่งตามประเภทผู้เข้าใช้งาน</h3>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">
+                  สถิติผู้เข้าใช้บริการห้องสมุดออนไลน์จำแนกตามสถานะ
+                </p>
+              </div>
+              <div class="dashboard-grid-5">
+                <div class="stat-box stat-total">
+                  <div class="stat-label">รวมการเข้าใช้งานทั้งหมด</div>
+                  <div class="stat-value" id="statTotalCount">0 <span class="stat-unit">ครั้ง</span></div>
+                  <div class="stat-bar-track"><div id="statTotalBar" class="stat-bar-fill" style="width: 100%;"></div></div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-label">นักเรียน (Student)</div>
+                  <div class="stat-value" id="statStudentCount">0 <span class="stat-unit">ครั้ง</span></div>
+                  <div class="stat-bar-track"><div id="statStudentBar" class="stat-bar-fill"></div></div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-label">ครู / อาจารย์ (Teacher)</div>
+                  <div class="stat-value" id="statTeacherCount">0 <span class="stat-unit">ครั้ง</span></div>
+                  <div class="stat-bar-track"><div id="statTeacherBar" class="stat-bar-fill" style="background:#0f766e;"></div></div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-label">บุคลากรโรงเรียน (Staff)</div>
+                  <div class="stat-value" id="statStaffCount">0 <span class="stat-unit">ครั้ง</span></div>
+                  <div class="stat-bar-track"><div id="statStaffBar" class="stat-bar-fill" style="background:#7c3aed;"></div></div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-label">บุคคลทั่วไป (Guest)</div>
+                  <div class="stat-value" id="statGuestCount">0 <span class="stat-unit">ครั้ง</span></div>
+                  <div class="stat-bar-track"><div id="statGuestBar" class="stat-bar-fill" style="background:#b45309;"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ส่วนล่าง: ตารางบันทึกการเข้าใช้ + ทางลัด -->
             <div class="grid-2">
               <div class="card">
                 <h3 style="margin-top:0; font-size:18px;">การบันทึกการเข้าใช้งานล่าสุด</h3>
-                <p style="color:var(--muted); font-size:14px;">ข้อมูลเมื่อกดปุ่มเข้าใช้งานจากหน้าแรกจะถูกส่งไปบันทึกลง Google Sheets เพื่อให้โรงเรียนนำไปสรุปยอดผู้ใช้บริการ</p>
                 <div class="table-wrap">
                   <table>
                     <thead>
-                      <tr>
-                        <th>เวลาที่เข้าใช้</th>
-                        <th>ชื่อ/รหัสประจำตัว</th>
-                        <th>ประเภท</th>
-                      </tr>
+                      <tr><th>เวลาที่เข้าใช้</th><th>ชื่อผู้เข้าใช้งาน</th><th>ประเภท</th></tr>
                     </thead>
                     <tbody id="recentAccessBody"></tbody>
                   </table>
                 </div>
               </div>
-
               <div class="card">
                 <h3 style="margin-top:0; font-size:18px;">ทางลัดการใช้งาน</h3>
-                <p style="color:var(--muted); font-size:14px;">เลือกเมนูที่ต้องการใช้งานจากรายการด้านล่างหรือแถบ Sidebar ด้านซ้าย</p>
                 <div style="display:flex; flex-direction:column; gap:10px;">
                   <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="openEntryGate()">
                     📚 เมนูรายการหนังสือ (แสดง 5 คอลัมน์, หน้าละ 20 เล่ม พร้อมเลขหน้า 1 2 3...)
                   </button>
-                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="switchView('borrow')">
+                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="navigateToBorrowView()">
                     🔄 เมนูยืม-คืน (ทำรายการยืมและคืนหนังสือออนไลน์)
                   </button>
                   <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="switchView('staff')">
-                    📋 เมนูเจ้าหน้าที่ (ตรวจสอบประวัติการเข้าใช้งานโรงเรียนและรายการยืม-คืน)
+                    📋 เมนูเจ้าหน้าที่ (ตรวจสอบประวัติการเข้าใช้งานและรายการยืม-คืน)
                   </button>
                   <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="switchView('admin')">
                     ⚙️ เมนู Admin (เพิ่มเจ้าหน้าที่, เพิ่มหนังสือ, ตั้งค่า Google Apps Script)
@@ -1261,18 +605,17 @@
             </div>
           </section>
 
-          <!-- VIEW 2: เมนูรายการหนังสือ (5 คอลัมน์, 20 รายการต่อหน้า, Pagination 1 2 3 ...) -->
+          <!-- VIEW 2: รายการหนังสือ (5 คอลัมน์) -->
           <section id="view-books" class="view-section">
             <div class="page-header">
               <div>
                 <h2 class="page-title">เมนูรายการหนังสือ</h2>
-                <p class="page-subtitle">แสดงหน้าปกหนังสือเรียง 5 คอลัมน์ (บนจอขนาดใหญ่) จำนวน 20 รายการต่อหน้า พร้อมหมายเลขหน้า</p>
+                <p class="page-subtitle">แสดงหน้าปกหนังสือ 5 คอลัมน์ หน้าละ 20 รายการ พร้อมเลขหน้า 1 2 3...</p>
               </div>
             </div>
-
             <div class="filter-bar">
               <div class="filter-search">
-                <input type="text" id="bookSearchInput" class="form-input" placeholder="ค้นหาชื่อหนังสือ หรือ ชื่อผู้แต่ง...">
+                <input type="text" id="bookSearchInput" class="form-input" placeholder="ค้นหาชื่อหนังสือ หรือ ผู้แต่ง...">
               </div>
               <div class="filter-category">
                 <select id="bookCategorySelect" class="form-select">
@@ -1285,11 +628,7 @@
                 </select>
               </div>
             </div>
-
-            <!-- ตารางแสดงปกหนังสือ 5 คอลัมน์ -->
             <div id="bookGrid" class="book-grid"></div>
-
-            <!-- ตัวเลขเปลี่ยนหน้า 1 2 3 ... -->
             <div class="pagination-wrap">
               <div id="paginationInfo" class="pagination-info"></div>
               <div id="paginationControls" class="pagination-list"></div>
@@ -1299,40 +638,29 @@
           <!-- VIEW 3: เมนูยืม-คืน -->
           <section id="view-borrow" class="view-section">
             <div class="page-header">
-              <div>
-                <h2 class="page-title">เมนูยืม-คืน</h2>
-                <p class="page-subtitle">บันทึกการยืมและคืนหนังสือ E-Library</p>
-              </div>
+              <h2 class="page-title">เมนูยืม-คืนหนังสือ</h2>
+              <p class="page-subtitle">สำหรับผู้ใช้งานที่ยืนยันตัวตนด้วยรหัสประจำตัวแล้วเท่านั้น</p>
             </div>
-
             <div class="grid-2">
               <div class="card">
-                <h3 style="margin-top:0; font-size:18px;">ทำรายการยืมหนังสือ</h3>
+                <h3>ทำรายการยืมหนังสือ</h3>
                 <form id="borrowForm">
                   <div class="form-group">
-                    <label class="form-label" for="borrowBookSelect">เลือกหนังสือที่ต้องการยืม</label>
+                    <label class="form-label">เลือกหนังสือที่ต้องการยืม</label>
                     <select id="borrowBookSelect" class="form-select" required></select>
                   </div>
                   <div class="form-group">
-                    <label class="form-label" for="borrowerNameInput">ชื่อ-นามสกุล / รหัสผู้ยืม</label>
-                    <input type="text" id="borrowerNameInput" class="form-input" placeholder="ระบุชื่อผู้ยืม" required>
+                    <label class="form-label">ชื่อผู้ยืม (ระบุอัตโนมัติตามข้อมูลที่ลงชื่อเข้าใช้)</label>
+                    <input type="text" id="borrowerNameInput" class="form-input" readonly style="background:#f1f5f9; color:#475569;" required>
                   </div>
                   <button type="submit" class="btn btn-primary">ยืนยันการยืมหนังสือ</button>
                 </form>
               </div>
-
               <div class="card">
-                <h3 style="margin-top:0; font-size:18px;">รายการหนังสือที่กำลังยืมและรอคืน</h3>
+                <h3>รายการหนังสือที่กำลังยืม (รอส่งคืน)</h3>
                 <div class="table-wrap">
                   <table>
-                    <thead>
-                      <tr>
-                        <th>รหัส</th>
-                        <th>ชื่อหนังสือ</th>
-                        <th>ผู้ยืม</th>
-                        <th>สถานะ / การจัดการ</th>
-                      </tr>
-                    </thead>
+                    <thead><tr><th>รหัส</th><th>ชื่อหนังสือ</th><th>ผู้ยืม</th><th>จัดการ</th></tr></thead>
                     <tbody id="borrowListBody"></tbody>
                   </table>
                 </div>
@@ -1349,65 +677,42 @@
               </div>
             </div>
 
-            <!-- หน้ากรอกรหัสผ่านสำหรับเจ้าหน้าที่ -->
             <div id="staffAuthGate" class="card auth-gate-card">
-              <div class="auth-icon" aria-hidden="true">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                </svg>
-              </div>
-              <h3 style="margin:0 0 6px; font-size:20px;">ยืนยันตัวตนเข้าสู่เมนูเจ้าหน้าที่</h3>
-              <p style="margin:0 0 14px; font-size:14px; color:var(--muted);">
-                <!-- รหัสผ่านจะถูกตรวจสอบความถูกต้องผ่าน Google Apps Script โดยตรงเพื่อความปลอดภัย -->
-              </p>
-
-              <!-- แจ้งเตือนสถานะการใส่รหัส / การล็อก -->
+              <div class="auth-icon">🔒</div>
+              <h3>เข้าสู่ระบบเจ้าหน้าที่</h3>
+              <p style="font-size:13px; color:var(--muted); margin-top:0;">ระบบตรวจสอบรหัสผ่านผ่าน Google Apps Script โดยตรง</p>
               <div id="staffAttemptPill" class="attempt-pill">จำนวนครั้งที่ผิด: 0 / 3 ครั้ง</div>
-              <div id="staffLockBanner" class="lock-banner">
-                🔒 <strong>รหัสเจ้าหน้าที่ถูกระงับการใช้งานชั่วคราว!</strong><br>
-                เนื่องจากมีการกรอกรหัสผิดเกิน 3 ครั้ง เพื่อความปลอดภัยของระบบ กรุณาติดต่อ Admin ผู้ดูแลระบบเพื่อทำการปลดล็อคให้ครับ
-              </div>
-
-              <div id="staffAuthError" class="auth-error">รหัสผ่านไม่ถูกต้อง กรุณาตรวจสอบและลองใหม่อีกครั้ง</div>
-
-              <form id="staffLoginForm" style="text-align:left;">
+              <div id="staffLockBanner" class="lock-banner">บัญชีเจ้าหน้าที่ถูกล็อกชั่วคราว! กรุณาติดต่อ Admin เพื่อปลดล็อก</div>
+              <div id="staffAuthError" class="auth-error">รหัสผ่านไม่ถูกต้อง</div>
+              <form id="staffLoginForm">
                 <div class="form-group">
-                  <label class="form-label" for="staffPinInput">รหัสเข้าใช้งานเจ้าหน้าที่</label>
-                  <input type="password" id="staffPinInput" class="form-input" placeholder="กรอกรหัสเจ้าหน้าที่" autocomplete="off" required>
+                  <input type="password" id="staffPinInput" class="form-input" placeholder="กรอกรหัสเจ้าหน้าที่" required>
                 </div>
-                <button type="submit" id="staffLoginSubmitBtn" class="btn btn-primary" style="width:100%;">
-                  เข้าสู่เมนูเจ้าหน้าที่
-                </button>
+                <button type="submit" id="staffLoginSubmitBtn" class="btn btn-primary" style="width:100%;">เข้าสู่ระบบเจ้าหน้าที่</button>
               </form>
             </div>
 
-            <!-- เนื้อหาสำหรับเจ้าหน้าที่เมื่อผ่านการยืนยันรหัสแล้ว -->
             <div id="staffProtectedContent" style="display:none;">
               <div class="auth-bar">
-                <div>
-                  <strong>สถานะการเข้าใช้งาน:</strong>
-                  <span id="staffSessionLabel">เจ้าหน้าที่ห้องสมุด (สิทธิ์เพิ่มหนังสือและตรวจสอบการยืม-คืน)</span>
-                </div>
-                <button type="button" class="btn btn-danger role-logout-btn" style="padding:6px 14px; font-size:13px;">
-                  ออกจากระบบ
-                </button>
+                <div>สถานะ: <strong id="staffSessionLabel">เจ้าหน้าที่ห้องสมุด</strong></div>
+                <button type="button" class="btn btn-danger role-logout-btn">ออกจากระบบ</button>
               </div>
 
               <div class="grid-2" style="margin-bottom:20px;">
+                <!-- ฟอร์มเพิ่มหนังสือสำหรับเจ้าหน้าที่ (เพิ่มช่องใส่ URL รูปหน้าปก) -->
                 <div class="card">
                   <h3 style="margin-top:0; font-size:18px;">เพิ่มหนังสือเข้าคลัง (สำหรับเจ้าหน้าที่)</h3>
                   <form id="staffAddBookForm">
                     <div class="form-group">
-                      <label class="form-label" for="staffBookTitle">ชื่อหนังสือ</label>
+                      <label class="form-label">ชื่อหนังสือ</label>
                       <input type="text" id="staffBookTitle" class="form-input" placeholder="เช่น คู่มือวิทยาศาสตร์ ม.ปลาย" required>
                     </div>
                     <div class="form-group">
-                      <label class="form-label" for="staffBookAuthor">ชื่อผู้แต่ง</label>
+                      <label class="form-label">ชื่อผู้แต่ง</label>
                       <input type="text" id="staffBookAuthor" class="form-input" placeholder="เช่น อ.สมศรี มีความรู้" required>
                     </div>
                     <div class="form-group">
-                      <label class="form-label" for="staffBookCategory">หมวดหมู่</label>
+                      <label class="form-label">หมวดหมู่</label>
                       <select id="staffBookCategory" class="form-select">
                         <option value="วิทยาศาสตร์">วิทยาศาสตร์</option>
                         <option value="คณิตศาสตร์">คณิตศาสตร์</option>
@@ -1416,23 +721,21 @@
                         <option value="ประวัติศาสตร์และสังคม">ประวัติศาสตร์และสังคม</option>
                       </select>
                     </div>
+                    <div class="form-group">
+                      <label class="form-label">ลิงก์รูปภาพหน้าปก (URL รูปภาพ หรือ ลิงก์แชร์จาก Google Drive)</label>
+                      <input type="url" id="staffBookCoverUrl" class="form-input" placeholder="เช่น https://drive.google.com/file/d/... หรือลิงก์รูปภาพทั่วไป (เว้นว่างไว้ได้)">
+                      <small style="color:var(--muted); font-size:12px; display:block; margin-top:4px;">* หากใช้ Google Drive ให้ตั้งค่าแชร์ไฟล์เป็น "ทุกคนที่มีลิงก์มีสิทธิ์ดู" ระบบจะแปลงลิงก์ให้อัตโนมัติ</small>
+                    </div>
                     <button type="submit" class="btn btn-primary">เพิ่มหนังสือลงในระบบ</button>
                   </form>
                 </div>
 
+                <!-- ตารางตรวจสอบการยืม-คืนสำหรับเจ้าหน้าที่ -->
                 <div class="card">
                   <h3 style="margin-top:0; font-size:18px;">ตรวจสอบและจัดการการยืม-คืนหนังสือ</h3>
                   <div class="table-wrap">
                     <table>
-                      <thead>
-                        <tr>
-                          <th>รหัสหนังสือ</th>
-                          <th>ชื่อหนังสือ</th>
-                          <th>ผู้ยืม</th>
-                          <th>เวลาที่ยืม</th>
-                          <th>สถานะ / การจัดการ</th>
-                        </tr>
-                      </thead>
+                      <thead><tr><th>รหัส</th><th>ชื่อหนังสือ</th><th>ผู้ยืม</th><th>เวลา</th><th>สถานะ/จัดการ</th></tr></thead>
                       <tbody id="staffBorrowLogBody"></tbody>
                     </table>
                   </div>
@@ -1440,17 +743,10 @@
               </div>
 
               <div class="card">
-                <h3 style="margin-top:0; font-size:18px;">ประวัติการกดปุ่มเข้าใช้งานระบบของโรงเรียน</h3>
+                <h3 style="margin-top:0; font-size:18px;">ประวัติการเข้าใช้งานของโรงเรียน</h3>
                 <div class="table-wrap">
                   <table>
-                    <thead>
-                      <tr>
-                        <th>ลำดับ</th>
-                        <th>วัน-เวลา</th>
-                        <th>ชื่อผู้เข้าใช้งาน / รหัส</th>
-                        <th>กลุ่มผู้ใช้</th>
-                      </tr>
-                    </thead>
+                    <thead><tr><th>ลำดับ</th><th>วัน-เวลา</th><th>ชื่อผู้เข้าใช้งาน</th><th>กลุ่มผู้ใช้</th></tr></thead>
                     <tbody id="staffAccessLogBody"></tbody>
                   </table>
                 </div>
@@ -1463,94 +759,64 @@
             <div class="page-header">
               <div>
                 <h2 class="page-title">เมนู Admin</h2>
-                <p class="page-subtitle">ใช้งานได้ครบทุกฟังก์ชัน: จัดการเพิ่มเจ้าหน้าที่ ปลดล็อคบัญชี เพิ่มรายการหนังสือ และตั้งค่าระบบ</p>
+                <p class="page-subtitle">จัดการเพิ่มเจ้าหน้าที่ ปลดล็อกบัญชี เพิ่มรายการหนังสือ และตั้งค่าระบบ</p>
               </div>
             </div>
 
-            <!-- หน้ากรอกรหัสผ่านสำหรับ Admin -->
             <div id="adminAuthGate" class="card auth-gate-card">
-              <div class="auth-icon" aria-hidden="true">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                </svg>
-              </div>
-              <h3 style="margin:0 0 6px; font-size:20px;">ยืนยันตัวตนเข้าสู่เมนู Admin</h3>
-              <p style="margin:0 0 14px; font-size:14px; color:var(--muted);">
-                <!-- รหัสผ่านจะถูกเก็บและตรวจสอบบน Google Apps Script (Script Properties) โดยตรง ไม่มีรหัสฝังในไฟล์ HTML -->
-              </p>
-
+              <div class="auth-icon">🛡️</div>
+              <h3>เข้าสู่ระบบ Admin</h3>
+              <p style="font-size:13px; color:var(--muted); margin-top:0;">รหัสผ่านจะถูกตรวจสอบบน Google Apps Script โดยตรง</p>
               <div id="adminAttemptPill" class="attempt-pill">จำนวนครั้งที่ผิด: 0 / 3 ครั้ง</div>
-              
               <div id="adminLockBanner" class="lock-banner">
-                🔒 <strong>รหัส Admin ถูกระงับการใช้งานชั่วคราว!</strong><br>
-                เนื่องจากมีการกรอกรหัส Admin ผิดเกิน 3 ครั้ง ระบบได้ระงับการเข้าสู่หน้า Admin ผ่านเว็บไซต์โดยอัตโนมัติ
-                
-                <!-- <div class="unlock-guide-box">
-                  <strong>📌 วิธีการปลดล็อครหัส Admin ที่ถูกล็อค:</strong>
-                  <ol>
-                    <li>เปิดไฟล์ Google Sheets <code>E-Library Database</code> ของโรงเรียน</li>
-                    <li>ไปที่เมนู <strong>ส่วนขยาย (Extensions) &gt; Apps Script</strong></li>
-                    <li>ที่แถบเครื่องมือด้านบน ในช่องเลือกชื่อฟังก์ชัน ให้เลือกฟังก์ชัน <strong><code>unlockAdminAccount</code></strong></li>
-                    <li>กดปุ่ม <strong>เรียกใช้ (Run)</strong> จำนวน 1 ครั้ง</li>
-                    <li>ระบบจะรีเซ็ตจำนวนครั้งที่ผิดเป็น 0 และปลดล็อคให้ Admin สามารถกลับมาล็อกอินบนหน้าเว็บได้ทันทีครับ</li>
-                  </ol>
-                </div> -->
-              </div>
-
-              <div id="adminAuthError" class="auth-error">รหัส Admin ไม่ถูกต้อง กรุณาตรวจสอบและลองใหม่อีกครั้ง</div>
-
-              <form id="adminLoginForm" style="text-align:left;">
-                <div class="form-group">
-                  <label class="form-label" for="adminPinInput">รหัสเข้าใช้งาน Admin</label>
-                  <input type="password" id="adminPinInput" class="form-input" placeholder="กรอกรหัส Admin" autocomplete="off" required>
+                รหัส Admin ถูกล็อกชั่วคราวเนื่องจากใส่ผิดเกิน 3 ครั้ง!
+                <div class="unlock-guide-box">
+                  <strong>📌 วิธีปลดล็อกรหัส Admin:</strong><br>
+                  ไปที่ Google Sheets > ส่วนขยาย > Apps Script > เลือกฟังก์ชัน <code>unlockAdminAccount</code> แล้วกดปุ่ม Run (เรียกใช้) 1 ครั้ง
                 </div>
-                <button type="submit" id="adminLoginSubmitBtn" class="btn btn-primary" style="width:100%;">
-                  เข้าสู่เมนู Admin
-                </button>
+              </div>
+              <div id="adminAuthError" class="auth-error">รหัส Admin ไม่ถูกต้อง</div>
+              <form id="adminLoginForm">
+                <div class="form-group">
+                  <input type="password" id="adminPinInput" class="form-input" placeholder="กรอกรหัส Admin" required>
+                </div>
+                <button type="submit" id="adminLoginSubmitBtn" class="btn btn-primary" style="width:100%;">เข้าสู่ระบบ Admin</button>
               </form>
             </div>
 
-            <!-- เนื้อหาสำหรับ Admin เมื่อผ่านการยืนยันรหัสแล้ว -->
             <div id="adminProtectedContent" style="display:none;">
               <div class="auth-bar">
-                <div>
-                  <strong>สถานะการเข้าใช้งาน:</strong>
-                  <span>ผู้ดูแลระบบสูงสุด (Admin - สิทธิ์เต็มทุกฟังก์ชัน)</span>
-                </div>
-                <button type="button" class="btn btn-danger role-logout-btn" style="padding:6px 14px; font-size:13px;">
-                  ออกจากระบบ
-                </button>
+                <div>สถานะ: <strong>ผู้ดูแลระบบสูงสุด (Admin)</strong></div>
+                <button type="button" class="btn btn-danger role-logout-btn">ออกจากระบบ</button>
               </div>
 
-              <!-- ส่วนจัดการสถานะความปลอดภัยและการปลดล็อคเจ้าหน้าที่ (เฉพาะ Admin) -->
+              <!-- ระบบควบคุมการปลดล็อกเจ้าหน้าที่ -->
               <div class="card" style="margin-bottom:20px; border-left: 4px solid var(--brand);">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
                   <div>
-                    <h3 style="margin:0 0 4px; font-size:17px;">การจัดการความปลอดภัยและปลดล็อครหัสผ่าน</h3>
+                    <h3 style="margin:0 0 4px; font-size:17px;">การจัดการความปลอดภัยและปลดล็อกรหัสผ่านเจ้าหน้าที่</h3>
                     <p style="margin:0; font-size:13px; color:var(--muted);">
                       สถานะรหัสเจ้าหน้าที่: <strong id="adminStaffStatusText">ปกติ (0/3)</strong>
                     </p>
                   </div>
                   <button type="button" id="adminUnlockStaffBtn" class="btn btn-secondary">
-                    🔓 ปลดล็อครหัสเจ้าหน้าที่ (รีเซ็ตเป็น 0 ครั้ง)
+                    🔓 ปลดล็อกรหัสเจ้าหน้าที่ (รีเซ็ตเป็น 0 ครั้ง)
                   </button>
                 </div>
               </div>
 
-              <!-- ส่วนเพิ่มและจัดการเจ้าหน้าที่ (เฉพาะ Admin) -->
+              <!-- ส่วนเพิ่มและจัดการรายชื่อเจ้าหน้าที่ -->
               <div class="grid-2" style="margin-bottom:20px;">
                 <div class="card">
                   <h3 style="margin-top:0; font-size:18px;">เพิ่มเจ้าหน้าที่ห้องสมุด</h3>
-                  <p style="font-size:13px; color:var(--muted); margin-top:0;">
-                    กำหนดชื่อและรหัสผ่านสำหรับเจ้าหน้าที่ใหม่ โดยข้อมูลจะบันทึกลงแผ่นงาน StaffAccounts ใน Google Sheets
-                  </p>
+                  <p style="font-size:13px; color:var(--muted); margin-top:0;">กำหนดชื่อและรหัสผ่านสำหรับเจ้าหน้าที่ใหม่ บันทึกลงชีต StaffAccounts</p>
                   <form id="addStaffForm">
                     <div class="form-group">
-                      <label class="form-label" for="newStaffName">ชื่อ-นามสกุล / ตำแหน่งเจ้าหน้าที่</label>
+                      <label class="form-label">ชื่อ-นามสกุล / ตำแหน่งเจ้าหน้าที่</label>
                       <input type="text" id="newStaffName" class="form-input" placeholder="เช่น ครูบรรณารักษ์ สมหญิง" required>
                     </div>
                     <div class="form-group">
-                      <label class="form-label" for="newStaffPin">รหัสเข้าใช้งานของเจ้าหน้าที่</label>
+                      <label class="form-label">รหัสเข้าใช้งานของเจ้าหน้าที่</label>
                       <input type="password" id="newStaffPin" class="form-input" placeholder="กำหนดรหัสผ่านเฉพาะบุคคล" required>
                     </div>
                     <button type="submit" class="btn btn-primary">เพิ่มเจ้าหน้าที่ลงระบบ</button>
@@ -1561,33 +827,28 @@
                   <h3 style="margin-top:0; font-size:18px;">รายชื่อเจ้าหน้าที่ในระบบ</h3>
                   <div class="table-wrap">
                     <table>
-                      <thead>
-                        <tr>
-                          <th>รหัส</th>
-                          <th>ชื่อเจ้าหน้าที่</th>
-                          <th>การจัดการ</th>
-                        </tr>
-                      </thead>
+                      <thead><tr><th>รหัส</th><th>ชื่อเจ้าหน้าที่</th><th>การจัดการ</th></tr></thead>
                       <tbody id="staffAccountsBody"></tbody>
                     </table>
                   </div>
                 </div>
               </div>
 
+              <!-- ส่วนเพิ่มหนังสือ และตั้งค่า Web App URL -->
               <div class="grid-2">
                 <div class="card">
-                  <h3 style="margin-top:0; font-size:18px;">เพิ่มหนังสือเข้าคลัง</h3>
+                  <h3 style="margin-top:0; font-size:18px;">เพิ่มหนังสือเข้าคลัง (Admin)</h3>
                   <form id="addBookForm">
                     <div class="form-group">
-                      <label class="form-label" for="newBookTitle">ชื่อหนังสือ</label>
+                      <label class="form-label">ชื่อหนังสือ</label>
                       <input type="text" id="newBookTitle" class="form-input" placeholder="เช่น คู่มือการเขียนโปรแกรมเบื้องต้น" required>
                     </div>
                     <div class="form-group">
-                      <label class="form-label" for="newBookAuthor">ชื่อผู้แต่ง</label>
+                      <label class="form-label">ชื่อผู้แต่ง</label>
                       <input type="text" id="newBookAuthor" class="form-input" placeholder="เช่น อ.วิชัย พัฒนา" required>
                     </div>
                     <div class="form-group">
-                      <label class="form-label" for="newBookCategory">หมวดหมู่</label>
+                      <label class="form-label">หมวดหมู่</label>
                       <select id="newBookCategory" class="form-select">
                         <option value="วิทยาศาสตร์">วิทยาศาสตร์</option>
                         <option value="คณิตศาสตร์">คณิตศาสตร์</option>
@@ -1596,66 +857,31 @@
                         <option value="ประวัติศาสตร์และสังคม">ประวัติศาสตร์และสังคม</option>
                       </select>
                     </div>
+                    <div class="form-group">
+                      <label class="form-label">ลิงก์รูปภาพหน้าปก (URL รูปภาพ หรือ ลิงก์แชร์จาก Google Drive)</label>
+                      <input type="url" id="newBookCoverUrl" class="form-input" placeholder="เช่น https://drive.google.com/file/d/... หรือลิงก์รูปภาพทั่วไป (เว้นว่างไว้ได้)">
+                      <small style="color:var(--muted); font-size:12px; display:block; margin-top:4px;">* หากใช้ Google Drive ให้ตั้งค่าแชร์ไฟล์เป็น "ทุกคนที่มีลิงก์มีสิทธิ์ดู" ระบบจะแปลงลิงก์ให้อัตโนมัติ</small>
+                    </div>
                     <button type="submit" class="btn btn-primary">เพิ่มหนังสือลงในระบบ</button>
                   </form>
                 </div>
 
                 <div class="card">
                   <h3 style="margin-top:0; font-size:18px;">ตั้งค่าเชื่อมต่อ Google Apps Script (Web App URL)</h3>
-                  <p style="font-size:13px; color:var(--muted); margin-top:0;">
-                    วาง Web App URL ที่ได้จากขั้นตอน Deploy ใน Google Apps Script เพื่อให้ระบบเชื่อมกับ Google Sheets จริง
-                  </p>
                   <form id="gasConfigForm">
                     <div class="form-group">
-                      <label class="form-label" for="gasUrlInput">Google Apps Script Web App URL</label>
-                      <input type="url" id="gasUrlInput" class="form-input" placeholder="วาง Web App URL ที่ได้จากการ Deploy ที่นี่">
+                      <label class="form-label">Google Apps Script Web App URL</label>
+                      <input type="url" id="gasUrlInput" class="form-input" placeholder="วาง Web App URL ที่นี่">
                     </div>
                     <button type="submit" class="btn btn-secondary">บันทึก URL และทดสอบดึงข้อมูล</button>
                   </form>
-
-                  <div style="margin-top:16px;">
-                    <div class="form-label">ตัวอย่างโค้ด Google Apps Script (ฉบับสมบูรณ์พร้อมระบบความปลอดภัย):</div>
-                    <div class="code-box">// วางโค้ดนี้ใน Apps Script &gt; กด Run setupDatabase &gt; Deploy as Web App
-function setupDatabase() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheets = {
-    'Books': ['id', 'title', 'author', 'category', 'status', 'cover_url', 'pdf_url'],
-    'AccessLogs': ['timestamp', 'name', 'role', 'action'],
-    'BorrowLogs': ['bookId', 'bookTitle', 'borrower', 'borrowedAt', 'status'],
-    'StaffAccounts': ['id', 'name', 'pin', 'isDefault']
-  };
-  for (let s in sheets) {
-    if (!ss.getSheetByName(s)) {
-      const sh = ss.insertSheet(s);
-      sh.appendRow(sheets[s]);
-    }
-  }
-  const p = PropertiesService.getScriptProperties();
-  if (!p.getProperty('STAFF_PIN')) p.setProperty('STAFF_PIN', 'กำหนดรหัสผ่านเจ้าหน้าที่ตรงนี้');
-  if (!p.getProperty('ADMIN_PIN')) p.setProperty('ADMIN_PIN', 'กำหนดรหัสผ่านแอดมินตรงนี้');
-  if (!p.getProperty('STAFF_FAILS')) p.setProperty('STAFF_FAILS', '0');
-  if (!p.getProperty('ADMIN_FAILS')) p.setProperty('ADMIN_FAILS', '0');
-  if (!p.getProperty('STAFF_LOCKED')) p.setProperty('STAFF_LOCKED', 'FALSE');
-  if (!p.getProperty('ADMIN_LOCKED')) p.setProperty('ADMIN_LOCKED', 'FALSE');
-}
-
-function unlockAdminAccount() {
-  const p = PropertiesService.getScriptProperties();
-  p.setProperty('ADMIN_FAILS', '0');
-  p.setProperty('ADMIN_LOCKED', 'FALSE');
-}</div>
-                  </div>
                 </div>
               </div>
             </div>
           </section>
 
         </main>
-
-        <!-- Footer -->
-        <footer class="footer">
-          ระบบห้องสมุดออนไลน์ (School E-Library) • รองรับการทำงานบน GitHub Pages + Google Sheets &amp; Google Drive • รองรับทุกขนาดหน้าจอ (Responsive Design)
-        </footer>
+        <footer class="footer">ระบบห้องสมุดออนไลน์ (School E-Library) • GitHub Pages + Google Sheets</footer>
       </div>
     </div>
   </div>
@@ -1673,365 +899,339 @@ function unlockAdminAccount() {
 
   <script>
     // =========================================================================
-    // ⚙️ การตั้งค่า Google Apps Script Web App URL สำหรับใช้งานจริงบน GitHub Pages
-    // นำ Web App URL ที่ได้จากการ Deploy ใน Google Apps Script มาวางแทนที่ข้อความด้านล่างนี้:
+    // ⚙️ วาง Web App URL ที่ได้จาก Google Apps Script ที่นี่
     let gasWebAppUrl = 'https://script.google.com/macros/s/AKfycbwUOZwQDSh2S0NNe9Evl3hGmm1TxMu0EWbbwvJhFAZmm-oh5jFqMGqDrnuuqe28XhJN/exec';
     // =========================================================================
 
-    // ตรวจสอบว่าเคยบันทึก URL ไว้ใน localStorage หรือไม่
     try {
       const savedUrl = localStorage.getItem('school_elibrary_gas_url');
-      if (savedUrl && savedUrl.startsWith('https://')) {
-        gasWebAppUrl = savedUrl;
-      }
+      if (savedUrl && savedUrl.startsWith('https://')) gasWebAppUrl = savedUrl;
     } catch (_) {}
 
-    // หมวดหมู่และสีสำหรับสร้างภาพหน้าปกจำลอง
-    const CATEGORIES = [
-      'วิทยาศาสตร์',
-      'คณิตศาสตร์',
-      'ภาษาและวรรณกรรม',
-      'เทคโนโลยีและคอมพิวเตอร์',
-      'ประวัติศาสตร์และสังคม'
-    ];
+    // ฟังก์ชันจัดรูปแบบวัน-เวลา เป็น วัน/เดือน/ปี เวลา ชม.:นาที น.
+    function formatThaiDateTime(rawDateStr) {
+      if (!rawDateStr) return '-';
+      const str = String(rawDateStr).trim();
+      if (str.includes('น.') && !str.includes('T')) return str;
 
-    const PALETTES = [
-      ['#1d4ed8', '#60a5fa'],
-      ['#0f766e', '#2dd4bf'],
-      ['#7c3aed', '#c084fc'],
-      ['#b45309', '#fbbf24'],
-      ['#be123c', '#fb7185']
-    ];
+      try {
+        const d = new Date(str);
+        if (isNaN(d.getTime())) return str;
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        const hours = String(d.getHours()).padStart(2, '0');
+        const minutes = String(d.getMinutes()).padStart(2, '0');
+        return `${day}/${month}/${year} ${hours}:${minutes} น.`;
+      } catch (_) {
+        return str;
+      }
+    }
 
+    // ฟังก์ชันช่วยแปลง URL ของ Google Drive เป็น URL แสดงภาพโดยตรง
+    function formatCoverUrl(url) {
+      if (!url) return '';
+      const trimmed = String(url).trim();
+      // ตัวอย่าง: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+      const driveMatch = trimmed.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+      if (driveMatch && driveMatch[1]) {
+        return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w600`;
+      }
+      // ตัวอย่าง: https://drive.google.com/open?id=FILE_ID หรือ uc?id=FILE_ID
+      const idMatch = trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+      if (idMatch && idMatch[1] && trimmed.includes('drive.google.com')) {
+        return `https://drive.google.com/thumbnail?id=${idMatch[1]}&sz=w600`;
+      }
+      return trimmed;
+    }
+
+    const CATEGORIES = ['วิทยาศาสตร์', 'คณิตศาสตร์', 'ภาษาและวรรณกรรม', 'เทคโนโลยีและคอมพิวเตอร์', 'ประวัติศาสตร์และสังคม'];
+    const PALETTES = [['#1d4ed8', '#60a5fa'], ['#0f766e', '#2dd4bf'], ['#7c3aed', '#c084fc'], ['#b45309', '#fbbf24'], ['#be123c', '#fb7185']];
     const SAMPLE_TITLES = [
       'ดาราศาสตร์และอวกาศน่ารู้', 'คณิตคิดเร็วระดับมัธยม', 'วรรณคดีไทยและบทกวี', 'การพัฒนาเว็บด้วย HTML & CSS', 'ประวัติศาสตร์ไทยร่วมสมัย',
       'ฟิสิกส์พื้นฐานในชีวิตประจำวัน', 'เรขาคณิตและการพิสูจน์', 'ทักษะการอ่านภาษาอังกฤษ', 'อัลกอริทึมและการเขียนโปรแกรม', 'ภูมิศาสตร์โลกและสิ่งแวดล้อม',
       'เคมีอินทรีย์ฉบับเข้าใจง่าย', 'สถิติและความน่าจะเป็น', 'การเขียนเรียงความเชิงวิชาการ', 'ฐานข้อมูล Google Sheets เบื้องต้น', 'อารยธรรมโลกยุคโบราณ',
       'ชีววิทยาของเซลล์และพืช', 'พีชคณิตเชิงเส้นเบื้องต้น', 'นิทานพื้นบ้านและวัฒนธรรม', 'การสร้าง Web App ด้วย JavaScript', 'หน้าที่พลเมืองและจริยธรรม',
       'พลังงานทดแทนเพื่ออนาคต', 'แคลคูลัสเบื้องต้นสำหรับนักเรียน', 'การสื่อสารภาษาจีนเบื้องต้น', 'ระบบเครือข่ายและความปลอดภัย', 'เศรษฐศาสตร์ในชีวิตประจำวัน',
-      'การทดลองวิทยาศาสตร์แสนสนุก', 'ทฤษฎีจำนวนเบื้องต้น', 'วรรณกรรมเยาวชนสร้างแรงบันดาลใจ', 'การใช้งาน GitHub Pages ฉบับสมบูรณ์', 'อาเซียนศึกษาและประเทศเพื่อนบ้าน',
-      'ระบบนิเวศและความหลากหลาย', 'คณิตศาสตร์โอลิมปิกเบื้องต้น', 'ไวยากรณ์ภาษาอังกฤษฉบับพกพา', 'ปัญญาประดิษฐ์ (AI) รอบตัวเรา', 'ประวัติศาสตร์ท้องถิ่นของเรา',
-      'ธรณีวิทยาและทรัพยากรธรรมชาติ', 'ตรรกศาสตร์และการให้เหตุผล', 'ศิลปะการพูดในที่ชุมชน', 'การออกแบบ UI/UX สำหรับเว็บไซต์', 'กฎหมายเบื้องต้นสำหรับเยาวชน',
-      'คลื่นแม่เหล็กไฟฟ้าและแสง', 'ลำดับและอนุกรมคณิตศาสตร์', 'การแปลภาษาอังกฤษ-ไทย', 'โครงสร้างข้อมูลเบื้องต้น', 'ปรัชญาและแนวคิดทางการศึกษา'
+      'การทดลองวิทยาศาสตร์แสนสนุก', 'ทฤษฎีจำนวนเบื้องต้น', 'วรรณกรรมเยาวชนสร้างแรงบันดาลใจ', 'การใช้งาน GitHub Pages ฉบับสมบูรณ์', 'อาเซียนศึกษาและประเทศเพื่อนบ้าน'
     ];
 
-    function createCoverSvgDataUri(id, title, category, paletteIndex) {
-      const [c1, c2] = PALETTES[paletteIndex % PALETTES.length];
-      const safeTitle = (title || 'หนังสือ').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      const safeCat = (category || 'ทั่วไป').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    let memberUsersDatabase = [
+      { id: '67001', name: 'ด.ช.สมพงษ์ เรียนดี', status: 'นักเรียน' },
+      { id: '67002', name: 'ด.ญ.สุดา รักเรียน', status: 'นักเรียน' },
+      { id: 'T001', name: 'อ.สมศรี ทรงปัญญา', status: 'ครู / อาจารย์' },
+      { id: 'S001', name: 'นายสมชาย ใจดี', status: 'บุคลากรโรงเรียน' }
+    ];
+
+    let currentLoggedUser = null;
+
+    function createCoverSvg(id, title, cat, idx) {
+      const [c1, c2] = PALETTES[idx % PALETTES.length];
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400">
-        <defs>
-          <linearGradient id="g${id}" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="${c1}"/>
-            <stop offset="100%" stop-color="${c2}"/>
-          </linearGradient>
-        </defs>
+        <defs><linearGradient id="g${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs>
         <rect width="300" height="400" fill="url(#g${id})"/>
-        <rect x="18" y="18" width="264" height="364" rx="8" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
-        <circle cx="150" cy="135" r="42" fill="rgba(255,255,255,0.18)"/>
-        <text x="150" y="145" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="24" font-weight="bold">BOOK #${id}</text>
-        <text x="150" y="230" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="16" font-weight="bold">${safeTitle.slice(0, 22)}</text>
-        <text x="150" y="256" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="sans-serif" font-size="13">${safeCat}</text>
-        <text x="150" y="355" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-family="sans-serif" font-size="11">SCHOOL E-LIBRARY SAMPLE</text>
+        <text x="150" y="150" text-anchor="middle" fill="#fff" font-size="22" font-weight="bold">BOOK #${id}</text>
+        <text x="150" y="230" text-anchor="middle" fill="#fff" font-size="16">${(title || '').slice(0, 20)}</text>
+        <text x="150" y="260" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="13">${cat}</text>
       </svg>`;
       return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
     }
 
     const ITEMS_PER_PAGE = 20;
     let currentPage = 1;
-
-    // ข้อมูลหนังสือเริ่มต้น (Sample Data 45 เล่ม)
-    let booksData = SAMPLE_TITLES.map((title, idx) => {
-      const id = idx + 1;
-      const category = CATEGORIES[idx % CATEGORIES.length];
-      return {
-        id: 'B' + String(id).padStart(3, '0'),
-        title: title,
-        author: 'คณาจารย์ห้องสมุดโรงเรียน (' + id + ')',
-        category: category,
-        status: idx % 7 === 0 ? 'ถูกยืม' : 'ว่าง',
-        cover_url: createCoverSvgDataUri(id, title, category, idx)
-      };
-    });
+    let booksData = SAMPLE_TITLES.map((t, i) => ({
+      id: 'B' + String(i + 1).padStart(3, '0'),
+      title: t,
+      author: 'คณาจารย์ห้องสมุดโรงเรียน (' + (i + 1) + ')',
+      category: CATEGORIES[i % CATEGORIES.length],
+      status: i % 7 === 0 ? 'ถูกยืม' : 'ว่าง',
+      cover_url: createCoverSvg(i + 1, t, CATEGORIES[i % CATEGORIES.length], i),
+      pdf_url: ''
+    }));
 
     let accessLogs = [];
     let borrowLogs = [
-      {
-        bookId: 'B001',
-        bookTitle: SAMPLE_TITLES[0],
-        borrower: 'ตัวอย่าง นักเรียน ม.4/1',
-        borrowedAt: 'วันนี้ 08:30 น.',
-        status: 'กำลังยืม'
-      }
+      { bookId: 'B001', bookTitle: SAMPLE_TITLES[0], borrower: 'ด.ช.สมพงษ์ เรียนดี', borrowedAt: '10/11/2026 09:30 น.', status: 'คืนแล้ว' },
+      { bookId: 'B007', bookTitle: SAMPLE_TITLES[6], borrower: 'ด.ญ.สุดา รักเรียน', borrowedAt: '11/11/2026 10:15 น.', status: 'กำลังยืม' }
     ];
-
-    let staffAccounts = [
-      { id: 'STF-01', name: 'เจ้าหน้าที่ห้องสมุดหลัก', isDefault: true }
-    ];
-
-    // สถานะความปลอดภัย (ดึงจาก GAS และจำลองกรณีออฟไลน์)
-    let securityState = {
-      staffFails: 0,
-      staffLocked: false,
-      adminFails: 0,
-      adminLocked: false
-    };
-
+    let staffAccounts = [{ id: 'STF-01', name: 'เจ้าหน้าที่ห้องสมุดหลัก', isDefault: true }];
+    let securityState = { staffFails: 0, staffLocked: false, adminFails: 0, adminLocked: false };
     let isStaffAuthenticated = false;
     let isAdminAuthenticated = false;
-    let currentStaffName = '';
 
-    // ฟังก์ชันส่วนกลางสำหรับเรียก Google Apps Script แบบไม่ติด CORS
     async function callGasApi(payload) {
-      if (!gasWebAppUrl || gasWebAppUrl === 'วาง_WEB_APP_URL_ของคุณที่นี่') {
-        throw new Error('NO_GAS_URL');
-      }
-      const response = await fetch(gasWebAppUrl, {
+      if (!gasWebAppUrl || gasWebAppUrl.includes('วาง_WEB_APP_URL')) throw new Error('NO_GAS_URL');
+      const res = await fetch(gasWebAppUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload)
       });
-      return await response.json();
+      return await res.json();
     }
 
-    // ฟังก์ชันดึงข้อมูลทั้งหมดจาก Google Sheets เมื่อเริ่มต้น
     async function fetchDatabaseFromGas() {
-      const dbStatus = document.getElementById('dbStatusText');
       const badge = document.getElementById('sourceBadge');
-
-      if (!gasWebAppUrl || gasWebAppUrl === 'วาง_WEB_APP_URL_ของคุณที่นี่') {
-        dbStatus.textContent = 'โหมดข้อมูลตัวอย่าง (ยังไม่วาง Web App URL)';
-        badge.textContent = 'ข้อมูลตัวอย่าง (Sample Data)';
+      if (!gasWebAppUrl || gasWebAppUrl.includes('วาง_WEB_APP_URL')) {
+        badge.textContent = 'โหมดข้อมูลจำลอง';
+        renderBookDashboard();
         return;
       }
-
-      dbStatus.textContent = 'กำลังเชื่อมต่อ Google Sheets...';
       try {
         const res = await fetch(gasWebAppUrl);
         const data = await res.json();
         if (data && data.status === 'ok') {
           if (Array.isArray(data.books) && data.books.length > 0) {
             booksData = data.books.map((b, i) => ({
-              id: b.id || ('B' + String(i + 1).padStart(3, '0')),
-              title: b.title || 'ไม่มีชื่อเรื่อง',
-              author: b.author || '-',
-              category: b.category || 'ทั่วไป',
-              status: b.status || 'ว่าง',
-              cover_url: b.cover_url || createCoverSvgDataUri(i + 1, b.title || 'Book', b.category || '', i),
-              pdf_url: b.pdf_url || ''
+              ...b,
+              cover_url: formatCoverUrl(b.cover_url) || createCoverSvg(i + 1, b.title, b.category, i)
             }));
           }
           if (Array.isArray(data.accessLogs)) accessLogs = data.accessLogs;
           if (Array.isArray(data.borrowLogs)) borrowLogs = data.borrowLogs;
           if (Array.isArray(data.staffAccounts)) staffAccounts = data.staffAccounts;
+          if (Array.isArray(data.memberUsers) && data.memberUsers.length > 0) {
+            memberUsersDatabase = data.memberUsers.map(u => ({
+              id: String(u['รหัส'] || u.id || '').trim(),
+              name: String(u['ชื่อ-สกุล'] || u.name || '').trim(),
+              status: String(u['สถานะ'] || u.status || '').trim()
+            }));
+          }
           if (data.security) {
             securityState = {
-              staffFails: data.security.staffFails || 0,
+              staffFails: Number(data.security.staffFails || 0),
               staffLocked: !!data.security.staffLocked,
-              adminFails: data.security.adminFails || 0,
+              adminFails: Number(data.security.adminFails || 0),
               adminLocked: !!data.security.adminLocked
             };
           }
 
-          dbStatus.textContent = `เชื่อมต่อ Google Sheets สำเร็จ (${booksData.length} เล่ม)`;
-          badge.textContent = 'เชื่อม Google Sheets เรียบร้อย';
+          badge.textContent = 'เชื่อมต่อ Google Sheets สำเร็จ';
           badge.style.background = 'var(--success-bg)';
           badge.style.color = 'var(--success)';
-          badge.style.borderColor = '#bbf7d0';
-
           renderBooksAndPagination();
           renderAccessLogs();
           renderBorrowSection();
           renderStaffAccounts();
+          renderBookDashboard();
           updateSecurityUI();
         }
       } catch (err) {
-        dbStatus.textContent = 'ใช้ข้อมูลตัวอย่าง (ตรวจสอบสิทธิ์ Web App ใน GAS)';
+        badge.textContent = 'เชื่อมต่อไม่สำเร็จ (ใช้ข้อมูลจำลอง)';
+        renderBookDashboard();
       }
     }
 
-    // ================= 1. การทำงานหน้าปุ่มเข้าใช้งานระบบ E-Library =================
-    const entryScreen = document.getElementById('entryScreen');
-    const appShell = document.getElementById('appShell');
-    const entryForm = document.getElementById('entryForm');
-    const currentUserChip = document.getElementById('currentUserChip');
+    // ================= แดชบอร์ดสรุปสถิติหนังสือ (4 ด้าน) =================
+    function renderBookDashboard() {
+      const totalBooks = booksData.length;
+      const currentlyBorrowed = booksData.filter(b => b.status === 'ถูกยืม').length;
+      const totalReturned = borrowLogs.filter(b => b.status === 'คืนแล้ว').length;
+      const pendingReturn = borrowLogs.filter(b => b.status === 'กำลังยืม').length;
 
-    // เปิดหน้า "ระบบห้องสมุดออนไลน์ (E-Library)" เมื่อกดปุ่ม "ไปที่รายการหนังสือ"
+      document.getElementById('statBookTotal').innerHTML = `${totalBooks} <span class="stat-unit">เล่ม</span>`;
+      document.getElementById('statBookBorrowed').innerHTML = `${currentlyBorrowed} <span class="stat-unit">เล่ม</span>`;
+      document.getElementById('statBookReturned').innerHTML = `${totalReturned} <span class="stat-unit">ครั้ง</span>`;
+      document.getElementById('statBookPending').innerHTML = `${pendingReturn} <span class="stat-unit">รายการ</span>`;
+
+      const pct = (n) => totalBooks > 0 ? (n / totalBooks) * 100 : 0;
+      document.getElementById('statBookBorrowedBar').style.width = Math.min(100, pct(currentlyBorrowed)) + '%';
+
+      const borrowLogCount = borrowLogs.length;
+      const returnedPct = borrowLogCount > 0 ? (totalReturned / borrowLogCount) * 100 : 0;
+      const pendingPct = borrowLogCount > 0 ? (pendingReturn / borrowLogCount) * 100 : 0;
+
+      document.getElementById('statBookReturnedBar').style.width = Math.min(100, returnedPct) + '%';
+      document.getElementById('statBookPendingBar').style.width = Math.min(100, pendingPct) + '%';
+    }
+
+    // ================= จัดการสลับโหมดบุคคลทั่วไป =================
+    const visitorRole = document.getElementById('visitorRole');
+    const visitorCodeGroup = document.getElementById('visitorCodeGroup');
+    const visitorCode = document.getElementById('visitorCode');
+    const visitorNameGroup = document.getElementById('visitorNameGroup');
+    const visitorName = document.getElementById('visitorName');
+
+    function applyRoleState() {
+      const currentRole = visitorRole.value;
+      if (currentRole === 'บุคคลทั่วไป') {
+        visitorCodeGroup.style.display = 'none';
+        visitorCode.disabled = true;
+        visitorCode.required = false;
+        visitorCode.value = '';
+
+        visitorNameGroup.style.display = 'block';
+        visitorName.disabled = false;
+        visitorName.required = true;
+      } else {
+        visitorCodeGroup.style.display = 'block';
+        visitorCode.disabled = false;
+        visitorCode.required = true;
+
+        visitorNameGroup.style.display = 'none';
+        visitorName.disabled = true;
+        visitorName.required = false;
+        visitorName.value = '';
+      }
+    }
+
+    visitorRole.addEventListener('change', applyRoleState);
+    applyRoleState();
+
     window.openEntryGate = function () {
-      toggleSidebar(false);
-      appShell.classList.remove('active');
-      entryScreen.classList.add('active');
-      entryScreen.style.display = 'flex';
+      document.getElementById('appShell').classList.remove('active');
+      const gate = document.getElementById('entryScreen');
+      gate.classList.add('active');
+      gate.style.display = 'flex';
+      applyRoleState();
     };
 
     document.getElementById('cancelGateBtn').addEventListener('click', function () {
-      entryScreen.classList.remove('active');
-      entryScreen.style.display = 'none';
-      appShell.classList.add('active');
+      const gate = document.getElementById('entryScreen');
+      gate.classList.remove('active');
+      gate.style.display = 'none';
+      document.getElementById('appShell').classList.add('active');
       switchView('home');
     });
 
-    entryForm.addEventListener('submit', async function (e) {
+    document.getElementById('backToGateBtn').addEventListener('click', window.openEntryGate);
+
+    // ตรวจสอบฟอร์มเข้าใช้งาน
+    document.getElementById('entryForm').addEventListener('submit', function (e) {
       e.preventDefault();
-      const rawName = document.getElementById('visitorName').value.trim();
-      const role = document.getElementById('visitorRole').value;
-      const visitorName = rawName || 'ผู้เข้าใช้งานทั่วไป';
-      const nowStr = new Date().toLocaleString('th-TH');
+      const role = visitorRole.value;
+      let finalName = '';
+      let inputCode = '';
 
-      const logEntry = {
-        timestamp: nowStr,
-        name: visitorName,
-        role: role
-      };
-      accessLogs.unshift(logEntry);
+      if (role === 'บุคคลทั่วไป') {
+        finalName = visitorName.value.trim() || 'บุคคลทั่วไป';
+        currentLoggedUser = { name: finalName, role: 'บุคคลทั่วไป', code: '' };
+      } else {
+        inputCode = visitorCode.value.trim();
 
-      // ส่งข้อมูลเข้า Google Sheets หากตั้งค่า Web App URL ไว้
+        const matched = memberUsersDatabase.find(u => {
+          const idMatch = String(u.id).trim().toLowerCase() === inputCode.toLowerCase();
+          const roleMatch = String(u.status).trim() === role.trim();
+          return idMatch && roleMatch;
+        });
+
+        if (!matched) {
+          Swal.fire({
+            icon: 'error',
+            title: 'ไม่พบข้อมูลผู้เข้าใช้งาน!',
+            text: `ไม่พบรหัสประจำตัว "${inputCode}" ในหมวดหมู่ "${role}" กรุณาตรวจสอบรหัสใหม่อีกครั้ง หรือติดต่อเจ้าหน้าที่ห้องสมุดครับ`,
+            confirmButtonText: 'ลองอีกครั้ง',
+            confirmButtonColor: '#1d4ed8'
+          });
+          return;
+        }
+
+        finalName = matched.name;
+        currentLoggedUser = { name: finalName, role: role, code: inputCode };
+      }
+
+      const d = new Date();
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      const hours = String(d.getHours()).padStart(2, '0');
+      const minutes = String(d.getMinutes()).padStart(2, '0');
+      const nowStr = `${day}/${month}/${year} ${hours}:${minutes} น.`;
+
+      accessLogs.unshift({ timestamp: nowStr, name: finalName, role: role });
+
       try {
-        callGasApi({ action: 'ENTER_LIBRARY', name: visitorName, role: role });
+        callGasApi({ action: 'ENTER_LIBRARY', name: finalName, role: role });
       } catch (_) {}
 
-      currentUserChip.textContent = `ผู้ใช้งาน: ${visitorName} (${role})`;
-      document.getElementById('borrowerNameInput').value = visitorName;
+      Swal.fire({
+        icon: 'success',
+        title: 'ยืนยันตัวตนสำเร็จ!',
+        text: `ยินดีต้อนรับ คุณ ${finalName} เข้าสู่คลังหนังสือ E-Library`,
+        timer: 1800,
+        showConfirmButton: false
+      });
 
-      entryScreen.classList.remove('active');
-      entryScreen.style.display = 'none';
-      appShell.classList.add('active');
+      document.getElementById('currentUserChip').textContent = `ผู้ใช้งาน: ${finalName} (${role})`;
+      document.getElementById('borrowerNameInput').value = finalName;
+
+      const gate = document.getElementById('entryScreen');
+      gate.classList.remove('active');
+      gate.style.display = 'none';
+      document.getElementById('appShell').classList.add('active');
       switchView('books');
       renderAccessLogs();
-      renderBorrowSection();
     });
 
-    document.getElementById('backToGateBtn').addEventListener('click', function () {
-      window.openEntryGate();
-    });
+    // ================= ระบบ Dashboard & Navigation =================
+    function renderAccessLogs() {
+      const total = accessLogs.length;
+      const counts = { 'นักเรียน': 0, 'ครู / อาจารย์': 0, 'บุคลากรโรงเรียน': 0, 'บุคคลทั่วไป': 0 };
+      accessLogs.forEach(l => { if (counts[l.role] !== undefined) counts[l.role]++; else counts['บุคคลทั่วไป']++; });
 
-    // ================= 2. ระบบ Sidebar และปุ่มแฮมเบอร์เกอร์สำหรับหน้าจอเล็ก =================
-    const sidebar = document.getElementById('sidebar');
-    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
+      document.getElementById('statTotalCount').innerHTML = `${total} <span class="stat-unit">ครั้ง</span>`;
+      document.getElementById('statStudentCount').innerHTML = `${counts['นักเรียน']} <span class="stat-unit">ครั้ง</span>`;
+      document.getElementById('statTeacherCount').innerHTML = `${counts['ครู / อาจารย์']} <span class="stat-unit">ครั้ง</span>`;
+      document.getElementById('statStaffCount').innerHTML = `${counts['บุคลากรโรงเรียน']} <span class="stat-unit">ครั้ง</span>`;
+      document.getElementById('statGuestCount').innerHTML = `${counts['บุคคลทั่วไป']} <span class="stat-unit">ครั้ง</span>`;
 
-    function toggleSidebar(forceOpen) {
-      const isOpen = typeof forceOpen === 'boolean' ? forceOpen : !sidebar.classList.contains('open');
-      sidebar.classList.toggle('open', isOpen);
-      sidebarBackdrop.classList.toggle('open', isOpen);
-    }
+      const pct = (n) => total > 0 ? (n / total) * 100 : 0;
+      document.getElementById('statStudentBar').style.width = pct(counts['นักเรียน']) + '%';
+      document.getElementById('statTeacherBar').style.width = pct(counts['ครู / อาจารย์']) + '%';
+      document.getElementById('statStaffBar').style.width = pct(counts['บุคลากรโรงเรียน']) + '%';
+      document.getElementById('statGuestBar').style.width = pct(counts['บุคคลทั่วไป']) + '%';
 
-    hamburgerBtn.addEventListener('click', function () {
-      toggleSidebar();
-    });
-
-    sidebarBackdrop.addEventListener('click', function () {
-      toggleSidebar(false);
-    });
-
-    function switchView(viewKey) {
-      document.querySelectorAll('.nav-item').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-view') === viewKey);
-      });
-      document.querySelectorAll('.view-section').forEach(sec => {
-        sec.classList.toggle('active', sec.id === 'view-' + viewKey);
-      });
-      toggleSidebar(false);
-    }
-
-    document.querySelectorAll('.nav-item').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const viewKey = this.getAttribute('data-view');
-        switchView(viewKey);
-      });
-    });
-
-    // ================= 3. การแสดงรายการหนังสือ 5 คอลัมน์ และแบ่งหน้า 20 รายการ (1 2 3 ...) =================
-    const bookGrid = document.getElementById('bookGrid');
-    const paginationInfo = document.getElementById('paginationInfo');
-    const paginationControls = document.getElementById('paginationControls');
-    const bookSearchInput = document.getElementById('bookSearchInput');
-    const bookCategorySelect = document.getElementById('bookCategorySelect');
-
-    function getFilteredBooks() {
-      const q = bookSearchInput.value.trim().toLowerCase();
-      const cat = bookCategorySelect.value;
-      return booksData.filter(b => {
-        const matchQuery = !q || b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q) || b.id.toLowerCase().includes(q);
-        const matchCat = cat === 'ALL' || b.category === cat;
-        return matchQuery && matchCat;
-      });
-    }
-
-    function renderBooksAndPagination() {
-      const filtered = getFilteredBooks();
-      const totalItems = filtered.length;
-      const totalPages = Math.max(1, Math.ceil(totalItems / ITEMS_PER_PAGE));
-
-      if (currentPage > totalPages) {
-        currentPage = totalPages;
-      }
-
-      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-      const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
-      const pageItems = filtered.slice(startIndex, endIndex);
-
-      if (pageItems.length === 0) {
-        bookGrid.innerHTML = `<div class="card" style="grid-column: 1 / -1; text-align:center; color:var(--muted);">ไม่พบหนังสือที่ตรงกับคำค้นหา</div>`;
+      const recentBody = document.getElementById('recentAccessBody');
+      const staffBody = document.getElementById('staffAccessLogBody');
+      if (accessLogs.length === 0) {
+        recentBody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:var(--muted);">ยังไม่มีประวัติการเข้าใช้งาน</td></tr>`;
+        if (staffBody) staffBody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--muted);">ยังไม่มีประวัติ</td></tr>`;
       } else {
-        bookGrid.innerHTML = pageItems.map(book => {
-          const isAvailable = book.status === 'ว่าง';
-          return `
-            <article class="book-card">
-              <div class="book-cover-wrap">
-                <img src="${book.cover_url}" alt="ปกหนังสือ ${book.title}" class="book-cover-svg" loading="lazy">
-                <span class="book-status-badge ${isAvailable ? 'status-available' : 'status-borrowed'}">${book.status}</span>
-              </div>
-              <div class="book-info">
-                <div>
-                  <span class="book-category-tag">${book.category}</span>
-                  <h3 class="book-title" title="${book.title}">${book.title}</h3>
-                  <p class="book-author">${book.author}</p>
-                </div>
-                <div class="book-actions">
-                  <button type="button" class="btn btn-primary" onclick="openBookModal('${book.id}')">เปิดอ่าน</button>
-                  <button type="button" class="btn btn-secondary" onclick="quickBorrow('${book.id}')" ${!isAvailable ? 'disabled' : ''}>
-                    ${isAvailable ? 'ยืม' : 'ถูกยืม'}
-                  </button>
-                </div>
-              </div>
-            </article>
-          `;
-        }).join('');
+        recentBody.innerHTML = accessLogs.slice(0, 5).map(a => `<tr><td>${formatThaiDateTime(a.timestamp)}</td><td>${a.name}</td><td>${a.role}</td></tr>`).join('');
+        if (staffBody) staffBody.innerHTML = accessLogs.map((a, i) => `<tr><td>${accessLogs.length - i}</td><td>${formatThaiDateTime(a.timestamp)}</td><td>${a.name}</td><td>${a.role}</td></tr>`).join('');
       }
-
-      paginationInfo.textContent = totalItems > 0
-        ? `แสดงรายการที่ ${startIndex + 1} - ${endIndex} จากทั้งหมด ${totalItems} รายการ (หน้าละ ${ITEMS_PER_PAGE} รายการ)`
-        : 'ไม่มีรายการที่แสดง';
-
-      let buttonsHtml = '';
-      buttonsHtml += `<button type="button" class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>&laquo; ก่อนหน้า</button>`;
-
-      for (let p = 1; p <= totalPages; p++) {
-        buttonsHtml += `<button type="button" class="page-btn ${p === currentPage ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>`;
-      }
-
-      buttonsHtml += `<button type="button" class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>ถัดไป &raquo;</button>`;
-      paginationControls.innerHTML = buttonsHtml;
     }
 
-    window.goToPage = function (page) {
-      currentPage = page;
-      renderBooksAndPagination();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    bookSearchInput.addEventListener('input', function () {
-      currentPage = 1;
-      renderBooksAndPagination();
-    });
-
-    bookCategorySelect.addEventListener('change', function () {
-      currentPage = 1;
-      renderBooksAndPagination();
-    });
-
-    // ================= 4. Modal เปิดอ่านหนังสือ =================
+    // Modal เปิดอ่านหนังสือ
     const bookModal = document.getElementById('bookModal');
     const modalBookTitle = document.getElementById('modalBookTitle');
     const modalBookContent = document.getElementById('modalBookContent');
@@ -2042,7 +1242,7 @@ function unlockAdminAccount() {
       modalBookTitle.textContent = `${book.id} - ${book.title}`;
       modalBookContent.innerHTML = `
         <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:16px;">
-          <img src="${book.cover_url}" alt="${book.title}" style="width:120px; border-radius:8px; border:1px solid var(--border);">
+          <img src="${book.cover_url}" alt="${book.title}" style="width:120px; border-radius:8px; border:1px solid var(--border); object-fit:cover;">
           <div style="flex:1; min-width:200px;">
             <p style="margin:0 0 8px;"><strong>หมวดหมู่:</strong> ${book.category}</p>
             <p style="margin:0 0 8px;"><strong>ผู้แต่ง:</strong> ${book.author}</p>
@@ -2067,478 +1267,450 @@ function unlockAdminAccount() {
       if (e.target === bookModal) bookModal.classList.remove('open');
     });
 
-    // ================= 5. ระบบยืม-คืน =================
-    function renderAccessDashboard() {
-      const total = accessLogs.length;
-      const counts = {
-        'นักเรียน': 0,
-        'ครู / อาจารย์': 0,
-        'บุคลากรโรงเรียน': 0,
-        'บุคคลทั่วไป': 0
-      };
+    // แสดงรายการหนังสือ พร้อมปุ่ม "เปิดอ่าน" (สีน้ำเงิน) และปุ่ม "ยืม" (สีขาวขอบเทา)
+    function renderBooksAndPagination() {
+      const grid = document.getElementById('bookGrid');
+      const q = document.getElementById('bookSearchInput').value.toLowerCase();
+      const cat = document.getElementById('bookCategorySelect').value;
+      const filtered = booksData.filter(b => (!q || b.title.toLowerCase().includes(q)) && (cat === 'ALL' || b.category === cat));
 
-      accessLogs.forEach(item => {
-        const r = item.role || 'บุคคลทั่วไป';
-        if (Object.prototype.hasOwnProperty.call(counts, r)) {
-          counts[r]++;
-        } else {
-          counts['บุคคลทั่วไป']++;
-        }
-      });
+      const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+      if (currentPage > totalPages) currentPage = totalPages;
+      const start = (currentPage - 1) * ITEMS_PER_PAGE;
+      const pageItems = filtered.slice(start, start + ITEMS_PER_PAGE);
 
-      const pct = (val) => (total > 0 ? Math.round((val / total) * 100) : 0);
+      grid.innerHTML = pageItems.map(b => {
+        const isAvailable = b.status === 'ว่าง';
+        return `
+        <div class="book-card">
+          <div class="book-cover-wrap">
+            <img src="${b.cover_url}" class="book-cover-svg" alt="ปกหนังสือ ${b.title}" onerror="this.onerror=null; this.src='${createCoverSvg(b.id, b.title, b.category, 0)}';">
+            <span class="book-status-badge ${isAvailable ? 'status-available' : 'status-borrowed'}">${b.status}</span>
+          </div>
+          <div class="book-info">
+            <div>
+              <span class="book-category-tag">${b.category}</span>
+              <div class="book-title" title="${b.title}">${b.title}</div>
+              <p class="book-author">${b.author}</p>
+            </div>
+            <div class="book-actions">
+              <button type="button" class="btn btn-primary" onclick="openBookModal('${b.id}')">เปิดอ่าน</button>
+              <button type="button" class="btn btn-secondary" onclick="quickBorrow('${b.id}')" ${!isAvailable ? 'disabled' : ''}>
+                ${isAvailable ? 'ยืม' : 'ถูกยืม'}
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      }).join('');
 
-      const totalEl = document.getElementById('statTotalCount');
-      const studentEl = document.getElementById('statStudentCount');
-      const teacherEl = document.getElementById('statTeacherCount');
-      const staffEl = document.getElementById('statStaffCount');
-      const guestEl = document.getElementById('statGuestCount');
-
-      if (totalEl) totalEl.textContent = total;
-      if (studentEl) studentEl.textContent = counts['นักเรียน'];
-      if (teacherEl) teacherEl.textContent = counts['ครู / อาจารย์'];
-      if (staffEl) staffEl.textContent = counts['บุคลากรโรงเรียน'];
-      if (guestEl) guestEl.textContent = counts['บุคคลทั่วไป'];
-
-      const studentBar = document.getElementById('statStudentBar');
-      const teacherBar = document.getElementById('statTeacherBar');
-      const staffBar = document.getElementById('statStaffBar');
-      const guestBar = document.getElementById('statGuestBar');
-
-      if (studentBar) studentBar.style.width = pct(counts['นักเรียน']) + '%';
-      if (teacherBar) teacherBar.style.width = pct(counts['ครู / อาจารย์']) + '%';
-      if (staffBar) staffBar.style.width = pct(counts['บุคลากรโรงเรียน']) + '%';
-      if (guestBar) guestBar.style.width = pct(counts['บุคคลทั่วไป']) + '%';
-    }
-
-    function renderAccessLogs() {
-      renderAccessDashboard();
-
-      const recentBody = document.getElementById('recentAccessBody');
-      const staffBody = document.getElementById('staffAccessLogBody');
-
-      if (accessLogs.length === 0) {
-        recentBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--muted);">ยังไม่มีประวัติการเข้าใช้งาน</td></tr>`;
-        staffBody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--muted);">ยังไม่มีประวัติการเข้าใช้งาน</td></tr>`;
-        return;
+      document.getElementById('paginationInfo').textContent = `แสดงรายการที่ ${start + 1} - ${Math.min(start + ITEMS_PER_PAGE, filtered.length)} จากทั้งหมด ${filtered.length} เล่ม`;
+      let btns = `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>&laquo;</button>`;
+      for (let p = 1; p <= totalPages; p++) {
+        btns += `<button class="page-btn ${p === currentPage ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>`;
       }
-
-      recentBody.innerHTML = accessLogs.slice(0, 5).map(item => `
-        <tr>
-          <td>${item.timestamp}</td>
-          <td>${item.name}</td>
-          <td>${item.role}</td>
-        </tr>
-      `).join('');
-
-      staffBody.innerHTML = accessLogs.map((item, idx) => `
-        <tr>
-          <td>${accessLogs.length - idx}</td>
-          <td>${item.timestamp}</td>
-          <td>${item.name}</td>
-          <td>${item.role}</td>
-        </tr>
-      `).join('');
+      btns += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>&raquo;</button>`;
+      document.getElementById('paginationControls').innerHTML = btns;
     }
+
+    window.goToPage = function (p) { currentPage = p; renderBooksAndPagination(); };
+    document.getElementById('bookSearchInput').addEventListener('input', () => { currentPage = 1; renderBooksAndPagination(); });
+    document.getElementById('bookCategorySelect').addEventListener('change', () => { currentPage = 1; renderBooksAndPagination(); });
 
     function renderBorrowSection() {
       const select = document.getElementById('borrowBookSelect');
-      const availableBooks = booksData.filter(b => b.status === 'ว่าง');
-      select.innerHTML = availableBooks.map(b => `<option value="${b.id}">${b.id} - ${b.title}</option>`).join('');
+      select.innerHTML = booksData.filter(b => b.status === 'ว่าง').map(b => `<option value="${b.id}">${b.id} - ${b.title}</option>`).join('');
+      const tbody = document.getElementById('borrowListBody');
+      const staffBorrowBody = document.getElementById('staffBorrowLogBody');
+      const active = borrowLogs.filter(b => b.status === 'กำลังยืม');
 
-      const borrowListBody = document.getElementById('borrowListBody');
-      const activeBorrows = borrowLogs.filter(item => item.status === 'กำลังยืม');
+      tbody.innerHTML = active.length === 0 ? `<tr><td colspan="4" style="text-align:center;color:var(--muted);">ไม่มีหนังสือค้างส่งคืน</td></tr>` :
+        active.map(b => `<tr><td>${b.bookId}</td><td>${b.bookTitle}</td><td>${b.borrower}</td><td><button class="btn btn-secondary" style="padding:4px 8px;font-size:12px;" onclick="returnBook('${b.bookId}')">คืนหนังสือ</button></td></tr>`).join('');
 
-      if (activeBorrows.length === 0) {
-        borrowListBody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--muted);">ไม่มีรายการหนังสือค้างส่งคืน</td></tr>`;
-      } else {
-        borrowListBody.innerHTML = activeBorrows.map((item) => `
-          <tr>
-            <td>${item.bookId}</td>
-            <td>${item.bookTitle}</td>
-            <td>${item.borrower}</td>
-            <td>
-              <button type="button" class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="returnBook('${item.bookId}')">
-                กดคืนหนังสือ
-              </button>
-            </td>
-          </tr>
-        `).join('');
+      if (staffBorrowBody) {
+        staffBorrowBody.innerHTML = borrowLogs.length === 0 ? `<tr><td colspan="5" style="text-align:center;color:var(--muted);">ยังไม่มีประวัติการยืม</td></tr>` :
+          borrowLogs.map(b => `<tr><td>${b.bookId}</td><td>${b.bookTitle}</td><td>${b.borrower}</td><td>${formatThaiDateTime(b.borrowedAt)}</td><td>${b.status === 'กำลังยืม' ? `<button class="btn btn-secondary" style="padding:4px 8px;font-size:12px;" onclick="returnBook('${b.bookId}')">รับคืน</button>` : '<span style="color:var(--success);font-weight:600;">คืนแล้ว</span>'}</td></tr>`).join('');
       }
 
-      const staffBorrowBody = document.getElementById('staffBorrowLogBody');
-      staffBorrowBody.innerHTML = borrowLogs.map(item => `
-        <tr>
-          <td>${item.bookId}</td>
-          <td>${item.bookTitle}</td>
-          <td>${item.borrower}</td>
-          <td>${item.borrowedAt}</td>
-          <td>
-            ${item.status === 'กำลังยืม'
-              ? `<span style="color:var(--warning); font-weight:600; margin-right:8px;">กำลังยืม</span>
-                 <button type="button" class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="returnBook('${item.bookId}')">รับคืนหนังสือ</button>`
-              : `<span style="color:var(--success); font-weight:600;">คืนแล้ว</span>`
-            }
-          </td>
-        </tr>
-      `).join('');
+      renderBookDashboard();
     }
 
-    window.quickBorrow = function (bookId) {
+    // ฟังก์ชันตรวจสอบสิทธิ์ก่อนไปยังเมนูยืม-คืน
+    function navigateToBorrowView(targetBookId = null) {
+      if (!currentLoggedUser || !currentLoggedUser.code) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'กรุณายืนยันตัวตนก่อนยืมหนังสือ!',
+          text: 'เมนูยืม-คืนหนังสือสงวนสิทธิ์เฉพาะนักเรียน, ครู-อาจารย์ และบุคลากรที่ลงชื่อเข้าใช้ด้วยรหัสประจำตัวเท่านั้นครับ',
+          showCancelButton: true,
+          confirmButtonText: 'ไปหน้าลงชื่อเข้าใช้',
+          cancelButtonText: 'ยกเลิก',
+          confirmButtonColor: '#1d4ed8'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.openEntryGate();
+          }
+        });
+        return false;
+      }
+
+      document.getElementById('borrowerNameInput').value = currentLoggedUser.name;
       switchView('borrow');
-      const select = document.getElementById('borrowBookSelect');
-      if (select) select.value = bookId;
+      if (targetBookId) {
+        document.getElementById('borrowBookSelect').value = targetBookId;
+      }
+      return true;
+    }
+
+    window.quickBorrow = function (id) {
+      navigateToBorrowView(id);
     };
 
     document.getElementById('borrowForm').addEventListener('submit', function (e) {
       e.preventDefault();
-      const bookId = document.getElementById('borrowBookSelect').value;
-      const borrower = document.getElementById('borrowerNameInput').value.trim();
-      const book = booksData.find(b => b.id === bookId);
-      if (!book || !borrower) return;
+      if (!currentLoggedUser || !currentLoggedUser.code) {
+        navigateToBorrowView();
+        return;
+      }
 
-      book.status = 'ถูกยืม';
-      const nowStr = new Date().toLocaleString('th-TH');
-      borrowLogs.unshift({
-        bookId: book.id,
-        bookTitle: book.title,
-        borrower: borrower,
-        borrowedAt: nowStr,
-        status: 'กำลังยืม'
-      });
+      const id = document.getElementById('borrowBookSelect').value;
+      const name = currentLoggedUser.name;
+      const b = booksData.find(x => x.id === id);
+      if (b && name) {
+        b.status = 'ถูกยืม';
+        const d = new Date();
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        const hours = String(d.getHours()).padStart(2, '0');
+        const minutes = String(d.getMinutes()).padStart(2, '0');
+        const nowStr = `${day}/${month}/${year} ${hours}:${minutes} น.`;
 
-      try {
-        callGasApi({ action: 'BORROW_BOOK', bookId: book.id, bookTitle: book.title, borrower: borrower });
-      } catch (_) {}
-
-      renderBooksAndPagination();
-      renderBorrowSection();
+        borrowLogs.unshift({ bookId: id, bookTitle: b.title, borrower: name, borrowedAt: nowStr, status: 'กำลังยืม' });
+        try { callGasApi({ action: 'BORROW_BOOK', bookId: id, bookTitle: b.title, borrower: name }); } catch (_) {}
+        renderBooksAndPagination();
+        renderBorrowSection();
+        Swal.fire({
+          icon: 'success',
+          title: 'ยืมหนังสือสำเร็จ!',
+          text: `คุณได้ยืมหนังสือเรื่อง "${b.title}" เรียบร้อยแล้ว`,
+          timer: 1800,
+          showConfirmButton: false
+        });
+      }
     });
 
-    window.returnBook = function (bookId) {
-      const book = booksData.find(b => b.id === bookId);
-      if (book) book.status = 'ว่าง';
-      const log = borrowLogs.find(l => l.bookId === bookId && l.status === 'กำลังยืม');
+    window.returnBook = function (id) {
+      const b = booksData.find(x => x.id === id);
+      if (b) b.status = 'ว่าง';
+      const log = borrowLogs.find(x => x.bookId === id && x.status === 'กำลังยืม');
       if (log) log.status = 'คืนแล้ว';
-
-      try {
-        callGasApi({ action: 'RETURN_BOOK', bookId: bookId });
-      } catch (_) {}
-
+      try { callGasApi({ action: 'RETURN_BOOK', bookId: id }); } catch (_) {}
       renderBooksAndPagination();
       renderBorrowSection();
+      Swal.fire({
+        icon: 'success',
+        title: 'คืนหนังสือเรียบร้อย!',
+        text: 'ระบบได้ปรับปรุงสถานะหนังสือให้พร้อมยืมแล้วครับ',
+        timer: 1500,
+        showConfirmButton: false
+      });
     };
 
-    // ================= 6. ระบบรักษาความปลอดภัย: ไม่ฝังรหัสผ่านใน HTML + ล็อกเมื่อผิดเกิน 3 ครั้ง =================
+    function switchView(k) {
+      if (k === 'borrow') {
+        if (!currentLoggedUser || !currentLoggedUser.code) {
+          navigateToBorrowView();
+          return;
+        }
+      }
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.getAttribute('data-view') === k));
+      document.querySelectorAll('.view-section').forEach(s => s.classList.toggle('active', s.id === 'view-' + k));
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebarBackdrop').classList.remove('open');
+    }
+
+    document.querySelectorAll('.nav-item').forEach(b => b.addEventListener('click', function () { switchView(this.getAttribute('data-view')); }));
+    document.getElementById('hamburgerBtn').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('sidebarBackdrop').classList.toggle('open');
+    });
+    document.getElementById('sidebarBackdrop').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebarBackdrop').classList.remove('open');
+    });
+
+    // ================= ระบบความปลอดภัย และเมนู เจ้าหน้าที่/Admin =================
     function updateSecurityUI() {
-      // 1. ตรวจสอบสถานะของเจ้าหน้าที่
       const staffPill = document.getElementById('staffAttemptPill');
       const staffBanner = document.getElementById('staffLockBanner');
-      const staffInput = document.getElementById('staffPinInput');
-      const staffSubmit = document.getElementById('staffLoginSubmitBtn');
+      const adminPill = document.getElementById('adminAttemptPill');
+      const adminBanner = document.getElementById('adminLockBanner');
+      const adminStaffStatus = document.getElementById('adminStaffStatusText');
 
       if (securityState.staffLocked) {
-        staffPill.textContent = 'สถานะ: บัญชีถูกระงับชั่วคราว (ผิดเกิน 3 ครั้ง)';
+        staffPill.textContent = 'บัญชีถูกระงับชั่วคราว (ผิดเกิน 3 ครั้ง)';
         staffPill.className = 'attempt-pill locked';
         staffBanner.classList.add('show');
-        staffInput.disabled = true;
-        staffSubmit.disabled = true;
+        if (adminStaffStatus) adminStaffStatus.textContent = '🔒 ถูกล็อก (ผิดครบ 3 ครั้ง)';
       } else {
         staffPill.textContent = `จำนวนครั้งที่ผิด: ${securityState.staffFails} / 3 ครั้ง`;
         staffPill.className = securityState.staffFails > 0 ? 'attempt-pill warn' : 'attempt-pill';
         staffBanner.classList.remove('show');
-        staffInput.disabled = false;
-        staffSubmit.disabled = false;
+        if (adminStaffStatus) adminStaffStatus.textContent = `ปกติ (ผิด ${securityState.staffFails}/3 ครั้ง)`;
       }
 
-      // 2. ตรวจสอบสถานะของ Admin
-      const adminPill = document.getElementById('adminAttemptPill');
-      const adminBanner = document.getElementById('adminLockBanner');
-      const adminInput = document.getElementById('adminPinInput');
-      const adminSubmit = document.getElementById('adminLoginSubmitBtn');
-
       if (securityState.adminLocked) {
-        adminPill.textContent = 'สถานะ: บัญชีถูกระงับชั่วคราว (ผิดเกิน 3 ครั้ง)';
+        adminPill.textContent = 'บัญชี Admin ถูกล็อกชั่วคราว';
         adminPill.className = 'attempt-pill locked';
         adminBanner.classList.add('show');
-        adminInput.disabled = true;
-        adminSubmit.disabled = true;
       } else {
         adminPill.textContent = `จำนวนครั้งที่ผิด: ${securityState.adminFails} / 3 ครั้ง`;
         adminPill.className = securityState.adminFails > 0 ? 'attempt-pill warn' : 'attempt-pill';
         adminBanner.classList.remove('show');
-        adminInput.disabled = false;
-        adminSubmit.disabled = false;
-      }
-
-      // ป้ายสถานะในหน้า Admin
-      const adminStaffStatus = document.getElementById('adminStaffStatusText');
-      if (adminStaffStatus) {
-        adminStaffStatus.textContent = securityState.staffLocked
-          ? '🔒 ถูกล็อค (ใส่รหัสผิดเกิน 3 ครั้ง)'
-          : `ปกติ (ผิด ${securityState.staffFails}/3 ครั้ง)`;
-        adminStaffStatus.style.color = securityState.staffLocked ? 'var(--danger)' : 'var(--ink)';
       }
     }
 
-    function updateAuthUI() {
-      const staffGate = document.getElementById('staffAuthGate');
-      const staffContent = document.getElementById('staffProtectedContent');
-      const staffLabel = document.getElementById('staffSessionLabel');
-      const navLogoutBtn = document.getElementById('navRoleLogoutBtn');
-
-      const isAnyLoggedIn = isStaffAuthenticated || isAdminAuthenticated;
-      navLogoutBtn.style.display = isAnyLoggedIn ? 'inline-flex' : 'none';
-
-      if (isAnyLoggedIn) {
-        staffGate.style.display = 'none';
-        staffContent.style.display = 'block';
-        staffLabel.textContent = isAdminAuthenticated
-          ? 'ผู้ดูแลระบบสูงสุด (Admin - สิทธิ์เต็มทุกฟังก์ชัน)'
-          : `${currentStaffName} (สิทธิ์เจ้าหน้าที่: เพิ่มหนังสือและตรวจสอบการยืม-คืน)`;
-      } else {
-        staffGate.style.display = 'block';
-        staffContent.style.display = 'none';
-      }
-
-      const adminGate = document.getElementById('adminAuthGate');
-      const adminContent = document.getElementById('adminProtectedContent');
-
-      if (isAdminAuthenticated) {
-        adminGate.style.display = 'none';
-        adminContent.style.display = 'block';
-      } else {
-        adminGate.style.display = 'block';
-        adminContent.style.display = 'none';
-      }
-
-      updateSecurityUI();
-    }
-
-    // ฟังก์ชันออกจากระบบส่วนกลาง (Logout)
-    function logoutAllRoles() {
-      isStaffAuthenticated = false;
-      isAdminAuthenticated = false;
-      currentStaffName = '';
-      updateAuthUI();
-    }
-
-    // ผูกปุ่มออกจากระบบทุกจุด
-    document.querySelectorAll('.role-logout-btn').forEach(btn => {
-      btn.addEventListener('click', logoutAllRoles);
-    });
-    document.getElementById('navRoleLogoutBtn').addEventListener('click', logoutAllRoles);
-
-    // ยืนยันรหัสเข้าเมนูเจ้าหน้าที่ (ส่งตรวจสอบที่ Google Apps Script)
+    // ล็อกอิน เจ้าหน้าที่
     document.getElementById('staffLoginForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       const pin = document.getElementById('staffPinInput').value.trim();
-      const errBox = document.getElementById('staffAuthError');
-      errBox.classList.remove('show');
-
-      if (!pin) return;
-
-      // ตรวจสอบกับ Google Apps Script
       try {
-        const result = await callGasApi({ action: 'VERIFY_AUTH', role: 'STAFF', pin: pin });
-        if (result.ok) {
+        const res = await callGasApi({ action: 'VERIFY_AUTH', role: 'STAFF', pin: pin });
+        if (res.ok) {
           isStaffAuthenticated = true;
-          isAdminAuthenticated = !!result.isAdmin;
-          currentStaffName = result.staffName || 'เจ้าหน้าที่ห้องสมุด';
-          securityState.staffFails = 0;
-          securityState.staffLocked = false;
-          document.getElementById('staffPinInput').value = '';
-          updateAuthUI();
+          document.getElementById('staffAuthGate').style.display = 'none';
+          document.getElementById('staffProtectedContent').style.display = 'block';
+          document.getElementById('navRoleLogoutBtn').style.display = 'inline-flex';
+          document.getElementById('staffSessionLabel').textContent = res.staffName || 'เจ้าหน้าที่ห้องสมุด';
+          Swal.fire({
+            icon: 'success',
+            title: 'ยินดีต้อนรับเจ้าหน้าที่!',
+            text: `เข้าสู่ระบบสำเร็จในฐานะ: ${res.staffName || 'เจ้าหน้าที่ห้องสมุด'}`,
+            timer: 1800,
+            showConfirmButton: false
+          });
         } else {
-          securityState.staffFails = result.fails || (securityState.staffFails + 1);
-          securityState.staffLocked = !!result.locked || securityState.staffFails >= 3;
+          securityState.staffFails = res.fails || 1;
+          securityState.staffLocked = !!res.locked;
           updateSecurityUI();
-          if (!securityState.staffLocked) {
-            errBox.textContent = `รหัสผ่านไม่ถูกต้อง (ครั้งที่ ${securityState.staffFails} / 3)`;
-            errBox.classList.add('show');
-          }
+          document.getElementById('staffAuthError').classList.add('show');
         }
-      } catch (err) {
-        // หากยังไม่ได้เชื่อมต่อ Google Apps Script Web App URL
-        if (err.message === 'NO_GAS_URL') {
-          alert('กรุณาตั้งค่า Google Apps Script Web App URL ก่อนใช้งานระบบยืนยันตัวตน เพื่อความปลอดภัยในการเก็บรักษารหัสผ่านบนเซิร์ฟเวอร์ครับ');
-        } else {
-          // กรณีออฟไลน์หรือเชื่อมต่อผิดพลาด ให้จำลองการนับครั้งเพื่อความปลอดภัย
-          securityState.staffFails++;
-          if (securityState.staffFails >= 3) securityState.staffLocked = true;
-          updateSecurityUI();
-          errBox.textContent = 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ Google Apps Script หรือรหัสไม่ถูกต้อง';
-          errBox.classList.add('show');
-        }
+      } catch (_) {
+        Swal.fire({
+          icon: 'info',
+          title: 'แจ้งเตือนการเชื่อมต่อ',
+          text: 'กรุณาตั้งค่า Web App URL ของ Apps Script ก่อนทดสอบล็อกอินครับ',
+          confirmButtonText: 'เข้าใจแล้ว',
+          confirmButtonColor: '#1d4ed8'
+        });
       }
     });
 
-    // ยืนยันรหัสเข้าเมนู Admin (ส่งตรวจสอบที่ Google Apps Script)
+    // ล็อกอิน Admin
     document.getElementById('adminLoginForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       const pin = document.getElementById('adminPinInput').value.trim();
-      const errBox = document.getElementById('adminAuthError');
-      errBox.classList.remove('show');
-
-      if (!pin) return;
-
       try {
-        const result = await callGasApi({ action: 'VERIFY_AUTH', role: 'ADMIN', pin: pin });
-        if (result.ok) {
+        const res = await callGasApi({ action: 'VERIFY_AUTH', role: 'ADMIN', pin: pin });
+        if (res.ok) {
           isAdminAuthenticated = true;
-          isStaffAuthenticated = true;
-          currentStaffName = 'Admin';
-          securityState.adminFails = 0;
-          securityState.adminLocked = false;
-          document.getElementById('adminPinInput').value = '';
-          updateAuthUI();
+          document.getElementById('adminAuthGate').style.display = 'none';
+          document.getElementById('adminProtectedContent').style.display = 'block';
+          document.getElementById('navRoleLogoutBtn').style.display = 'inline-flex';
+          Swal.fire({
+            icon: 'success',
+            title: 'ยินดีต้อนรับ Admin!',
+            text: 'เข้าสู่ระบบผู้ดูแลระบบสูงสุดเรียบร้อยแล้ว',
+            timer: 1800,
+            showConfirmButton: false
+          });
         } else {
-          securityState.adminFails = result.fails || (securityState.adminFails + 1);
-          securityState.adminLocked = !!result.locked || securityState.adminFails >= 3;
+          securityState.adminFails = res.fails || 1;
+          securityState.adminLocked = !!res.locked;
           updateSecurityUI();
-          if (!securityState.adminLocked) {
-            errBox.textContent = `รหัส Admin ไม่ถูกต้อง (ครั้งที่ ${securityState.adminFails} / 3)`;
-            errBox.classList.add('show');
-          }
+          document.getElementById('adminAuthError').classList.add('show');
         }
-      } catch (err) {
-        if (err.message === 'NO_GAS_URL') {
-          alert('กรุณานำ Web App URL จาก Google Apps Script มาใส่ในตัวแปร gasWebAppUrl ก่อนใช้งาน เพื่อตรวจสอบรหัสผ่านอย่างปลอดภัยบนเซิร์ฟเวอร์ครับ');
-        } else {
-          securityState.adminFails++;
-          if (securityState.adminFails >= 3) securityState.adminLocked = true;
-          updateSecurityUI();
-          errBox.textContent = 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ Google Apps Script หรือรหัสไม่ถูกต้อง';
-          errBox.classList.add('show');
-        }
+      } catch (_) {
+        Swal.fire({
+          icon: 'info',
+          title: 'แจ้งเตือนการเชื่อมต่อ',
+          text: 'กรุณาตั้งค่า Web App URL ของ Apps Script ก่อนทดสอบล็อกอินครับ',
+          confirmButtonText: 'เข้าใจแล้ว',
+          confirmButtonColor: '#1d4ed8'
+        });
       }
     });
 
-    // Admin ปลดล็อครหัสผ่านเจ้าหน้าที่
-    document.getElementById('adminUnlockStaffBtn').addEventListener('click', async function () {
+    // ออกจากระบบทุกเมนู
+    document.querySelectorAll('.role-logout-btn, #navRoleLogoutBtn').forEach(b => b.addEventListener('click', () => {
+      isStaffAuthenticated = false;
+      isAdminAuthenticated = false;
+      document.getElementById('staffAuthGate').style.display = 'block';
+      document.getElementById('staffProtectedContent').style.display = 'none';
+      document.getElementById('adminAuthGate').style.display = 'block';
+      document.getElementById('adminProtectedContent').style.display = 'none';
+      document.getElementById('navRoleLogoutBtn').style.display = 'none';
+      Swal.fire({
+        icon: 'info',
+        title: 'ออกจากระบบเรียบร้อย',
+        timer: 1200,
+        showConfirmButton: false
+      });
+    }));
+
+    // Admin ปลดล็อกรหัสเจ้าหน้าที่
+    document.getElementById('adminUnlockStaffBtn').addEventListener('click', async () => {
       securityState.staffFails = 0;
       securityState.staffLocked = false;
       updateSecurityUI();
-      try {
-        await callGasApi({ action: 'UNLOCK_STAFF' });
-      } catch (_) {}
-      alert('ปลดล็อครหัสเจ้าหน้าที่เรียบร้อยแล้ว เจ้าหน้าที่สามารถกรอกรหัสเข้าสู่ระบบได้ตามปกติครับ');
+      try { await callGasApi({ action: 'UNLOCK_STAFF' }); } catch (_) {}
+      Swal.fire({
+        icon: 'success',
+        title: 'ปลดล็อกรหัสเจ้าหน้าที่เรียบร้อยแล้ว',
+        text: 'ระบบได้รีเซ็ตจำนวนครั้งที่กรอกผิดเป็น 0 ครั้ง เจ้าหน้าที่สามารถล็อกอินได้ตามปกติครับ',
+        confirmButtonText: 'ตกลง',
+        confirmButtonColor: '#1d4ed8'
+      });
     });
 
-    // ฟอร์มเพิ่มเจ้าหน้าที่ใหม่
-    document.getElementById('addStaffForm').addEventListener('submit', async function (e) {
+    // จัดการเพิ่มหนังสือ (ส่วนกลาง: รองรับการใส่ URL ลิงก์รูปภาพ หรือ Google Drive)
+    function addBookCommon(title, author, category, coverInputUrl) {
+      const formattedCover = formatCoverUrl(coverInputUrl);
+      const newBook = {
+        id: 'B' + String(booksData.length + 1).padStart(3, '0'),
+        title: title,
+        author: author,
+        category: category,
+        status: 'ว่าง',
+        cover_url: formattedCover || createCoverSvg(booksData.length + 1, title, category, booksData.length),
+        pdf_url: ''
+      };
+      booksData.unshift(newBook);
+      try { 
+        callGasApi({ 
+          action: 'ADD_BOOK', 
+          title: title, 
+          author: author, 
+          category: category, 
+          cover_url: newBook.cover_url 
+        }); 
+      } catch (_) {}
+      renderBooksAndPagination();
+      renderBorrowSection();
+      renderBookDashboard();
+      Swal.fire({
+        icon: 'success',
+        title: 'เพิ่มหนังสือสำเร็จ!',
+        text: `เพิ่มหนังสือเรื่อง "${title}" ลงในคลังเรียบร้อยแล้ว`,
+        timer: 2000,
+        showConfirmButton: false
+      });
+      switchView('books');
+    }
+
+    document.getElementById('staffAddBookForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      addBookCommon(
+        document.getElementById('staffBookTitle').value.trim(),
+        document.getElementById('staffBookAuthor').value.trim(),
+        document.getElementById('staffBookCategory').value,
+        document.getElementById('staffBookCoverUrl').value.trim()
+      );
+      this.reset();
+    });
+
+    document.getElementById('addBookForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      addBookCommon(
+        document.getElementById('newBookTitle').value.trim(),
+        document.getElementById('newBookAuthor').value.trim(),
+        document.getElementById('newBookCategory').value,
+        document.getElementById('newBookCoverUrl').value.trim()
+      );
+      this.reset();
+    });
+
+    // Admin เพิ่มเจ้าหน้าที่ใหม่
+    document.getElementById('addStaffForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const name = document.getElementById('newStaffName').value.trim();
       const pin = document.getElementById('newStaffPin').value.trim();
-      if (!name || !pin) return;
-
-      const nextId = 'STF-' + String(staffAccounts.length + 1).padStart(2, '0');
-      staffAccounts.push({ id: nextId, name: name, isDefault: false });
-
-      try {
-        await callGasApi({ action: 'ADD_STAFF', name: name, pin: pin });
-      } catch (_) {}
-
-      document.getElementById('newStaffName').value = '';
-      document.getElementById('newStaffPin').value = '';
+      const newId = 'STF-' + String(staffAccounts.length + 1).padStart(2, '0');
+      staffAccounts.push({ id: newId, name: name, isDefault: false });
+      try { await callGasApi({ action: 'ADD_STAFF', name: name, pin: pin }); } catch (_) {}
       renderStaffAccounts();
-      alert(`เพิ่มเจ้าหน้าที่ "${name}" เรียบร้อยแล้ว`);
+      this.reset();
+      Swal.fire({
+        icon: 'success',
+        title: 'เพิ่มเจ้าหน้าที่เรียบร้อย!',
+        text: `ได้เพิ่ม "${name}" (รหัส: ${newId}) เข้าสู่ระบบแล้ว`,
+        timer: 2000,
+        showConfirmButton: false
+      });
     });
 
     function renderStaffAccounts() {
       const tbody = document.getElementById('staffAccountsBody');
       if (!tbody) return;
-      tbody.innerHTML = staffAccounts.map(acc => `
+      tbody.innerHTML = staffAccounts.map(s => `
         <tr>
-          <td>${acc.id}</td>
-          <td>${acc.name}</td>
-          <td>
-            ${acc.isDefault
-              ? `<span style="color:var(--muted); font-size:12px;">บัญชีมาตรฐาน</span>`
-              : `<button type="button" class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="removeStaffAccount('${acc.id}')">ลบ</button>`
-            }
-          </td>
+          <td>${s.id}</td>
+          <td>${s.name}</td>
+          <td>${s.isDefault ? '<span style="color:var(--muted);">มาตรฐาน</span>' : `<button class="btn btn-secondary" style="padding:4px 8px;font-size:12px;" onclick="removeStaffAccount('${s.id}')">ลบ</button>`}</td>
         </tr>
       `).join('');
     }
 
-    window.removeStaffAccount = async function (staffId) {
-      staffAccounts = staffAccounts.filter(s => s.id !== staffId || s.isDefault);
-      try {
-        await callGasApi({ action: 'REMOVE_STAFF', id: staffId });
-      } catch (_) {}
-      renderStaffAccounts();
+    window.removeStaffAccount = async function(id) {
+      Swal.fire({
+        title: 'ยืนยันการลบรายชื่อ?',
+        text: 'คุณต้องการลบเจ้าหน้าที่ท่านนี้ออกจากระบบหรือไม่',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#b91c1c',
+        cancelButtonColor: '#64748b',
+        confirmButtonText: 'ใช่, ลบเลย',
+        cancelButtonText: 'ยกเลิก'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          staffAccounts = staffAccounts.filter(s => s.id !== id);
+          try { await callGasApi({ action: 'REMOVE_STAFF', id: id }); } catch (_) {}
+          renderStaffAccounts();
+          Swal.fire({
+            icon: 'success',
+            title: 'ลบเรียบร้อยแล้ว',
+            timer: 1500,
+            showConfirmButton: false
+          });
+        }
+      });
     };
 
-    // ฟังก์ชันเพิ่มหนังสือส่วนกลาง
-    function addNewBookToCatalog(title, author, category) {
-      const nextNum = booksData.length + 1;
-      const newId = 'B' + String(nextNum).padStart(3, '0');
-      const newBook = {
-        id: newId,
-        title: title,
-        author: author,
-        category: category,
-        status: 'ว่าง',
-        cover_url: createCoverSvgDataUri(nextNum, title, category, nextNum)
-      };
-      booksData.unshift(newBook);
-      currentPage = 1;
-
-      try {
-        callGasApi({ action: 'ADD_BOOK', title: title, author: author, category: category, cover_url: newBook.cover_url });
-      } catch (_) {}
-
-      renderBooksAndPagination();
-      renderBorrowSection();
-      switchView('books');
-    }
-
-    document.getElementById('staffAddBookForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const title = document.getElementById('staffBookTitle').value.trim();
-      const author = document.getElementById('staffBookAuthor').value.trim();
-      const category = document.getElementById('staffBookCategory').value;
-      if (!title || !author) return;
-
-      document.getElementById('staffBookTitle').value = '';
-      document.getElementById('staffBookAuthor').value = '';
-      addNewBookToCatalog(title, author, category);
-    });
-
-    document.getElementById('addBookForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const title = document.getElementById('newBookTitle').value.trim();
-      const author = document.getElementById('newBookAuthor').value.trim();
-      const category = document.getElementById('newBookCategory').value;
-      if (!title || !author) return;
-
-      document.getElementById('newBookTitle').value = '';
-      document.getElementById('newBookAuthor').value = '';
-      addNewBookToCatalog(title, author, category);
-    });
-
-    // ตั้งค่า Web App URL ผ่านหน้าต่างเมนู Admin
+    // ตั้งค่า Web App URL
     document.getElementById('gasConfigForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const url = document.getElementById('gasUrlInput').value.trim();
-      if (!url) return;
-      gasWebAppUrl = url;
-      try {
+      if (url) {
+        gasWebAppUrl = url;
         localStorage.setItem('school_elibrary_gas_url', url);
-      } catch (_) {}
-      fetchDatabaseFromGas();
+        fetchDatabaseFromGas();
+        Swal.fire({
+          icon: 'success',
+          title: 'บันทึกสำเร็จ!',
+          text: 'บันทึก Web App URL และดึงข้อมูลใหม่จาก Google Sheets เรียบร้อยแล้ว',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      }
     });
 
     // เริ่มต้นระบบ
-    if (gasWebAppUrl && gasWebAppUrl.startsWith('https://')) {
-      document.getElementById('gasUrlInput').value = gasWebAppUrl;
-    }
     renderBooksAndPagination();
     renderAccessLogs();
     renderBorrowSection();
     renderStaffAccounts();
-    updateAuthUI();
+    renderBookDashboard();
     fetchDatabaseFromGas();
   </script>
 </body>
