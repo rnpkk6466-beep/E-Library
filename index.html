@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ระบบห้องสมุดออนไลน์ (School E-Library)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,6 +46,7 @@
       background: var(--bg);
       line-height: 1.5;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
     /* ================= ENTRY GATE SCREEN ================= */
@@ -85,11 +86,12 @@
     .entry-title { font-size: 26px; font-weight: 700; margin: 0 0 8px; }
     .entry-subtitle { font-size: 15px; color: var(--muted); margin: 0 0 24px; }
     .entry-form { text-align: left; margin-bottom: 20px; }
-    .form-group { margin-bottom: 16px; }
-    .form-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .form-group { margin-bottom: 16px; width: 100%; }
+    .form-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; word-break: break-word; }
 
     .form-input, .form-select {
       width: 100%;
+      max-width: 100%;
       padding: 10px 14px;
       font: inherit;
       font-size: 15px;
@@ -126,7 +128,7 @@
       gap: 8px;
       transition: background 0.15s, transform 0.1s;
       text-decoration: none;
-      white-space: nowrap;
+      box-sizing: border-box;
     }
 
     .btn:active { transform: translateY(1px); }
@@ -149,7 +151,7 @@
     .entry-note { font-size: 13px; color: var(--muted); margin-top: 14px; text-align: center; }
 
     /* ================= APP SHELL ================= */
-    .app-shell { display: none; min-height: 100vh; flex-direction: column; }
+    .app-shell { display: none; min-height: 100vh; flex-direction: column; width: 100%; overflow-x: hidden; }
     .app-shell.active { display: flex; }
 
     .navbar {
@@ -164,6 +166,7 @@
       top: 0;
       z-index: 40;
       gap: 10px;
+      width: 100%;
     }
 
     .navbar-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
@@ -209,7 +212,7 @@
       white-space: nowrap;
     }
 
-    .app-body { display: flex; flex: 1; position: relative; }
+    .app-body { display: flex; flex: 1; position: relative; width: 100%; }
 
     .sidebar {
       width: var(--sidebar-width);
@@ -292,8 +295,8 @@
       color: #ffffff; 
     }
 
-    .main-wrapper { flex: 1; display: flex; flex-direction: column; min-width: 0; width: 100%; }
-    .main-content { flex: 1; padding: 24px 20px; max-width: 1280px; width: 100%; margin: 0 auto; }
+    .main-wrapper { flex: 1; display: flex; flex-direction: column; min-width: 0; width: 100%; overflow-x: hidden; }
+    .main-content { flex: 1; padding: 24px 20px; max-width: 1280px; width: 100%; margin: 0 auto; box-sizing: border-box; }
 
     @media (min-width: 1024px) {
       .hamburger-btn { display: none; }
@@ -302,7 +305,7 @@
       .main-content { padding: 28px 32px; }
     }
 
-    .view-section { display: none; }
+    .view-section { display: none; width: 100%; }
     .view-section.active { display: block; }
 
     .page-header {
@@ -312,16 +315,29 @@
       justify-content: space-between;
       gap: 16px;
       margin-bottom: 24px;
+      width: 100%;
     }
 
-    .page-title { font-size: 24px; font-weight: 700; margin: 0; }
-    .page-subtitle { font-size: 14px; color: #ffffff; margin: 4px 0 0; opacity: 0.9; }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 20px; }
+    .page-title { font-size: 24px; font-weight: 700; margin: 0; word-break: break-word; }
+    .page-subtitle { font-size: 14px; color: #ffffff; margin: 4px 0 0; opacity: 0.9; word-break: break-word; }
+    
+    .card { 
+      background: var(--surface); 
+      border: 1px solid var(--border); 
+      border-radius: var(--radius); 
+      box-shadow: var(--shadow); 
+      padding: 20px; 
+      margin-bottom: 20px; 
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
 
     /* DASHBOARDS */
     .dashboard-card { margin-bottom: 20px; background: #ebc520; color: #1e293b; }
     .dashboard-header { margin-bottom: 16px; }
-    .dashboard-title { margin: 0; font-size: 18px; font-weight: 700; }
+    .dashboard-title { margin: 0; font-size: 18px; font-weight: 700; word-break: break-word; }
 
     .dashboard-grid-5 { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 14px; }
     @media (min-width: 540px) { .dashboard-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -341,7 +357,7 @@
     .stat-bar-fill { height: 100%; border-radius: 999px; background: var(--brand); width: 0%; transition: width 0.3s; }
 
     /* BOOK GRID */
-    .filter-bar { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+    .filter-bar { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; width: 100%; }
     .filter-search { flex: 1 1 240px; }
     .filter-category { flex: 0 1 200px; }
 
@@ -371,25 +387,35 @@
 
     .book-info { padding: 12px 14px 14px; display: flex; flex-direction: column; flex: 1; justify-content: space-between; gap: 10px; }
     .book-category-tag { font-size: 11px; font-weight: 600; color: var(--brand); background: var(--brand-soft); padding: 2px 8px; border-radius: 4px; display: inline-block; }
-    .book-title { font-size: 14px; font-weight: 700; margin: 4px 0; }
-    .book-author { font-size: 12px; color: var(--muted); margin: 0; }
+    .book-title { font-size: 14px; font-weight: 700; margin: 4px 0; word-break: break-word; }
+    .book-author { font-size: 12px; color: var(--muted); margin: 0; word-break: break-word; }
     .book-actions { display: flex; gap: 6px; }
-    .book-actions .btn { flex: 1; padding: 7px 10px; font-size: 13px; }
+    .book-actions .btn { flex: 1; padding: 7px 10px; font-size: 13px; white-space: nowrap; }
 
-    .pagination-wrap { margin-top: 28px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .pagination-info { font-size: 13px; color: #ffffff; }
-    .pagination-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .pagination-wrap { margin-top: 28px; display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+    .pagination-info { font-size: 13px; color: #ffffff; text-align: center; }
+    .pagination-list { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
     .page-btn { min-width: 38px; height: 38px; padding: 0 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-weight: 600; }
     .page-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
     .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: var(--radius-sm); width: 100%; }
-    table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--surface); min-width: 480px; }
-    th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    /* TABLE WRAPPER ป้องกันขอบล้น */
+    .table-wrap { 
+      overflow-x: auto; 
+      -webkit-overflow-scrolling: touch; 
+      border: 1px solid var(--border); 
+      border-radius: var(--radius-sm); 
+      width: 100%; 
+      max-width: 100%;
+      box-sizing: border-box;
+      margin-top: 10px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--surface); }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); word-break: break-word; }
     th { background: var(--surface-alt); font-weight: 700; white-space: nowrap; }
 
-    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 20px; }
-    @media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; }
+    @media (min-width: 860px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
 
     .auth-gate-card { max-width: 480px; margin: 24px auto; text-align: center; padding: 30px 24px; }
     .auth-icon { width: 56px; height: 56px; margin: 0 auto 12px; border-radius: 14px; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 24px; }
@@ -400,7 +426,7 @@
     .attempt-pill { display: inline-flex; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--surface-alt); margin-bottom: 14px; border: 1px solid var(--border); }
     .attempt-pill.warn { background: var(--warning-bg); color: var(--warning); }
     .attempt-pill.locked { background: var(--danger-bg); color: var(--danger); }
-    .unlock-guide-box { margin-top: 16px; padding: 14px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; text-align: left; }
+    .unlock-guide-box { margin-top: 16px; padding: 14px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; text-align: left; word-break: break-word; }
 
     .auth-bar {
       display: flex;
@@ -412,16 +438,18 @@
       border-radius: var(--radius-sm);
       box-shadow: var(--shadow);
       gap: 10px;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .footer { background: var(--surface); border-top: 1px solid var(--border); padding: 18px 24px; text-align: center; font-size: 13px; color: var(--muted); margin-top: auto; }
     .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55); z-index: 60; align-items: center; justify-content: center; padding: 20px; }
     .modal-backdrop.open { display: flex; }
-    .modal-card { background: var(--surface); border-radius: var(--radius); max-width: 560px; width: 100%; padding: 24px; }
+    .modal-card { background: var(--surface); border-radius: var(--radius); max-width: 560px; width: 100%; padding: 24px; box-sizing: border-box; }
     .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-    .modal-title { font-size: 18px; font-weight: 700; margin: 0; }
+    .modal-title { font-size: 18px; font-weight: 700; margin: 0; word-break: break-word; }
 
-    /* ================= RESPONSIVE MOBILE TWEAKS (แก้ปัญหาจอมือถือ) ================= */
+    /* ================= RESPONSIVE MOBILE TWEAKS (แก้ปัญหาขอบเกินจอในหน้าเจ้าหน้าที่และ Admin) ================= */
     @media (max-width: 768px) {
       .navbar {
         padding: 0 12px;
@@ -431,7 +459,7 @@
         font-size: 16px;
       }
 
-      /* ซ่อนชิปสถานะ, ปุ่มลงชื่อเข้าใช้ และปุ่มออกจากระบบบน Navbar ของจอมือถือทั้งหมด */
+      /* ซ่อนปุ่มบน Navbar ในจอมือถือทั้งหมด */
       .navbar-right #currentUserChip,
       .navbar-right #backToGateBtn,
       .navbar-right #navRoleLogoutBtn {
@@ -439,46 +467,82 @@
       }
 
       .main-content {
-        padding: 16px 12px;
+        padding: 14px 10px;
+        width: 100%;
       }
 
       .page-header {
-        margin-bottom: 16px;
-        gap: 12px;
+        margin-bottom: 14px;
+        gap: 10px;
       }
 
       .page-title {
-        font-size: 20px;
+        font-size: 19px;
         color: #ffffff;
       }
 
       .page-subtitle {
-        font-size: 13px;
+        font-size: 12px;
       }
 
       .card {
-        padding: 14px;
+        padding: 14px 12px;
+        margin-bottom: 14px;
+        border-radius: 10px;
       }
 
-      /* ตารางในมือถือให้ตัวหนังสือและช่องไฟเล็กลง */
+      .grid-2 {
+        gap: 14px;
+      }
+
+      /* ฟอร์มและปุ่มในหน้าจอเล็ก */
+      .form-input, .form-select {
+        font-size: 14px;
+        padding: 8px 12px;
+      }
+
+      /* กล่องแจ้งเตือนความปลอดภัยของ Admin */
+      .admin-security-box {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+      }
+
+      .admin-security-box button,
+      #adminUnlockStaffBtn {
+        width: 100% !important;
+        font-size: 13px !important;
+        padding: 8px 12px !important;
+        white-space: normal !important;
+        text-align: center !important;
+        line-height: 1.3 !important;
+      }
+
+      /* ตารางในมือถือ */
       table {
-        font-size: 13px;
-        min-width: 440px;
+        font-size: 12px;
+        min-width: 100%;
       }
 
       th, td {
-        padding: 8px 10px;
+        padding: 8px 8px;
       }
 
       /* กล่อง Auth-Bar ปรับขนาด */
       .auth-bar {
         padding: 10px 12px;
         font-size: 13px;
+        flex-wrap: wrap;
       }
 
       .auth-bar .role-logout-btn {
         padding: 6px 12px;
         font-size: 12px;
+      }
+
+      .btn {
+        padding: 8px 14px;
+        font-size: 13px;
       }
     }
 
@@ -777,7 +841,7 @@
                     <label class="form-label">ชื่อผู้ยืม (ระบุอัตโนมัติตามข้อมูลที่ลงชื่อเข้าใช้)</label>
                     <input type="text" id="borrowerNameInput" class="form-input" readonly style="background:#f1f5f9; color:#475569;" required>
                   </div>
-                  <button type="submit" class="btn btn-primary">ยืนยันการยืมหนังสือ</button>
+                  <button type="submit" class="btn btn-primary" style="width:100%;">ยืนยันการยืมหนังสือ</button>
                 </form>
               </div>
               <div class="card">
@@ -802,7 +866,7 @@
             </div>
             <div id="staffAuthGate" class="card auth-gate-card">
               <div class="auth-icon">🔒</div>
-              <h3>เข้าสู่ระบบเจ้าหน้าที่</h3>
+              <h3 style="margin-top:0;">เข้าสู่ระบบเจ้าหน้าที่</h3>
               <p style="font-size:13px; color:var(--muted); margin-top:0;">ระบบตรวจสอบรหัสผ่านผ่าน Google Apps Script โดยตรง</p>
               <div id="staffAttemptPill" class="attempt-pill">จำนวนครั้งที่ผิด: 0 / 3 ครั้ง</div>
               <div id="staffLockBanner" class="lock-banner">บัญชีเจ้าหน้าที่ถูกล็อกชั่วคราว! กรุณาติดต่อ Admin เพื่อปลดล็อก</div>
@@ -815,14 +879,16 @@
               </form>
             </div>
 
-            <div id="staffProtectedContent" style="display:none;">
+            <div id="staffProtectedContent" style="display:none; width:100%;">
               <div class="auth-bar">
                 <div>สถานะ: <strong id="staffSessionLabel">เจ้าหน้าที่ห้องสมุด</strong></div>
                 <button type="button" class="btn btn-danger role-logout-btn">ออกจากระบบ</button>
               </div>
-              <div class="grid-2" style="margin-bottom:20px;">
+
+              <!-- ส่วนเพิ่มหนังสือ และ ตรวจสอบยืม-คืน (แก้ขอบเกินจอ) -->
+              <div class="grid-2">
                 <div class="card">
-                  <h3 style="margin-top:0; font-size:18px;">เพิ่มหนังสือเข้าคลัง (สำหรับเจ้าหน้าที่)</h3>
+                  <h3 style="margin-top:0; font-size:17px; word-break:break-word;">เพิ่มหนังสือเข้าคลัง (สำหรับเจ้าหน้าที่)</h3>
                   <form id="staffAddBookForm">
                     <div class="form-group">
                       <label class="form-label">ชื่อหนังสือ</label>
@@ -843,15 +909,16 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label class="form-label">ลิงก์รูปภาพหน้าปก (URL รูปภาพ หรือ ลิงก์แชร์จาก Google Drive)</label>
-                      <input type="url" id="staffBookCoverUrl" class="form-input" placeholder="เช่น https://drive.google.com/file/d/... หรือลิงก์รูปภาพทั่วไป (เว้นว่างไว้ได้)">
-                      <small style="color:var(--muted); font-size:12px; display:block; margin-top:4px;">* หากใช้ Google Drive ให้ตั้งค่าแชร์ไฟล์เป็น "ทุกคนที่มีลิงก์มีสิทธิ์ดู" ระบบจะแปลงลิงก์ให้อัตโนมัติ</small>
+                      <label class="form-label">ลิงก์รูปภาพหน้าปก (URL หรือ Google Drive)</label>
+                      <input type="url" id="staffBookCoverUrl" class="form-input" placeholder="วางลิงก์รูปภาพ (เว้นว่างไว้ได้)">
+                      <small style="color:var(--muted); font-size:11px; display:block; margin-top:4px; line-height:1.4;">* รองรับลิงก์แชร์จาก Google Drive (ทุกคนที่มีลิงก์มีสิทธิ์ดู)</small>
                     </div>
-                    <button type="submit" class="btn btn-primary">เพิ่มหนังสือลงในระบบ</button>
+                    <button type="submit" class="btn btn-primary" style="width:100%;">เพิ่มหนังสือลงในระบบ</button>
                   </form>
                 </div>
+
                 <div class="card">
-                  <h3 style="margin-top:0; font-size:18px;">ตรวจสอบและจัดการการยืม-คืนหนังสือ</h3>
+                  <h3 style="margin-top:0; font-size:17px; word-break:break-word;">ตรวจสอบและจัดการการยืม-คืนหนังสือ</h3>
                   <div class="table-wrap">
                     <table>
                       <thead><tr><th>รหัส</th><th>ชื่อหนังสือ</th><th>ผู้ยืม</th><th>เวลา</th><th>สถานะ/จัดการ</th></tr></thead>
@@ -860,8 +927,9 @@
                   </div>
                 </div>
               </div>
+
               <div class="card">
-                <h3 style="margin-top:0; font-size:18px;">ประวัติการเข้าใช้งานของโรงเรียน</h3>
+                <h3 style="margin-top:0; font-size:17px; word-break:break-word;">ประวัติการเข้าใช้งานของโรงเรียน</h3>
                 <div class="table-wrap">
                   <table>
                     <thead><tr><th>ลำดับ</th><th>วัน-เวลา</th><th>ชื่อผู้เข้าใช้งาน</th><th>กลุ่มผู้ใช้</th></tr></thead>
@@ -883,7 +951,7 @@
 
             <div id="adminAuthGate" class="card auth-gate-card">
               <div class="auth-icon">🛡️</div>
-              <h3>เข้าสู่ระบบ Admin</h3>
+              <h3 style="margin-top:0;">เข้าสู่ระบบ Admin</h3>
               <p style="font-size:13px; color:var(--muted); margin-top:0;">รหัสผ่านจะถูกตรวจสอบบน Google Apps Script โดยตรง</p>
               <div id="adminAttemptPill" class="attempt-pill">จำนวนครั้งที่ผิด: 0 / 3 ครั้ง</div>
               <div id="adminLockBanner" class="lock-banner">
@@ -902,16 +970,17 @@
               </form>
             </div>
 
-            <div id="adminProtectedContent" style="display:none;">
+            <div id="adminProtectedContent" style="display:none; width:100%;">
               <div class="auth-bar">
                 <div>สถานะ: <strong>ผู้ดูแลระบบสูงสุด (Admin)</strong></div>
                 <button type="button" class="btn btn-danger role-logout-btn">ออกจากระบบ</button>
               </div>
 
-              <div class="card" style="margin-bottom:20px; border-left: 4px solid var(--brand);">
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-                  <div>
-                    <h3 style="margin:0 0 4px; font-size:17px;">การจัดการความปลอดภัยและปลดล็อกรหัสผ่านเจ้าหน้าที่</h3>
+              <!-- การจัดการความปลอดภัยและปลดล็อกรหัสเจ้าหน้าที่ (แก้ปุ่มเลยขอบจอ) -->
+              <div class="card" style="border-left: 4px solid var(--brand);">
+                <div class="admin-security-box" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; width:100%;">
+                  <div style="flex:1; min-width:200px;">
+                    <h3 style="margin:0 0 4px; font-size:16px; word-break:break-word;">การจัดการความปลอดภัยและปลดล็อกรหัสผ่านเจ้าหน้าที่</h3>
                     <p style="margin:0; font-size:13px; color:var(--muted);">
                       สถานะรหัสเจ้าหน้าที่: <strong id="adminStaffStatusText">ปกติ (0/3)</strong>
                     </p>
@@ -922,10 +991,11 @@
                 </div>
               </div>
 
-              <div class="grid-2" style="margin-bottom:20px;">
+              <!-- เพิ่มเจ้าหน้าที่ + รายชื่อเจ้าหน้าที่ (แก้ขอบเกินจอ) -->
+              <div class="grid-2">
                 <div class="card">
-                  <h3 style="margin-top:0; font-size:18px;">เพิ่มเจ้าหน้าที่ห้องสมุด</h3>
-                  <p style="font-size:13px; color:var(--muted); margin-top:0;">กำหนดชื่อและรหัสผ่านสำหรับเจ้าหน้าที่ใหม่ บันทึกลงชีต StaffAccounts</p>
+                  <h3 style="margin-top:0; font-size:17px; word-break:break-word;">เพิ่มเจ้าหน้าที่ห้องสมุด</h3>
+                  <p style="font-size:12px; color:var(--muted); margin-top:0;">กำหนดชื่อและรหัสผ่านสำหรับเจ้าหน้าที่ใหม่ บันทึกลงชีต StaffAccounts</p>
                   <form id="addStaffForm">
                     <div class="form-group">
                       <label class="form-label">ชื่อ-นามสกุล / ตำแหน่งเจ้าหน้าที่</label>
@@ -935,23 +1005,25 @@
                       <label class="form-label">รหัสเข้าใช้งานของเจ้าหน้าที่</label>
                       <input type="password" id="newStaffPin" class="form-input" placeholder="กำหนดรหัสผ่านเฉพาะบุคคล" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">เพิ่มเจ้าหน้าที่ลงระบบ</button>
+                    <button type="submit" class="btn btn-primary" style="width:100%;">เพิ่มเจ้าหน้าที่ลงระบบ</button>
                   </form>
                 </div>
+
                 <div class="card">
-                  <h3 style="margin-top:0; font-size:18px;">รายชื่อเจ้าหน้าที่ในระบบ</h3>
+                  <h3 style="margin-top:0; font-size:17px; word-break:break-word;">รายชื่อเจ้าหน้าที่ในระบบ</h3>
                   <div class="table-wrap">
                     <table>
-                      <thead><tr><th>รหัส</th><th>ชื่อเจ้าหน้าที่</th><th>การจัดการ</th></tr></thead>
+                      <thead><tr><th>รหัส</th><th>ชื่อเจ้าหน้าที่</th><th>จัดการ</th></tr></thead>
                       <tbody id="staffAccountsBody"></tbody>
                     </table>
                   </div>
                 </div>
               </div>
 
+              <!-- เพิ่มหนังสือ (Admin) + ตั้งค่า Web App URL -->
               <div class="grid-2">
                 <div class="card">
-                  <h3 style="margin-top:0; font-size:18px;">เพิ่มหนังสือเข้าคลัง (Admin)</h3>
+                  <h3 style="margin-top:0; font-size:17px; word-break:break-word;">เพิ่มหนังสือเข้าคลัง (Admin)</h3>
                   <form id="addBookForm">
                     <div class="form-group">
                       <label class="form-label">ชื่อหนังสือ</label>
@@ -972,21 +1044,22 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label class="form-label">ลิงก์รูปภาพหน้าปก (URL รูปภาพ หรือ ลิงก์แชร์จาก Google Drive)</label>
-                      <input type="url" id="newBookCoverUrl" class="form-input" placeholder="เช่น https://drive.google.com/file/d/... หรือลิงก์รูปภาพทั่วไป (เว้นว่างไว้ได้)">
-                      <small style="color:var(--muted); font-size:12px; display:block; margin-top:4px;">* หากใช้ Google Drive ให้ตั้งค่าแชร์ไฟล์เป็น "ทุกคนที่มีลิงก์มีสิทธิ์ดู" ระบบจะแปลงลิงก์ให้อัตโนมัติ</small>
+                      <label class="form-label">ลิงก์รูปภาพหน้าปก (URL หรือ Google Drive)</label>
+                      <input type="url" id="newBookCoverUrl" class="form-input" placeholder="วางลิงก์รูปภาพ (เว้นว่างไว้ได้)">
+                      <small style="color:var(--muted); font-size:11px; display:block; margin-top:4px; line-height:1.4;">* รองรับลิงก์แชร์จาก Google Drive (ทุกคนที่มีลิงก์มีสิทธิ์ดู)</small>
                     </div>
-                    <button type="submit" class="btn btn-primary">เพิ่มหนังสือลงในระบบ</button>
+                    <button type="submit" class="btn btn-primary" style="width:100%;">เพิ่มหนังสือลงในระบบ</button>
                   </form>
                 </div>
+
                 <div class="card">
-                  <h3 style="margin-top:0; font-size:18px;">ตั้งค่าเชื่อมต่อ Google Apps Script (Web App URL)</h3>
+                  <h3 style="margin-top:0; font-size:17px; word-break:break-word;">ตั้งค่าเชื่อมต่อ Google Apps Script (Web App URL)</h3>
                   <form id="gasConfigForm">
                     <div class="form-group">
                       <label class="form-label">Google Apps Script Web App URL</label>
                       <input type="url" id="gasUrlInput" class="form-input" placeholder="วาง Web App URL ที่นี่">
                     </div>
-                    <button type="submit" class="btn btn-secondary">บันทึก URL และทดสอบดึงข้อมูล</button>
+                    <button type="submit" class="btn btn-secondary" style="width:100%;">บันทึก URL และทดสอบดึงข้อมูล</button>
                   </form>
                 </div>
               </div>
@@ -1603,7 +1676,6 @@
           isStaffAuthenticated = true;
           document.getElementById('staffAuthGate').style.display = 'none';
           document.getElementById('staffProtectedContent').style.display = 'block';
-          // ปรับปรุง: ซ่อนปุ่มออกจากระบบบน Navbar หากเป็นหน้าจอเล็ก (<= 768px)
           if (window.innerWidth > 768) {
             document.getElementById('navRoleLogoutBtn').style.display = 'inline-flex';
           }
@@ -1641,7 +1713,6 @@
           isAdminAuthenticated = true;
           document.getElementById('adminAuthGate').style.display = 'none';
           document.getElementById('adminProtectedContent').style.display = 'block';
-          // ปรับปรุง: ซ่อนปุ่มออกจากระบบบน Navbar หากเป็นหน้าจอเล็ก (<= 768px)
           if (window.innerWidth > 768) {
             document.getElementById('navRoleLogoutBtn').style.display = 'inline-flex';
           }
