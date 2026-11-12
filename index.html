@@ -1295,9 +1295,26 @@
 
   <script>
     // =========================================================================
-    // ⚙️ วาง Web App URL ที่ได้จาก Google Apps Script ที่นี่
-    let gasWebAppUrl = 'https://script.google.com/macros/s/AKfycbwUOZwQDSh2S0NNe9Evl3hGmm1TxMu0EWbbwvJhFAZmm-oh5jFqMGqDrnuuqe28XhJN/exec';
-    // =========================================================================
+// ⚙️ ตัวแปร API Endpoint (เข้ารหัส Base64 ป้องกันการส่องโค้ดโดยตรง)
+// =========================================================================
+const _APP_CIPHER = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3VU9ad1FEU2gyUzBOTmU5RXZsM2hHbW0xVHhNdTBFR2Jid3ZKaEFAWm1tLW9oNWpGcU1HcUrybnV1cWUyOFhoSk4vZXhlYw==';
+const _APP_SECRET = 'SCHOOL_LIB_SECURE_2026'; // กุญแจลับสำหรับเชื่อมต่อ Apps Script
+
+function getEndpointUrl() {
+  try {
+    return atob(_APP_CIPHER);
+  } catch (err) {
+    return '';
+  }
+}
+
+let gasWebAppUrl = getEndpointUrl();
+
+    // try {
+    // const savedUrl = localStorage.getItem('school_elibrary_gas_url');
+    // if (savedUrl && savedUrl.startsWith('https://')) gasWebAppUrl = savedUrl;
+    // } catch (_) {}
+
 
     try {
       const savedUrl = localStorage.getItem('school_elibrary_gas_url');
