@@ -11,7 +11,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     :root {
-      --bg: linear-gradient(135deg, #4f7bf5 0%, #1d4ed8 100%);
+      --bg: #1d4ed8;
       --surface: #ffffff;
       --surface-alt: #f8fafc;
       --border: #e2e8f0;
@@ -359,12 +359,20 @@
     }
     .btn-sidebar-logout:hover { background: #dc2626; }
 
+    /* ================= MAIN WRAPPER (ใส่ภาพ Background ฝั่งรายละเอียด) ================= */
     .main-wrapper { 
       flex: 1; 
       display: flex; 
       flex-direction: column; 
       min-width: 0; 
       width: 100%; 
+      background-image: 
+        linear-gradient(rgba(29, 78, 216, 0.72), rgba(30, 58, 138, 0.82)),
+        url('https://s.imgz.io/2026/11/12/360_F_560447618_PEr4H2GCkr795pN3i6uR2bjwaph4SxlG671a8c1a92c1b03b.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
     }
 
     .main-content { 
@@ -407,8 +415,8 @@
       width: 100%;
     }
 
-    .page-title { font-size: 21px; font-weight: 700; margin: 0; color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.1); word-break: break-word; }
-    .page-subtitle { font-size: 13px; color: #ffffff; margin: 3px 0 0; opacity: 0.9; word-break: break-word; }
+    .page-title { font-size: 21px; font-weight: 700; margin: 0; color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.3); word-break: break-word; }
+    .page-subtitle { font-size: 13px; color: #ffffff; margin: 3px 0 0; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.25); word-break: break-word; }
 
     .card { 
       background: var(--surface); 
@@ -451,16 +459,12 @@
     .stat-bar-fill { height: 100%; border-radius: 999px; background: var(--brand); width: 0%; transition: width 0.3s; }
 
     /* ================= ปฏิทินสถิติการเข้าใช้งานประจำเดือน ================= */
-    /* .calendar-container {
+    .calendar-container {
       width: 100%;
       display: flex;
       flex-direction: column;
       gap: 8px;
-    } */
-     .card:has(.calendar-container) {
-  background: #f0fdf4; /* 👈 เปลี่ยนสีฉากหลังทั้งกล่อง (ตัวอย่าง: สีเขียวมินต์อ่อนมาก) */
-  border-color: #bbf7d0; /* ปรับสีกรอบให้เข้ากัน (ไม่บังคับ) */
-}
+    }
 
     .calendar-header-nav {
       display: flex;
@@ -473,7 +477,7 @@
     .calendar-month-title {
       font-size: 15.5px;
       font-weight: 700;
-      color: #1d4ed8; /* 👈 เปลี่ยนสีข้อความชื่อเดือน (เช่น #0f766e หรือ #1e3a8a) */
+      color: var(--brand);
       margin: 0;
     }
 
@@ -506,35 +510,35 @@
     .calendar-day-head {
       font-size: 11.5px;
       font-weight: 700;
-      color: #475569;        /* 👈 สีตัวอักษรของวัน */
+      color: var(--muted);
       padding: 4px 0;
-      background: #f3df6e;   /* 👈 สีพื้นหลังของช่องหัววัน */
+      background: var(--surface-alt);
       border-radius: 4px;
     }
 
     .calendar-cell {
       min-height: 48px;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        padding: 4px 2px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        background: #ffffff; /* 👈 เปลี่ยนสีฉากหลังของช่องวันที่ปกติที่นี่ (เช่น #f8fafc หรือ #f1f5f9) */
-        font-size: 12px;
-        transition: border-color 0.15s, background 0.15s;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 4px 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: var(--surface);
+      font-size: 12px;
+      transition: border-color 0.15s, background 0.15s;
     }
 
     .calendar-cell.empty {
-      background: #f8fafc; /* 👈 เปลี่ยนสีช่องว่างที่นี่ */
+      background: #f8fafc;
       border-color: #f1f5f9;
       opacity: 0.5;
     }
 
     .calendar-cell.today {
       border-color: var(--brand);
-      background: #eff6ff; /* 👈 เปลี่ยนสีฉากหลังของวันนี้ (เช่น สีฟ้าอ่อนหรือเหลืองอ่อน) */
+      background: #eff6ff;
     }
 
     .cal-day-num {
@@ -545,7 +549,7 @@
     }
 
     .calendar-cell.today .cal-day-num {
-      color: #f70303;        /* 👈 สีตัวเลขวันที่ของวันนี้ */
+      color: var(--brand);
       font-weight: 700;
     }
 
@@ -621,7 +625,7 @@
     .book-actions .btn { flex: 1; padding: 6px 8px; font-size: 12px; white-space: nowrap; }
 
     .pagination-wrap { margin-top: 22px; display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
-    .pagination-info { font-size: 12.5px; color: #ffffff; text-align: center; }
+    .pagination-info { font-size: 12.5px; color: #ffffff; text-align: center; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
     .pagination-list { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
     .page-btn { min-width: 34px; height: 34px; padding: 0 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-size: 13px; font-weight: 600; }
     .page-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
@@ -672,13 +676,14 @@
 
     /* FOOTER */
     .footer { 
-      background: rgba(15, 23, 42, 0.12); 
+      background: rgba(15, 23, 42, 0.45); 
       border-top: 1px solid rgba(255, 255, 255, 0.15); 
       padding: 14px 20px; 
       text-align: center; 
       font-size: 12.5px; 
-      color: rgba(255, 255, 255, 0.9); 
+      color: rgba(255, 255, 255, 0.95); 
       margin-top: auto; 
+      backdrop-filter: blur(4px);
     }
 
     .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55); z-index: 60; align-items: center; justify-content: center; padding: 16px; }
@@ -698,6 +703,10 @@
       .navbar-right #navRoleLogoutBtn,
       .navbar-right #navUserLogoutBtn {
         display: none !important;
+      }
+
+      .main-wrapper {
+        background-attachment: scroll; /* ป้องกันภาพกระตุกบนเบราว์เซอร์มือถือ */
       }
 
       .main-content { padding: 12px 10px; width: 100%; }
@@ -983,7 +992,7 @@
                       <button type="button" class="cal-btn" onclick="nextCalendarMonth()">ถัดไป &gt;</button>
                     </div>
                   </div>
-                  
+
                   <div class="calendar-grid">
                     <div class="calendar-day-head" style="color:#b91c1c;">อา.</div>
                     <div class="calendar-day-head">จ.</div>
@@ -1502,7 +1511,6 @@
     function parseDateFromLog(logStr) {
       if (!logStr) return null;
       const str = String(logStr).trim();
-      // ตัวอย่าง: 12/11/2026 14:23 น. หรือ ISO 2026-11-12T...
       const match = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
       if (match) {
         const d = parseInt(match[1], 10);
@@ -1519,15 +1527,14 @@
 
     function renderMonthlyCalendar() {
       const year = currentCalDate.getFullYear();
-      const month = currentCalDate.getMonth(); // 0-11
+      const month = currentCalDate.getMonth();
       const thaiYear = year + 543;
-      
+
       const titleElem = document.getElementById('calendarMonthTitle');
       if (titleElem) {
         titleElem.textContent = `📅 สถิติประจำเดือน ${THAI_MONTH_NAMES[month]} ${thaiYear}`;
       }
 
-      // นับยอดการเข้าใช้งานในแต่ละวันของเดือนและปีนี้
       const dailyCounts = {};
       let monthTotal = 0;
 
@@ -1548,7 +1555,7 @@
       const grid = document.getElementById('calendarDaysGrid');
       if (!grid) return;
 
-      const firstDayIndex = new Date(year, month, 1).getDay(); // 0=Sunday, 1=Monday...
+      const firstDayIndex = new Date(year, month, 1).getDay();
       const daysInMonth = new Date(year, month + 1, 0).getDate();
 
       const today = new Date();
@@ -1557,12 +1564,10 @@
 
       let html = '';
 
-      // ช่องว่างก่อนวันที่ 1
       for (let i = 0; i < firstDayIndex; i++) {
         html += '<div class="calendar-cell empty"></div>';
       }
 
-      // วันที่ 1 ถึงวันสิ้นเดือน
       for (let day = 1; day <= daysInMonth; day++) {
         const isToday = isCurrentMonthNow && (day === todayDateNum);
         const count = dailyCounts[day] || 0;
