@@ -451,12 +451,16 @@
     .stat-bar-fill { height: 100%; border-radius: 999px; background: var(--brand); width: 0%; transition: width 0.3s; }
 
     /* ================= ปฏิทินสถิติการเข้าใช้งานประจำเดือน ================= */
-    .calendar-container {
+    /* .calendar-container {
       width: 100%;
       display: flex;
       flex-direction: column;
       gap: 8px;
-    }
+    } */
+     .card:has(.calendar-container) {
+  background: #f0fdf4; /* 👈 เปลี่ยนสีฉากหลังทั้งกล่อง (ตัวอย่าง: สีเขียวมินต์อ่อนมาก) */
+  border-color: #bbf7d0; /* ปรับสีกรอบให้เข้ากัน (ไม่บังคับ) */
+}
 
     .calendar-header-nav {
       display: flex;
@@ -469,7 +473,7 @@
     .calendar-month-title {
       font-size: 15.5px;
       font-weight: 700;
-      color: var(--brand);
+      color: #1d4ed8; /* 👈 เปลี่ยนสีข้อความชื่อเดือน (เช่น #0f766e หรือ #1e3a8a) */
       margin: 0;
     }
 
@@ -502,35 +506,35 @@
     .calendar-day-head {
       font-size: 11.5px;
       font-weight: 700;
-      color: var(--muted);
+      color: #475569;        /* 👈 สีตัวอักษรของวัน */
       padding: 4px 0;
-      background: var(--surface-alt);
+      background: #f3df6e;   /* 👈 สีพื้นหลังของช่องหัววัน */
       border-radius: 4px;
     }
 
     .calendar-cell {
       min-height: 48px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 4px 2px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      background: var(--surface);
-      font-size: 12px;
-      transition: border-color 0.15s, background 0.15s;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 4px 2px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        background: #ffffff; /* 👈 เปลี่ยนสีฉากหลังของช่องวันที่ปกติที่นี่ (เช่น #f8fafc หรือ #f1f5f9) */
+        font-size: 12px;
+        transition: border-color 0.15s, background 0.15s;
     }
 
     .calendar-cell.empty {
-      background: #f8fafc;
+      background: #f8fafc; /* 👈 เปลี่ยนสีช่องว่างที่นี่ */
       border-color: #f1f5f9;
       opacity: 0.5;
     }
 
     .calendar-cell.today {
       border-color: var(--brand);
-      background: #eff6ff;
+      background: #eff6ff; /* 👈 เปลี่ยนสีฉากหลังของวันนี้ (เช่น สีฟ้าอ่อนหรือเหลืองอ่อน) */
     }
 
     .cal-day-num {
@@ -541,7 +545,7 @@
     }
 
     .calendar-cell.today .cal-day-num {
-      color: var(--brand);
+      color: #f70303;        /* 👈 สีตัวเลขวันที่ของวันนี้ */
       font-weight: 700;
     }
 
