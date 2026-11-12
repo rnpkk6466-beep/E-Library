@@ -450,6 +450,136 @@
     .stat-bar-track { width: 100%; height: 5px; background: #e2e8f0; border-radius: 999px; overflow: hidden; margin-top: 6px; }
     .stat-bar-fill { height: 100%; border-radius: 999px; background: var(--brand); width: 0%; transition: width 0.3s; }
 
+    /* ================= ปฏิทินสถิติการเข้าใช้งานประจำเดือน ================= */
+    .calendar-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .calendar-header-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .calendar-month-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--brand);
+      margin: 0;
+    }
+
+    .calendar-nav-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .cal-btn {
+      padding: 4px 10px;
+      font-size: 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--ink);
+      transition: background 0.15s;
+    }
+    .cal-btn:hover { background: #e2e8f0; }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+    }
+
+    .calendar-day-head {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--muted);
+      padding: 4px 0;
+      background: var(--surface-alt);
+      border-radius: 4px;
+    }
+
+    .calendar-cell {
+      min-height: 48px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 4px 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: var(--surface);
+      font-size: 12px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .calendar-cell.empty {
+      background: #f8fafc;
+      border-color: #f1f5f9;
+      opacity: 0.5;
+    }
+
+    .calendar-cell.today {
+      border-color: var(--brand);
+      background: #eff6ff;
+    }
+
+    .cal-day-num {
+      font-weight: 600;
+      color: var(--ink);
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .calendar-cell.today .cal-day-num {
+      color: var(--brand);
+      font-weight: 700;
+    }
+
+    .cal-badge {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 1px 5px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      background: #e2e8f0;
+      color: #475569;
+      line-height: 1.2;
+    }
+
+    .cal-badge.has-count {
+      background: #dbeafe;
+      color: var(--brand);
+      border: 1px solid #bfdbfe;
+    }
+
+    .cal-badge.high-count {
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid #bbf7d0;
+    }
+
+    .calendar-summary-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
     /* BOOK GRID 5 COLUMNS */
     .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; width: 100%; }
     .filter-search { flex: 1 1 240px; }
@@ -598,6 +728,10 @@
       .auth-bar { padding: 8px 10px; font-size: 12.5px; flex-wrap: wrap; }
       .auth-bar .role-logout-btn { padding: 5px 10px; font-size: 12px; }
       .btn { padding: 7px 12px; font-size: 12.5px; }
+
+      .calendar-cell { min-height: 42px; padding: 2px 1px; }
+      .cal-day-num { font-size: 11px; }
+      .cal-badge { font-size: 9px; padding: 1px 3px; }
     }
 
     @media (min-width: 769px) {
@@ -696,7 +830,7 @@
       <aside id="sidebar" class="sidebar">
         <nav class="sidebar-nav">
           <div class="sidebar-header-logo">
-            <img src="https://www.nanthana.ac.th/wp-content/uploads/2026/07/โลโก้ดุสิต-no-bg-ขาวดำ.png" alt="โลโก้ห้องสมุด" class="sidebar-logo-img">
+            <img src="https://s.imgz.io/2026/11/12/ChatGPT-Image-20-..-2568-09_57_40fbd5a7e734812d4f.png" alt="โลโก้ห้องสมุด" class="sidebar-logo-img">
             <div class="sidebar-logo-text">
               <span class="sidebar-logo-title">E-Library</span>
               <span class="sidebar-logo-sub">เมนูระบบห้องสมุด</span>
@@ -739,7 +873,7 @@
 
       <div class="main-wrapper">
         <main class="main-content">
-          <!-- VIEW 1: เมนูหลัก + แดชบอร์ด -->
+          <!-- VIEW 1: เมนูหลัก + แดชบอร์ด + ปฏิทินสถิติ -->
           <section id="view-home" class="view-section active">
             <div class="page-header">
               <div>
@@ -820,7 +954,7 @@
               </div>
             </div>
 
-            <!-- ส่วนล่าง: ตารางบันทึกการเข้าใช้ + ทางลัด -->
+            <!-- ส่วนล่าง: ตารางบันทึกการเข้าใช้ + ปฏิทินสถิติการเข้าใช้งานประจำเดือน -->
             <div class="grid-2">
               <div class="card">
                 <h3 style="margin-top:0; font-size:16px;">การบันทึกการเข้าใช้งานล่าสุด</h3>
@@ -833,21 +967,35 @@
                   </table>
                 </div>
               </div>
+
+              <!-- ปฏิทินสถิติการเข้าใช้งานประจำเดือน (แทนที่ทางลัดเดิม) -->
               <div class="card">
-                <h3 style="margin-top:0; font-size:16px;">ทางลัดการใช้งาน</h3>
-                <div style="display:flex; flex-direction:column; gap:8px;">
-                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start; padding:8px 12px; font-size:13px;" onclick="openEntryGate()">
-                    📚 เมนูรายการหนังสือ (แสดง 5 คอลัมน์, หน้าละ 20 เล่ม พร้อมเลขหน้า 1 2 3...)
-                  </button>
-                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start; padding:8px 12px; font-size:13px;" onclick="navigateToBorrowView()">
-                    🔄 เมนูยืม-คืน (ทำรายการยืมและคืนหนังสือออนไลน์)
-                  </button>
-                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start; padding:8px 12px; font-size:13px;" onclick="switchView('staff')">
-                    📋 เมนูเจ้าหน้าที่ (ตรวจสอบประวัติการเข้าใช้งานและรายการยืม-คืน)
-                  </button>
-                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start; padding:8px 12px; font-size:13px;" onclick="switchView('admin')">
-                    ⚙️ เมนู Admin (เพิ่มเจ้าหน้าที่, เพิ่มหนังสือ, ตั้งค่า Google Apps Script)
-                  </button>
+                <div class="calendar-container">
+                  <div class="calendar-header-nav">
+                    <h3 class="calendar-month-title" id="calendarMonthTitle">📅 ปฏิทินสถิติการเข้าใช้งาน</h3>
+                    <div class="calendar-nav-btn-group">
+                      <button type="button" class="cal-btn" onclick="prevCalendarMonth()">&lt; เดือนก่อนหน้า</button>
+                      <button type="button" class="cal-btn" onclick="resetCalendarToday()">เดือนปัจจุบัน</button>
+                      <button type="button" class="cal-btn" onclick="nextCalendarMonth()">ถัดไป &gt;</button>
+                    </div>
+                  </div>
+                  
+                  <div class="calendar-grid">
+                    <div class="calendar-day-head" style="color:#b91c1c;">อา.</div>
+                    <div class="calendar-day-head">จ.</div>
+                    <div class="calendar-day-head">อ.</div>
+                    <div class="calendar-day-head">พ.</div>
+                    <div class="calendar-day-head">พฤ.</div>
+                    <div class="calendar-day-head">ศ.</div>
+                    <div class="calendar-day-head" style="color:var(--brand);">ส.</div>
+                  </div>
+
+                  <div class="calendar-grid" id="calendarDaysGrid"></div>
+
+                  <div class="calendar-summary-footer">
+                    <span>* ตัวเลขในป้ายสีฟ้าคือยอดผู้เข้าใช้งาน (ครั้ง)</span>
+                    <strong id="calendarMonthSummaryText">ยอดรวมเดือนนี้: 0 ครั้ง</strong>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1143,6 +1291,13 @@
       if (savedUrl && savedUrl.startsWith('https://')) gasWebAppUrl = savedUrl;
     } catch (_) {}
 
+    // ตัวแปรสำหรับปฏิทิน
+    let currentCalDate = new Date();
+    const THAI_MONTH_NAMES = [
+      'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+      'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+    ];
+
     // ฟังก์ชันจัดรูปแบบวัน-เวลา เป็น วัน/เดือน/ปี เวลา ชม.:นาที น.
     function formatThaiDateTime(rawDateStr) {
       if (!rawDateStr) return '-';
@@ -1265,6 +1420,7 @@
         dbStatus.style.color = '#ffffff';
         if (statusDot) statusDot.style.background = '#94a3b8';
         renderBookDashboard();
+        renderMonthlyCalendar();
         return;
       }
       try {
@@ -1303,6 +1459,7 @@
           renderBorrowSection();
           renderStaffAccounts();
           renderBookDashboard();
+          renderMonthlyCalendar();
           updateSecurityUI();
         }
       } catch (err) {
@@ -1310,6 +1467,7 @@
         dbStatus.style.color = '#fca5a5';
         if (statusDot) statusDot.style.background = '#f87171';
         renderBookDashboard();
+        renderMonthlyCalendar();
       }
     }
 
@@ -1335,6 +1493,104 @@
       document.getElementById('statBookReturnedBar').style.width = Math.min(100, returnedPct) + '%';
       document.getElementById('statBookPendingBar').style.width = Math.min(100, pendingPct) + '%';
     }
+
+    // ================= ปฏิทินสถิติการเข้าใช้งานประจำเดือน =================
+    function parseDateFromLog(logStr) {
+      if (!logStr) return null;
+      const str = String(logStr).trim();
+      // ตัวอย่าง: 12/11/2026 14:23 น. หรือ ISO 2026-11-12T...
+      const match = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+      if (match) {
+        const d = parseInt(match[1], 10);
+        const m = parseInt(match[2], 10) - 1;
+        const y = parseInt(match[3], 10);
+        return new Date(y, m, d);
+      }
+      try {
+        const d = new Date(str);
+        if (!isNaN(d.getTime())) return d;
+      } catch (_) {}
+      return null;
+    }
+
+    function renderMonthlyCalendar() {
+      const year = currentCalDate.getFullYear();
+      const month = currentCalDate.getMonth(); // 0-11
+      const thaiYear = year + 543;
+      
+      const titleElem = document.getElementById('calendarMonthTitle');
+      if (titleElem) {
+        titleElem.textContent = `📅 สถิติประจำเดือน ${THAI_MONTH_NAMES[month]} ${thaiYear}`;
+      }
+
+      // นับยอดการเข้าใช้งานในแต่ละวันของเดือนและปีนี้
+      const dailyCounts = {};
+      let monthTotal = 0;
+
+      accessLogs.forEach(log => {
+        const logDate = parseDateFromLog(log.timestamp);
+        if (logDate && logDate.getFullYear() === year && logDate.getMonth() === month) {
+          const dayNum = logDate.getDate();
+          dailyCounts[dayNum] = (dailyCounts[dayNum] || 0) + 1;
+          monthTotal++;
+        }
+      });
+
+      const summaryElem = document.getElementById('calendarMonthSummaryText');
+      if (summaryElem) {
+        summaryElem.textContent = `ยอดรวมเดือนนี้: ${monthTotal} ครั้ง`;
+      }
+
+      const grid = document.getElementById('calendarDaysGrid');
+      if (!grid) return;
+
+      const firstDayIndex = new Date(year, month, 1).getDay(); // 0=Sunday, 1=Monday...
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      const today = new Date();
+      const isCurrentMonthNow = (today.getFullYear() === year && today.getMonth() === month);
+      const todayDateNum = today.getDate();
+
+      let html = '';
+
+      // ช่องว่างก่อนวันที่ 1
+      for (let i = 0; i < firstDayIndex; i++) {
+        html += '<div class="calendar-cell empty"></div>';
+      }
+
+      // วันที่ 1 ถึงวันสิ้นเดือน
+      for (let day = 1; day <= daysInMonth; day++) {
+        const isToday = isCurrentMonthNow && (day === todayDateNum);
+        const count = dailyCounts[day] || 0;
+        let badgeClass = 'cal-badge';
+        if (count >= 5) badgeClass += ' high-count';
+        else if (count > 0) badgeClass += ' has-count';
+
+        html += `
+          <div class="calendar-cell ${isToday ? 'today' : ''}">
+            <span class="cal-day-num">${day}</span>
+            <span class="${badgeClass}">${count > 0 ? count + ' ครั้ง' : '-'}</span>
+          </div>
+        `;
+      }
+
+      grid.innerHTML = html;
+    }
+
+    window.prevCalendarMonth = function () {
+      currentCalDate.setMonth(currentCalDate.getMonth() - 1);
+      renderMonthlyCalendar();
+    };
+
+    window.nextCalendarMonth = function () {
+      currentCalDate.setMonth(currentCalDate.getMonth() + 1);
+      renderMonthlyCalendar();
+    };
+
+    window.resetCalendarToday = function () {
+      currentCalDate = new Date();
+      renderMonthlyCalendar();
+    };
 
     // ================= จัดการสลับโหมดบุคคลทั่วไป =================
     const visitorRole = document.getElementById('visitorRole');
@@ -1459,6 +1715,7 @@
       document.getElementById('appShell').classList.add('active');
       switchView('books');
       renderAccessLogs();
+      renderMonthlyCalendar();
     });
 
     // ฟังก์ชันออกจากระบบสำหรับผู้ใช้ทั่วไป (นักเรียน/ครู/บุคลากร)
@@ -1705,7 +1962,7 @@
       });
     };
 
-    // ปรับปรุงฟังก์ชัน switchView ให้เลื่อนหน้าจอกลับไปด้านบนสุด (Scroll to Top) อัตโนมัติทุกครั้ง
+    // ฟังก์ชัน switchView พร้อมเลื่อนหน้าจอกลับไปด้านบนสุด (Scroll to Top)
     function switchView(k) {
       if (k === 'borrow') {
         if (!currentLoggedUser || !currentLoggedUser.code) {
@@ -1718,7 +1975,6 @@
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('sidebarBackdrop').classList.remove('open');
 
-      // เลื่อนหน้าจอกลับสู่ด้านบนสุดทันทีเมื่อสลับหน้า
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
@@ -2010,6 +2266,7 @@
     renderBorrowSection();
     renderStaffAccounts();
     renderBookDashboard();
+    renderMonthlyCalendar();
     fetchDatabaseFromGas();
   </script>
 </body>
