@@ -11,7 +11,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     :root {
-      --bg: linear-gradient(135deg, #6288f3 0%, #1d4ed8 100%);
+      --bg: linear-gradient(135deg, #4f7bf5 0%, #1d4ed8 100%);
       --surface: #ffffff;
       --surface-alt: #f8fafc;
       --border: #e2e8f0;
@@ -28,12 +28,12 @@
       --warning-bg: #fef3c7;
       --danger: #b91c1c;
       --danger-bg: #fee2e2;
-      --radius: 12px;
-      --radius-sm: 8px;
+      --radius: 10px;
+      --radius-sm: 6px;
       --shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
       --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
-      --sidebar-width: 260px;
-      --navbar-height: 64px;
+      --sidebar-width: 250px;
+      --navbar-height: 60px;
       --font: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
@@ -44,9 +44,8 @@
       font-family: var(--font);
       color: var(--ink);
       background: var(--bg);
-      line-height: 1.5;
+      line-height: 1.45;
       min-height: 100vh;
-      overflow-x: hidden;
     }
 
     /* ================= ENTRY GATE SCREEN ================= */
@@ -55,7 +54,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 20px;
       background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #0284c7 100%);
     }
 
@@ -64,37 +63,37 @@
     .entry-card {
       background: var(--surface);
       width: 100%;
-      max-width: 520px;
-      border-radius: 16px;
-      padding: 36px 32px;
+      max-width: 500px;
+      border-radius: 14px;
+      padding: 32px 28px;
       box-shadow: var(--shadow-lg);
       text-align: center;
     }
 
     .entry-logo {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 16px;
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 14px;
       background: var(--brand-soft);
       color: var(--brand);
-      border-radius: 16px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .entry-title { font-size: 26px; font-weight: 700; margin: 0 0 8px; }
-    .entry-subtitle { font-size: 15px; color: var(--muted); margin: 0 0 24px; }
-    .entry-form { text-align: left; margin-bottom: 20px; }
-    .form-group { margin-bottom: 16px; width: 100%; }
-    .form-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; word-break: break-word; }
+    .entry-title { font-size: 24px; font-weight: 700; margin: 0 0 6px; }
+    .entry-subtitle { font-size: 14px; color: var(--muted); margin: 0 0 20px; }
+    .entry-form { text-align: left; margin-bottom: 16px; }
+    .form-group { margin-bottom: 14px; width: 100%; }
+    .form-label { display: block; font-size: 13.5px; font-weight: 600; margin-bottom: 5px; word-break: break-word; }
 
     .form-input, .form-select {
       width: 100%;
       max-width: 100%;
-      padding: 10px 14px;
+      padding: 9px 12px;
       font: inherit;
-      font-size: 15px;
+      font-size: 14.5px;
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       background: var(--surface);
@@ -118,14 +117,14 @@
     .btn {
       font: inherit;
       font-weight: 600;
-      padding: 10px 18px;
+      padding: 9px 16px;
       border-radius: var(--radius-sm);
       border: 1px solid transparent;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
       transition: background 0.15s, transform 0.1s;
       text-decoration: none;
       box-sizing: border-box;
@@ -142,18 +141,19 @@
 
     .btn-enter {
       width: 100%;
-      padding: 14px 24px;
-      font-size: 17px;
-      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
       box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
     }
 
-    .entry-note { font-size: 13px; color: var(--muted); margin-top: 14px; text-align: center; }
+    .entry-note { font-size: 12.5px; color: var(--muted); margin-top: 12px; text-align: center; }
 
     /* ================= APP SHELL ================= */
-    .app-shell { display: none; min-height: 100vh; flex-direction: column; width: 100%; overflow-x: hidden; }
+    .app-shell { display: none; min-height: 100vh; flex-direction: column; width: 100%; }
     .app-shell.active { display: flex; }
 
+    /* ตรึง Navbar ไว้ด้านบนสุดเสมอ (Fixed) */
     .navbar {
       height: var(--navbar-height);
       background: var(--surface);
@@ -162,11 +162,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      position: sticky;
+      position: fixed;
       top: 0;
-      z-index: 40;
+      left: 0;
+      right: 0;
+      z-index: 50;
       gap: 10px;
       width: 100%;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
     }
 
     .navbar-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
@@ -175,8 +178,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: var(--radius-sm);
       border: 1px solid var(--border);
       background: var(--surface);
@@ -189,7 +192,7 @@
       align-items: center;
       gap: 8px;
       font-weight: 700;
-      font-size: 18px;
+      font-size: 17px;
       color: var(--brand);
       white-space: nowrap;
     }
@@ -203,21 +206,29 @@
     }
 
     .user-chip {
-      font-size: 13px;
+      font-size: 12.5px;
       color: var(--muted);
       background: var(--surface-alt);
-      padding: 6px 12px;
+      padding: 5px 12px;
       border-radius: 999px;
       border: 1px solid var(--border);
       white-space: nowrap;
     }
 
-    .app-body { display: flex; flex: 1; position: relative; width: 100%; }
+    .app-body { 
+      display: flex; 
+      flex: 1; 
+      position: relative; 
+      width: 100%; 
+      padding-top: var(--navbar-height); 
+      min-height: 100vh; 
+    }
 
+    /* ================= SIDEBAR (Fixed ตลอดความสูงหน้าจอ) ================= */
     .sidebar {
       width: var(--sidebar-width);
-      background: linear-gradient(135deg, #6288f3 0%, #1d4ed8 100%);
-      border-right: 1px solid var(--border);
+      background: linear-gradient(180deg, #326be8 0%, #1e40af 100%);
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -225,7 +236,7 @@
       top: var(--navbar-height);
       bottom: 0;
       left: 0;
-      z-index: 50;
+      z-index: 45;
       transform: translateX(-100%);
       transition: transform 0.25s ease;
       overflow-y: auto;
@@ -238,71 +249,149 @@
       position: fixed;
       inset: var(--navbar-height) 0 0 0;
       background: rgba(15, 23, 42, 0.4);
-      z-index: 45;
+      z-index: 40;
     }
 
     .sidebar-backdrop.open { display: block; }
-    .sidebar-nav { padding: 16px 12px; display: flex; flex-direction: column; gap: 6px; }
+    .sidebar-nav { padding: 14px 10px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
 
     .sidebar-header-logo {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
+      gap: 10px;
+      padding: 10px 12px;
       margin-bottom: 8px;
-      background: var(--surface-alt);
-      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: var(--radius-sm);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
     }
 
     .sidebar-logo-img {
-      width: 42px;
-      height: 42px;
+      width: 38px;
+      height: 38px;
       object-fit: contain;
-      border-radius: 8px;
+      border-radius: 6px;
       background: #ffffff;
       padding: 2px;
     }
 
     .sidebar-logo-text { display: flex; flex-direction: column; }
-    .sidebar-logo-title { font-size: 15px; font-weight: 700; color: var(--brand); line-height: 1.2; }
-    .sidebar-logo-sub { font-size: 11px; color: var(--muted); }
+    .sidebar-logo-title { font-size: 14px; font-weight: 700; color: var(--brand); line-height: 1.2; }
+    .sidebar-logo-sub { font-size: 10.5px; color: var(--muted); }
 
     .nav-item {
       width: 100%;
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 11px 14px;
+      gap: 10px;
+      padding: 10px 12px;
       border-radius: var(--radius-sm);
       border: none;
       background: transparent;
       color: #ffffff;
       font: inherit;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 500;
       text-align: left;
       cursor: pointer;
+      transition: background 0.15s, color 0.15s;
     }
 
     .nav-item:hover { background: rgba(255, 255, 255, 0.15); }
-    .nav-item.active { background: #ffffff; color: var(--brand); font-weight: 700; }
+    .nav-item.active { background: #ffffff; color: var(--brand); font-weight: 700; box-shadow: var(--shadow); }
 
-    .sidebar-footer-box { 
-      padding: 16px; 
-      border-top: 1px solid rgba(255, 255, 255, 0.2); 
-      font-size: 13px; 
-      color: #ffffff; 
+    /* ส่วนท้าย Sidebar */
+    .sidebar-bottom-section {
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.12);
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
     }
 
-    .main-wrapper { flex: 1; display: flex; flex-direction: column; min-width: 0; width: 100%; overflow-x: hidden; }
-    .main-content { flex: 1; padding: 24px 20px; max-width: 1280px; width: 100%; margin: 0 auto; box-sizing: border-box; }
+    .sidebar-footer-box { 
+      padding: 9px 12px; 
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-sm);
+      font-size: 12px; 
+      color: #ffffff;
+    }
 
+    .status-dot-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      opacity: 0.9;
+      margin-bottom: 2px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #86efac;
+      display: inline-block;
+      box-shadow: 0 0 5px #86efac;
+      flex-shrink: 0;
+    }
+
+    .sidebar-user-logout-wrap { display: none; }
+    .btn-sidebar-logout {
+      width: 100%;
+      background: #ef4444;
+      color: #ffffff;
+      padding: 8px 12px;
+      font-size: 13.5px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      border: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+    .btn-sidebar-logout:hover { background: #dc2626; }
+
+    .main-wrapper { 
+      flex: 1; 
+      display: flex; 
+      flex-direction: column; 
+      min-width: 0; 
+      width: 100%; 
+    }
+
+    .main-content { 
+      flex: 1; 
+      padding: 20px 24px; 
+      max-width: 1260px; 
+      width: 100%; 
+      margin: 0 auto; 
+      box-sizing: border-box; 
+    }
+
+    /* จอคอมพิวเตอร์และแท็บเล็ตแนวนอน */
     @media (min-width: 1024px) {
       .hamburger-btn { display: none; }
-      .sidebar { position: sticky; top: var(--navbar-height); height: calc(100vh - var(--navbar-height)); transform: translateX(0); flex-shrink: 0; }
+      .sidebar { 
+        transform: translateX(0); 
+        position: fixed;
+        top: var(--navbar-height);
+        bottom: 0;
+        left: 0;
+        width: var(--sidebar-width);
+      }
       .sidebar-backdrop { display: none !important; }
-      .main-content { padding: 28px 32px; }
+      .main-wrapper { 
+        margin-left: var(--sidebar-width); 
+      }
+      .main-content { padding: 22px 28px; }
     }
 
     .view-section { display: none; width: 100%; }
@@ -313,55 +402,60 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 24px;
+      gap: 12px;
+      margin-bottom: 16px;
       width: 100%;
     }
 
-    .page-title { font-size: 24px; font-weight: 700; margin: 0; word-break: break-word; }
-    .page-subtitle { font-size: 14px; color: #ffffff; margin: 4px 0 0; opacity: 0.9; word-break: break-word; }
-    
+    .page-title { font-size: 21px; font-weight: 700; margin: 0; color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.1); word-break: break-word; }
+    .page-subtitle { font-size: 13px; color: #ffffff; margin: 3px 0 0; opacity: 0.9; word-break: break-word; }
+
     .card { 
       background: var(--surface); 
       border: 1px solid var(--border); 
       border-radius: var(--radius); 
       box-shadow: var(--shadow); 
-      padding: 20px; 
-      margin-bottom: 20px; 
+      padding: 16px 18px; 
+      margin-bottom: 16px; 
       width: 100%;
       max-width: 100%;
       box-sizing: border-box;
       overflow: hidden;
     }
 
-    /* DASHBOARDS */
-    .dashboard-card { margin-bottom: 20px; background: #ebc520; color: #1e293b; }
-    .dashboard-header { margin-bottom: 16px; }
-    .dashboard-title { margin: 0; font-size: 18px; font-weight: 700; word-break: break-word; }
+    /* DASHBOARDS COMPACT */
+    .dashboard-card { margin-bottom: 16px; background: #ebc520; color: #1e293b; border: none; padding: 14px 16px; }
+    .dashboard-header { margin-bottom: 12px; }
+    .dashboard-title { margin: 0; font-size: 16px; font-weight: 700; word-break: break-word; }
 
-    .dashboard-grid-5 { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 14px; }
+    .dashboard-grid-5 { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 10px; }
     @media (min-width: 540px) { .dashboard-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (min-width: 1100px) { .dashboard-grid-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 
-    .dashboard-grid-4 { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 14px; }
+    .dashboard-grid-4 { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 10px; }
     @media (min-width: 540px) { .dashboard-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (min-width: 1024px) { .dashboard-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
-    .stat-box { background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; }
+    .stat-box { 
+      background: var(--surface-alt); 
+      border: 1px solid var(--border); 
+      border-radius: var(--radius-sm); 
+      padding: 10px 13px; 
+    }
     .stat-box.stat-total { background: var(--brand-soft); border-color: #bfdbfe; }
-    .stat-label { font-size: 13px; font-weight: 600; color: var(--muted); }
+    .stat-label { font-size: 12px; font-weight: 600; color: var(--muted); }
     .stat-box.stat-total .stat-label { color: var(--brand); }
-    .stat-value { font-size: 26px; font-weight: 700; line-height: 1.2; }
-    .stat-unit { font-size: 12px; color: var(--muted); }
-    .stat-bar-track { width: 100%; height: 6px; background: #e2e8f0; border-radius: 999px; overflow: hidden; margin-top: 8px; }
+    .stat-value { font-size: 21px; font-weight: 700; line-height: 1.2; margin-top: 2px; }
+    .stat-unit { font-size: 11.5px; color: var(--muted); font-weight: 500; }
+    .stat-bar-track { width: 100%; height: 5px; background: #e2e8f0; border-radius: 999px; overflow: hidden; margin-top: 6px; }
     .stat-bar-fill { height: 100%; border-radius: 999px; background: var(--brand); width: 0%; transition: width 0.3s; }
 
-    /* BOOK GRID */
-    .filter-bar { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; width: 100%; }
+    /* BOOK GRID 5 COLUMNS */
+    .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; width: 100%; }
     .filter-search { flex: 1 1 240px; }
     .filter-category { flex: 0 1 200px; }
 
-    .book-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 18px; }
+    .book-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 14px; }
     @media (min-width: 480px) { .book-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (min-width: 768px) { .book-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
     @media (min-width: 1024px) { .book-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
@@ -378,28 +472,28 @@
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .book-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+    .book-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
     .book-cover-wrap { position: relative; width: 100%; aspect-ratio: 3 / 4; background: #e2e8f0; }
     .book-cover-svg { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .book-status-badge { position: absolute; top: 8px; right: 8px; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; }
+    .book-status-badge { position: absolute; top: 6px; right: 6px; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
     .status-available { background: var(--success-bg); color: var(--success); }
     .status-borrowed { background: var(--danger-bg); color: var(--danger); }
 
-    .book-info { padding: 12px 14px 14px; display: flex; flex-direction: column; flex: 1; justify-content: space-between; gap: 10px; }
-    .book-category-tag { font-size: 11px; font-weight: 600; color: var(--brand); background: var(--brand-soft); padding: 2px 8px; border-radius: 4px; display: inline-block; }
-    .book-title { font-size: 14px; font-weight: 700; margin: 4px 0; word-break: break-word; }
-    .book-author { font-size: 12px; color: var(--muted); margin: 0; word-break: break-word; }
-    .book-actions { display: flex; gap: 6px; }
-    .book-actions .btn { flex: 1; padding: 7px 10px; font-size: 13px; white-space: nowrap; }
+    .book-info { padding: 10px 12px 12px; display: flex; flex-direction: column; flex: 1; justify-content: space-between; gap: 8px; }
+    .book-category-tag { font-size: 10.5px; font-weight: 600; color: var(--brand); background: var(--brand-soft); padding: 1px 6px; border-radius: 4px; display: inline-block; align-self: flex-start; }
+    .book-title { font-size: 13.5px; font-weight: 700; margin: 3px 0 2px; line-height: 1.3; word-break: break-word; }
+    .book-author { font-size: 11.5px; color: var(--muted); margin: 0; word-break: break-word; }
+    .book-actions { display: flex; gap: 5px; margin-top: 4px; }
+    .book-actions .btn { flex: 1; padding: 6px 8px; font-size: 12px; white-space: nowrap; }
 
-    .pagination-wrap { margin-top: 28px; display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
-    .pagination-info { font-size: 13px; color: #ffffff; text-align: center; }
-    .pagination-list { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
-    .page-btn { min-width: 38px; height: 38px; padding: 0 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-weight: 600; }
+    .pagination-wrap { margin-top: 22px; display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
+    .pagination-info { font-size: 12.5px; color: #ffffff; text-align: center; }
+    .pagination-list { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+    .page-btn { min-width: 34px; height: 34px; padding: 0 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-size: 13px; font-weight: 600; }
     .page-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
     .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    /* TABLE WRAPPER ป้องกันขอบล้น */
+    /* TABLE WRAPPER */
     .table-wrap { 
       overflow-x: auto; 
       -webkit-overflow-scrolling: touch; 
@@ -408,32 +502,32 @@
       width: 100%; 
       max-width: 100%;
       box-sizing: border-box;
-      margin-top: 10px;
+      margin-top: 8px;
     }
-    table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--surface); }
-    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); word-break: break-word; }
-    th { background: var(--surface-alt); font-weight: 700; white-space: nowrap; }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--surface); }
+    th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--border); word-break: break-word; }
+    th { background: var(--surface-alt); font-weight: 700; white-space: nowrap; font-size: 13px; }
 
-    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; }
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; width: 100%; }
     @media (min-width: 860px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
 
-    .auth-gate-card { max-width: 480px; margin: 24px auto; text-align: center; padding: 30px 24px; }
-    .auth-icon { width: 56px; height: 56px; margin: 0 auto 12px; border-radius: 14px; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 24px; }
-    .auth-error { display: none; margin-bottom: 14px; padding: 10px 14px; border-radius: var(--radius-sm); background: var(--danger-bg); color: var(--danger); font-size: 13px; text-align: left; }
+    .auth-gate-card { max-width: 460px; margin: 20px auto; text-align: center; padding: 26px 20px; }
+    .auth-icon { width: 50px; height: 50px; margin: 0 auto 10px; border-radius: 12px; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .auth-error { display: none; margin-bottom: 12px; padding: 9px 12px; border-radius: var(--radius-sm); background: var(--danger-bg); color: var(--danger); font-size: 12.5px; text-align: left; }
     .auth-error.show { display: block; }
-    .lock-banner { display: none; margin-bottom: 16px; padding: 14px 16px; border-radius: var(--radius-sm); background: var(--danger-bg); color: var(--danger); font-size: 14px; text-align: left; }
+    .lock-banner { display: none; margin-bottom: 14px; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--danger-bg); color: var(--danger); font-size: 13px; text-align: left; }
     .lock-banner.show { display: block; }
-    .attempt-pill { display: inline-flex; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--surface-alt); margin-bottom: 14px; border: 1px solid var(--border); }
+    .attempt-pill { display: inline-flex; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: var(--surface-alt); margin-bottom: 12px; border: 1px solid var(--border); }
     .attempt-pill.warn { background: var(--warning-bg); color: var(--warning); }
     .attempt-pill.locked { background: var(--danger-bg); color: var(--danger); }
-    .unlock-guide-box { margin-top: 16px; padding: 14px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; text-align: left; word-break: break-word; }
+    .unlock-guide-box { margin-top: 14px; padding: 12px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12.5px; text-align: left; word-break: break-word; }
 
     .auth-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 16px;
-      margin-bottom: 20px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
       background: var(--surface);
       border-radius: var(--radius-sm);
       box-shadow: var(--shadow);
@@ -442,66 +536,46 @@
       box-sizing: border-box;
     }
 
-    .footer { background: var(--surface); border-top: 1px solid var(--border); padding: 18px 24px; text-align: center; font-size: 13px; color: var(--muted); margin-top: auto; }
-    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55); z-index: 60; align-items: center; justify-content: center; padding: 20px; }
+    /* FOOTER */
+    .footer { 
+      background: rgba(15, 23, 42, 0.12); 
+      border-top: 1px solid rgba(255, 255, 255, 0.15); 
+      padding: 14px 20px; 
+      text-align: center; 
+      font-size: 12.5px; 
+      color: rgba(255, 255, 255, 0.9); 
+      margin-top: auto; 
+    }
+
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55); z-index: 60; align-items: center; justify-content: center; padding: 16px; }
     .modal-backdrop.open { display: flex; }
-    .modal-card { background: var(--surface); border-radius: var(--radius); max-width: 560px; width: 100%; padding: 24px; box-sizing: border-box; }
-    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-    .modal-title { font-size: 18px; font-weight: 700; margin: 0; word-break: break-word; }
+    .modal-card { background: var(--surface); border-radius: var(--radius); max-width: 520px; width: 100%; padding: 20px; box-sizing: border-box; }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .modal-title { font-size: 17px; font-weight: 700; margin: 0; word-break: break-word; }
 
-    /* ================= RESPONSIVE MOBILE TWEAKS (แก้ปัญหาขอบเกินจอในหน้าเจ้าหน้าที่และ Admin) ================= */
+    /* ================= RESPONSIVE MOBILE TWEAKS ================= */
     @media (max-width: 768px) {
-      .navbar {
-        padding: 0 12px;
-      }
+      .navbar { padding: 0 12px; }
+      .brand-mark span { font-size: 15px; }
 
-      .brand-mark span {
-        font-size: 16px;
-      }
-
-      /* ซ่อนปุ่มบน Navbar ในจอมือถือทั้งหมด */
+      /* ซ่อนปุ่มบน Navbar ในจอมือถือ */
       .navbar-right #currentUserChip,
       .navbar-right #backToGateBtn,
-      .navbar-right #navRoleLogoutBtn {
+      .navbar-right #navRoleLogoutBtn,
+      .navbar-right #navUserLogoutBtn {
         display: none !important;
       }
 
-      .main-content {
-        padding: 14px 10px;
-        width: 100%;
-      }
+      .main-content { padding: 12px 10px; width: 100%; }
+      .page-header { margin-bottom: 12px; gap: 8px; }
+      .page-title { font-size: 18px; }
+      .page-subtitle { font-size: 12px; }
 
-      .page-header {
-        margin-bottom: 14px;
-        gap: 10px;
-      }
+      .card { padding: 12px 12px; margin-bottom: 12px; border-radius: 8px; }
+      .grid-2 { gap: 12px; }
 
-      .page-title {
-        font-size: 19px;
-        color: #ffffff;
-      }
+      .form-input, .form-select { font-size: 13.5px; padding: 8px 10px; }
 
-      .page-subtitle {
-        font-size: 12px;
-      }
-
-      .card {
-        padding: 14px 12px;
-        margin-bottom: 14px;
-        border-radius: 10px;
-      }
-
-      .grid-2 {
-        gap: 14px;
-      }
-
-      /* ฟอร์มและปุ่มในหน้าจอเล็ก */
-      .form-input, .form-select {
-        font-size: 14px;
-        padding: 8px 12px;
-      }
-
-      /* กล่องแจ้งเตือนความปลอดภัยของ Admin */
       .admin-security-box {
         flex-direction: column !important;
         align-items: stretch !important;
@@ -511,48 +585,23 @@
       .admin-security-box button,
       #adminUnlockStaffBtn {
         width: 100% !important;
-        font-size: 13px !important;
-        padding: 8px 12px !important;
+        font-size: 12.5px !important;
+        padding: 8px 10px !important;
         white-space: normal !important;
         text-align: center !important;
         line-height: 1.3 !important;
       }
 
-      /* ตารางในมือถือ */
-      table {
-        font-size: 12px;
-        min-width: 100%;
-      }
+      table { font-size: 12px; min-width: 100%; }
+      th, td { padding: 7px 8px; }
 
-      th, td {
-        padding: 8px 8px;
-      }
-
-      /* กล่อง Auth-Bar ปรับขนาด */
-      .auth-bar {
-        padding: 10px 12px;
-        font-size: 13px;
-        flex-wrap: wrap;
-      }
-
-      .auth-bar .role-logout-btn {
-        padding: 6px 12px;
-        font-size: 12px;
-      }
-
-      .btn {
-        padding: 8px 14px;
-        font-size: 13px;
-      }
+      .auth-bar { padding: 8px 10px; font-size: 12.5px; flex-wrap: wrap; }
+      .auth-bar .role-logout-btn { padding: 5px 10px; font-size: 12px; }
+      .btn { padding: 7px 12px; font-size: 12.5px; }
     }
 
     @media (min-width: 769px) {
-      #navRoleLogoutBtn .logout-short-text {
-        display: none;
-      }
-      #navRoleLogoutBtn .logout-full-text {
-        display: inline;
-      }
+      #sidebarUserLogoutWrap { display: none !important; }
     }
   </style>
 </head>
@@ -562,7 +611,7 @@
   <section id="entryScreen" class="entry-screen">
     <div class="entry-card">
       <div class="entry-logo" aria-hidden="true">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
           <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
         </svg>
@@ -593,7 +642,7 @@
 
         <button type="submit" class="btn btn-primary btn-enter">
           <span>เข้าสู่ระบบ E-Library และบันทึกการเข้าใช้งาน</span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path>
           </svg>
         </button>
@@ -613,12 +662,12 @@
     <header class="navbar">
       <div class="navbar-left">
         <button id="hamburgerBtn" class="hamburger-btn" type="button" aria-label="เปิด/ปิดเมนู Sidebar">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </button>
         <div class="brand-mark">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
           </svg>
@@ -628,11 +677,15 @@
 
       <div class="navbar-right">
         <span id="currentUserChip" class="user-chip">ผู้ใช้งาน: ผู้เยี่ยมชม</span>
-        <button id="navRoleLogoutBtn" type="button" class="btn btn-danger" style="display: none; padding: 6px 12px; font-size: 13px;">
-          <span class="logout-full-text">ออกจากระบบ (เจ้าหน้าที่/Admin)</span>
-          <span class="logout-short-text">ออกจากระบบ</span>
+        <!-- ปุ่มออกจากระบบสำหรับนักเรียน/ครู/บุคลากร บนคอมพิวเตอร์ -->
+        <button id="navUserLogoutBtn" type="button" class="btn btn-danger" style="display: none; padding: 5px 12px; font-size: 12.5px;" onclick="logoutMemberUser()">
+          ออกจากระบบ
         </button>
-        <button id="backToGateBtn" type="button" class="btn btn-secondary" style="padding: 6px 12px; font-size: 13px;">
+        <!-- ปุ่มออกจากระบบสำหรับเจ้าหน้าที่/Admin บนคอมพิวเตอร์ -->
+        <button id="navRoleLogoutBtn" type="button" class="btn btn-danger" style="display: none; padding: 5px 12px; font-size: 12.5px;">
+          <span>ออกจากระบบ (เจ้าหน้าที่/Admin)</span>
+        </button>
+        <button id="backToGateBtn" type="button" class="btn btn-secondary" style="padding: 5px 12px; font-size: 12.5px;">
           หน้าลงชื่อเข้าใช้
         </button>
       </div>
@@ -665,9 +718,22 @@
             <span>⚙️ เมนู Admin</span>
           </button>
         </nav>
-        <div class="sidebar-footer-box">
-          <div style="font-size:12px; opacity:0.8;">สถานะระบบ:</div>
-          <strong id="dbStatusText" style="color: #ffffff; display: block; margin-top: 2px;">กำลังเชื่อมต่อฐานข้อมูล...</strong>
+
+        <div class="sidebar-bottom-section">
+          <!-- ปุ่มออกจากระบบสำหรับนักเรียน/ครู/บุคลากร ใน Sidebar บนจอมือถือ -->
+          <div id="sidebarUserLogoutWrap" class="sidebar-user-logout-wrap">
+            <button type="button" class="btn-sidebar-logout" onclick="logoutMemberUser()">
+              <span>🚪 ออกจากระบบ</span> (<span id="sidebarUserNameSpan">ผู้ใช้</span>)
+            </button>
+          </div>
+          <!-- การ์ดสถานะการเชื่อมต่อกระจกโปร่งแสง -->
+          <div class="sidebar-footer-box">
+            <div class="status-dot-wrap">
+              <span class="status-dot" id="statusDot"></span>
+              <span>สถานะระบบ:</span>
+            </div>
+            <strong id="dbStatusText" style="color: #86efac; display: block; font-size: 12px; margin-top: 2px;">กำลังเชื่อมต่อฐานข้อมูล...</strong>
+          </div>
         </div>
       </aside>
 
@@ -685,11 +751,11 @@
               </button>
             </div>
 
-            <!-- แดชบอร์ดที่ 1: สถานะหนังสือ -->
+            <!-- แดชบอร์ดที่ 1: สถานะหนังสือ (สัดส่วน Compact) -->
             <div class="card dashboard-card" style="border-left: 4px solid var(--accent);">
               <div class="dashboard-header">
                 <h3 class="dashboard-title">📖 แดชบอร์ดสถานะหนังสือในระบบห้องสมุด</h3>
-                <p style="margin:4px 0 0; font-size:13px; color:#334155;">
+                <p style="margin:2px 0 0; font-size:12.5px; color:#334155;">
                   สรุปภาพรวมจำนวนหนังสือทั้งหมด อัตราการยืม และสถานะการส่งคืนหนังสือแบบเรียลไทม์
                 </p>
               </div>
@@ -717,11 +783,11 @@
               </div>
             </div>
 
-            <!-- แดชบอร์ดที่ 2: สถิติการเข้าใช้งาน -->
+            <!-- แดชบอร์ดที่ 2: สถิติการเข้าใช้งาน (สัดส่วน Compact) -->
             <div class="card dashboard-card">
               <div class="dashboard-header">
                 <h3 class="dashboard-title">👥 แดชบอร์ดจำนวนการเข้าใช้งานแบ่งตามประเภทผู้เข้าใช้งาน</h3>
-                <p style="margin:4px 0 0; font-size:13px; color:#334155;">
+                <p style="margin:2px 0 0; font-size:12.5px; color:#334155;">
                   สถิติผู้เข้าใช้บริการห้องสมุดออนไลน์จำแนกตามสถานะ
                 </p>
               </div>
@@ -757,7 +823,7 @@
             <!-- ส่วนล่าง: ตารางบันทึกการเข้าใช้ + ทางลัด -->
             <div class="grid-2">
               <div class="card">
-                <h3 style="margin-top:0; font-size:18px;">การบันทึกการเข้าใช้งานล่าสุด</h3>
+                <h3 style="margin-top:0; font-size:16px;">การบันทึกการเข้าใช้งานล่าสุด</h3>
                 <div class="table-wrap">
                   <table>
                     <thead>
@@ -767,20 +833,19 @@
                   </table>
                 </div>
               </div>
-
               <div class="card">
-                <h3 style="margin-top:0; font-size:18px;">ทางลัดการใช้งาน</h3>
-                <div style="display:flex; flex-direction:column; gap:10px;">
-                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="openEntryGate()">
-                    📚 ลงชื่อเข้าใช้งาน (แสดง 5 คอลัมน์, หน้าละ 20 เล่ม พร้อมเลขหน้า 1 2 3...)
+                <h3 style="margin-top:0; font-size:16px;">ทางลัดการใช้งาน</h3>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start; padding:8px 12px; font-size:13px;" onclick="openEntryGate()">
+                    📚 เมนูรายการหนังสือ (แสดง 5 คอลัมน์, หน้าละ 20 เล่ม พร้อมเลขหน้า 1 2 3...)
                   </button>
-                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="navigateToBorrowView()">
+                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start; padding:8px 12px; font-size:13px;" onclick="navigateToBorrowView()">
                     🔄 เมนูยืม-คืน (ทำรายการยืมและคืนหนังสือออนไลน์)
                   </button>
-                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="switchView('staff')">
+                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start; padding:8px 12px; font-size:13px;" onclick="switchView('staff')">
                     📋 เมนูเจ้าหน้าที่ (ตรวจสอบประวัติการเข้าใช้งานและรายการยืม-คืน)
                   </button>
-                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start;" onclick="switchView('admin')">
+                  <button type="button" class="btn btn-secondary" style="justify-content:flex-start; padding:8px 12px; font-size:13px;" onclick="switchView('admin')">
                     ⚙️ เมนู Admin (เพิ่มเจ้าหน้าที่, เพิ่มหนังสือ, ตั้งค่า Google Apps Script)
                   </button>
                 </div>
@@ -788,7 +853,7 @@
             </div>
           </section>
 
-          <!-- VIEW 2: รายการหนังสือ (5 คอลัมน์) -->
+          <!-- VIEW 2: รายการหนังสือ (5 คอลัมน์ กระชับ สมส่วน) -->
           <section id="view-books" class="view-section">
             <div class="page-header">
               <div>
@@ -796,7 +861,6 @@
                 <p class="page-subtitle">เลือกรายการหนังสือที่ต้องการอ่านและทำรายการยืม-คืน</p>
               </div>
             </div>
-
             <div class="filter-bar">
               <div class="filter-search">
                 <input type="text" id="bookSearchInput" class="form-input" placeholder="ค้นหาชื่อหนังสือ หรือ ผู้แต่ง...">
@@ -812,9 +876,7 @@
                 </select>
               </div>
             </div>
-
             <div id="bookGrid" class="book-grid"></div>
-
             <div class="pagination-wrap">
               <div id="paginationInfo" class="pagination-info"></div>
               <div id="paginationControls" class="pagination-list"></div>
@@ -824,14 +886,12 @@
           <!-- VIEW 3: เมนูยืม-คืน -->
           <section id="view-borrow" class="view-section">
             <div class="page-header">
-              <div>
-                <h2 class="page-title">เมนูยืม-คืนหนังสือ</h2>
-                <p class="page-subtitle">สำหรับผู้ใช้งานที่ยืนยันตัวตนด้วยรหัสประจำตัวแล้วเท่านั้น</p>
-              </div>
+              <h2 class="page-title">เมนูยืม-คืนหนังสือ</h2>
+              <p class="page-subtitle">สำหรับผู้ใช้งานที่ยืนยันตัวตนด้วยรหัสประจำตัวแล้วเท่านั้น</p>
             </div>
             <div class="grid-2">
               <div class="card">
-                <h3 style="margin-top:0;">ทำรายการยืมหนังสือ</h3>
+                <h3 style="margin-top:0; font-size:16px;">ทำรายการยืมหนังสือ</h3>
                 <form id="borrowForm">
                   <div class="form-group">
                     <label class="form-label">เลือกหนังสือที่ต้องการยืม</label>
@@ -845,7 +905,7 @@
                 </form>
               </div>
               <div class="card">
-                <h3 style="margin-top:0;">รายการหนังสือที่กำลังยืม (รอส่งคืน)</h3>
+                <h3 style="margin-top:0; font-size:16px;">รายการหนังสือที่กำลังยืม (รอส่งคืน)</h3>
                 <div class="table-wrap">
                   <table>
                     <thead><tr><th>รหัส</th><th>ชื่อหนังสือ</th><th>ผู้ยืม</th><th>จัดการ</th></tr></thead>
@@ -866,8 +926,8 @@
             </div>
             <div id="staffAuthGate" class="card auth-gate-card">
               <div class="auth-icon">🔒</div>
-              <h3 style="margin-top:0;">เข้าสู่ระบบเจ้าหน้าที่</h3>
-              <p style="font-size:13px; color:var(--muted); margin-top:0;">ระบบตรวจสอบรหัสผ่านผ่าน Google Apps Script โดยตรง</p>
+              <h3 style="margin:0 0 4px; font-size:17px;">เข้าสู่ระบบเจ้าหน้าที่</h3>
+              <p style="font-size:12.5px; color:var(--muted); margin:0 0 12px;">ระบบตรวจสอบรหัสผ่านผ่าน Google Apps Script โดยตรง</p>
               <div id="staffAttemptPill" class="attempt-pill">จำนวนครั้งที่ผิด: 0 / 3 ครั้ง</div>
               <div id="staffLockBanner" class="lock-banner">บัญชีเจ้าหน้าที่ถูกล็อกชั่วคราว! กรุณาติดต่อ Admin เพื่อปลดล็อก</div>
               <div id="staffAuthError" class="auth-error">รหัสผ่านไม่ถูกต้อง</div>
@@ -878,17 +938,15 @@
                 <button type="submit" id="staffLoginSubmitBtn" class="btn btn-primary" style="width:100%;">เข้าสู่ระบบเจ้าหน้าที่</button>
               </form>
             </div>
-
-            <div id="staffProtectedContent" style="display:none; width:100%;">
+            <div id="staffProtectedContent" style="display:none;">
               <div class="auth-bar">
                 <div>สถานะ: <strong id="staffSessionLabel">เจ้าหน้าที่ห้องสมุด</strong></div>
                 <button type="button" class="btn btn-danger role-logout-btn">ออกจากระบบ</button>
               </div>
-
-              <!-- ส่วนเพิ่มหนังสือ และ ตรวจสอบยืม-คืน (แก้ขอบเกินจอ) -->
-              <div class="grid-2">
+              <div class="grid-2" style="margin-bottom:16px;">
+                <!-- ฟอร์มเพิ่มหนังสือสำหรับเจ้าหน้าที่ -->
                 <div class="card">
-                  <h3 style="margin-top:0; font-size:17px; word-break:break-word;">เพิ่มหนังสือเข้าคลัง (สำหรับเจ้าหน้าที่)</h3>
+                  <h3 style="margin-top:0; font-size:16px;">เพิ่มหนังสือเข้าคลัง (สำหรับเจ้าหน้าที่)</h3>
                   <form id="staffAddBookForm">
                     <div class="form-group">
                       <label class="form-label">ชื่อหนังสือ</label>
@@ -909,16 +967,16 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label class="form-label">ลิงก์รูปภาพหน้าปก (URL หรือ Google Drive)</label>
-                      <input type="url" id="staffBookCoverUrl" class="form-input" placeholder="วางลิงก์รูปภาพ (เว้นว่างไว้ได้)">
-                      <small style="color:var(--muted); font-size:11px; display:block; margin-top:4px; line-height:1.4;">* รองรับลิงก์แชร์จาก Google Drive (ทุกคนที่มีลิงก์มีสิทธิ์ดู)</small>
+                      <label class="form-label">ลิงก์รูปภาพหน้าปก (URL รูปภาพ หรือ ลิงก์แชร์จาก Google Drive)</label>
+                      <input type="url" id="staffBookCoverUrl" class="form-input" placeholder="เช่น https://drive.google.com/file/d/... หรือลิงก์รูปภาพทั่วไป (เว้นว่างไว้ได้)">
+                      <small style="color:var(--muted); font-size:11.5px; display:block; margin-top:3px;">* หากใช้ Google Drive ให้ตั้งค่าแชร์ไฟล์เป็น "ทุกคนที่มีลิงก์มีสิทธิ์ดู" ระบบจะแปลงลิงก์ให้อัตโนมัติ</small>
                     </div>
                     <button type="submit" class="btn btn-primary" style="width:100%;">เพิ่มหนังสือลงในระบบ</button>
                   </form>
                 </div>
-
+                <!-- ตารางตรวจสอบการยืม-คืนสำหรับเจ้าหน้าที่ -->
                 <div class="card">
-                  <h3 style="margin-top:0; font-size:17px; word-break:break-word;">ตรวจสอบและจัดการการยืม-คืนหนังสือ</h3>
+                  <h3 style="margin-top:0; font-size:16px;">ตรวจสอบและจัดการการยืม-คืนหนังสือ</h3>
                   <div class="table-wrap">
                     <table>
                       <thead><tr><th>รหัส</th><th>ชื่อหนังสือ</th><th>ผู้ยืม</th><th>เวลา</th><th>สถานะ/จัดการ</th></tr></thead>
@@ -927,9 +985,8 @@
                   </div>
                 </div>
               </div>
-
               <div class="card">
-                <h3 style="margin-top:0; font-size:17px; word-break:break-word;">ประวัติการเข้าใช้งานของโรงเรียน</h3>
+                <h3 style="margin-top:0; font-size:16px;">ประวัติการเข้าใช้งานของโรงเรียน</h3>
                 <div class="table-wrap">
                   <table>
                     <thead><tr><th>ลำดับ</th><th>วัน-เวลา</th><th>ชื่อผู้เข้าใช้งาน</th><th>กลุ่มผู้ใช้</th></tr></thead>
@@ -948,11 +1005,10 @@
                 <p class="page-subtitle">จัดการเพิ่มเจ้าหน้าที่ ปลดล็อกบัญชี เพิ่มรายการหนังสือ และตั้งค่าระบบ</p>
               </div>
             </div>
-
             <div id="adminAuthGate" class="card auth-gate-card">
               <div class="auth-icon">🛡️</div>
-              <h3 style="margin-top:0;">เข้าสู่ระบบ Admin</h3>
-              <p style="font-size:13px; color:var(--muted); margin-top:0;">รหัสผ่านจะถูกตรวจสอบบน Google Apps Script โดยตรง</p>
+              <h3 style="margin:0 0 4px; font-size:17px;">เข้าสู่ระบบ Admin</h3>
+              <p style="font-size:12.5px; color:var(--muted); margin:0 0 12px;">รหัสผ่านจะถูกตรวจสอบบน Google Apps Script โดยตรง</p>
               <div id="adminAttemptPill" class="attempt-pill">จำนวนครั้งที่ผิด: 0 / 3 ครั้ง</div>
               <div id="adminLockBanner" class="lock-banner">
                 รหัส Admin ถูกล็อกชั่วคราวเนื่องจากใส่ผิดเกิน 3 ครั้ง!
@@ -969,19 +1025,17 @@
                 <button type="submit" id="adminLoginSubmitBtn" class="btn btn-primary" style="width:100%;">เข้าสู่ระบบ Admin</button>
               </form>
             </div>
-
-            <div id="adminProtectedContent" style="display:none; width:100%;">
+            <div id="adminProtectedContent" style="display:none;">
               <div class="auth-bar">
                 <div>สถานะ: <strong>ผู้ดูแลระบบสูงสุด (Admin)</strong></div>
                 <button type="button" class="btn btn-danger role-logout-btn">ออกจากระบบ</button>
               </div>
-
-              <!-- การจัดการความปลอดภัยและปลดล็อกรหัสเจ้าหน้าที่ (แก้ปุ่มเลยขอบจอ) -->
-              <div class="card" style="border-left: 4px solid var(--brand);">
-                <div class="admin-security-box" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; width:100%;">
-                  <div style="flex:1; min-width:200px;">
-                    <h3 style="margin:0 0 4px; font-size:16px; word-break:break-word;">การจัดการความปลอดภัยและปลดล็อกรหัสผ่านเจ้าหน้าที่</h3>
-                    <p style="margin:0; font-size:13px; color:var(--muted);">
+              <!-- ระบบควบคุมการปลดล็อกเจ้าหน้าที่ -->
+              <div class="card" style="margin-bottom:16px; border-left: 4px solid var(--brand);">
+                <div class="admin-security-box" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                  <div>
+                    <h3 style="margin:0 0 2px; font-size:15.5px;">การจัดการความปลอดภัยและปลดล็อกรหัสผ่านเจ้าหน้าที่</h3>
+                    <p style="margin:0; font-size:12.5px; color:var(--muted);">
                       สถานะรหัสเจ้าหน้าที่: <strong id="adminStaffStatusText">ปกติ (0/3)</strong>
                     </p>
                   </div>
@@ -990,12 +1044,11 @@
                   </button>
                 </div>
               </div>
-
-              <!-- เพิ่มเจ้าหน้าที่ + รายชื่อเจ้าหน้าที่ (แก้ขอบเกินจอ) -->
-              <div class="grid-2">
+              <!-- ส่วนเพิ่มและจัดการรายชื่อเจ้าหน้าที่ -->
+              <div class="grid-2" style="margin-bottom:16px;">
                 <div class="card">
-                  <h3 style="margin-top:0; font-size:17px; word-break:break-word;">เพิ่มเจ้าหน้าที่ห้องสมุด</h3>
-                  <p style="font-size:12px; color:var(--muted); margin-top:0;">กำหนดชื่อและรหัสผ่านสำหรับเจ้าหน้าที่ใหม่ บันทึกลงชีต StaffAccounts</p>
+                  <h3 style="margin-top:0; font-size:16px;">เพิ่มเจ้าหน้าที่ห้องสมุด</h3>
+                  <p style="font-size:12.5px; color:var(--muted); margin-top:0;">กำหนดชื่อและรหัสผ่านสำหรับเจ้าหน้าที่ใหม่ บันทึกลงชีต StaffAccounts</p>
                   <form id="addStaffForm">
                     <div class="form-group">
                       <label class="form-label">ชื่อ-นามสกุล / ตำแหน่งเจ้าหน้าที่</label>
@@ -1008,22 +1061,20 @@
                     <button type="submit" class="btn btn-primary" style="width:100%;">เพิ่มเจ้าหน้าที่ลงระบบ</button>
                   </form>
                 </div>
-
                 <div class="card">
-                  <h3 style="margin-top:0; font-size:17px; word-break:break-word;">รายชื่อเจ้าหน้าที่ในระบบ</h3>
+                  <h3 style="margin-top:0; font-size:16px;">รายชื่อเจ้าหน้าที่ในระบบ</h3>
                   <div class="table-wrap">
                     <table>
-                      <thead><tr><th>รหัส</th><th>ชื่อเจ้าหน้าที่</th><th>จัดการ</th></tr></thead>
+                      <thead><tr><th>รหัส</th><th>ชื่อเจ้าหน้าที่</th><th>การจัดการ</th></tr></thead>
                       <tbody id="staffAccountsBody"></tbody>
                     </table>
                   </div>
                 </div>
               </div>
-
-              <!-- เพิ่มหนังสือ (Admin) + ตั้งค่า Web App URL -->
+              <!-- ส่วนเพิ่มหนังสือ และตั้งค่า Web App URL -->
               <div class="grid-2">
                 <div class="card">
-                  <h3 style="margin-top:0; font-size:17px; word-break:break-word;">เพิ่มหนังสือเข้าคลัง (Admin)</h3>
+                  <h3 style="margin-top:0; font-size:16px;">เพิ่มหนังสือเข้าคลัง (Admin)</h3>
                   <form id="addBookForm">
                     <div class="form-group">
                       <label class="form-label">ชื่อหนังสือ</label>
@@ -1044,16 +1095,15 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label class="form-label">ลิงก์รูปภาพหน้าปก (URL หรือ Google Drive)</label>
-                      <input type="url" id="newBookCoverUrl" class="form-input" placeholder="วางลิงก์รูปภาพ (เว้นว่างไว้ได้)">
-                      <small style="color:var(--muted); font-size:11px; display:block; margin-top:4px; line-height:1.4;">* รองรับลิงก์แชร์จาก Google Drive (ทุกคนที่มีลิงก์มีสิทธิ์ดู)</small>
+                      <label class="form-label">ลิงก์รูปภาพหน้าปก (URL รูปภาพ หรือ ลิงก์แชร์จาก Google Drive)</label>
+                      <input type="url" id="newBookCoverUrl" class="form-input" placeholder="เช่น https://drive.google.com/file/d/... หรือลิงก์รูปภาพทั่วไป (เว้นว่างไว้ได้)">
+                      <small style="color:var(--muted); font-size:11.5px; display:block; margin-top:3px;">* หากใช้ Google Drive ให้ตั้งค่าแชร์ไฟล์เป็น "ทุกคนที่มีลิงก์มีสิทธิ์ดู" ระบบจะแปลงลิงก์ให้อัตโนมัติ</small>
                     </div>
                     <button type="submit" class="btn btn-primary" style="width:100%;">เพิ่มหนังสือลงในระบบ</button>
                   </form>
                 </div>
-
                 <div class="card">
-                  <h3 style="margin-top:0; font-size:17px; word-break:break-word;">ตั้งค่าเชื่อมต่อ Google Apps Script (Web App URL)</h3>
+                  <h3 style="margin-top:0; font-size:16px;">ตั้งค่าเชื่อมต่อ Google Apps Script (Web App URL)</h3>
                   <form id="gasConfigForm">
                     <div class="form-group">
                       <label class="form-label">Google Apps Script Web App URL</label>
@@ -1076,9 +1126,9 @@
     <div class="modal-card">
       <div class="modal-header">
         <h3 id="modalBookTitle" class="modal-title">ชื่อหนังสือ</h3>
-        <button type="button" id="closeModalBtn" class="btn btn-secondary" style="padding:6px 12px;">ปิด</button>
+        <button type="button" id="closeModalBtn" class="btn btn-secondary" style="padding:4px 10px; font-size:12.5px;">ปิด</button>
       </div>
-      <div id="modalBookContent" style="font-size:14px; color:var(--ink);"></div>
+      <div id="modalBookContent" style="font-size:13.5px; color:var(--ink);"></div>
     </div>
   </div>
 
@@ -1093,6 +1143,7 @@
       if (savedUrl && savedUrl.startsWith('https://')) gasWebAppUrl = savedUrl;
     } catch (_) {}
 
+    // ฟังก์ชันจัดรูปแบบวัน-เวลา เป็น วัน/เดือน/ปี เวลา ชม.:นาที น.
     function formatThaiDateTime(rawDateStr) {
       if (!rawDateStr) return '-';
       const str = String(rawDateStr).trim();
@@ -1111,23 +1162,22 @@
       }
     }
 
+    // ฟังก์ชันซ่อนนามสกุลด้วย xxxx เพื่อป้องกัน PDPA
     function maskLastNamePDPA(rawName) {
       if (!rawName) return '-';
-      let cleanName = String(rawName).replace(/\s*\(.*?\)\s*/g, '').trim();
-      if (cleanName === 'บุคคลทั่วไป' || cleanName.includes('ผู้เยี่ยมชม')) {
-        return cleanName;
+      let clean = String(rawName).replace(/\(รหัส:[^)]+\)/g, '').trim();
+      clean = clean.replace(/\s+/g, ' ');
+      if (clean === 'บุคคลทั่วไป' || clean === 'ผู้เข้าใช้งานทั่วไป' || clean === 'ผู้เยี่ยมชม') {
+        return clean;
       }
-      const parts = cleanName.split(/\s+/).filter(Boolean);
-      if (parts.length <= 1) {
-        return cleanName;
+      const parts = clean.split(' ');
+      if (parts.length > 1) {
+        return parts[0] + ' xxxx';
       }
-      if (parts.length === 2) {
-        return `${parts[0]} xxxx`;
-      }
-      const prefixAndFirst = parts.slice(0, parts.length - 1).join(' ');
-      return `${prefixAndFirst} xxxx`;
+      return clean;
     }
 
+    // ฟังก์ชันช่วยแปลง URL ของ Google Drive เป็น URL แสดงภาพโดยตรง
     function formatCoverUrl(url) {
       if (!url) return '';
       const trimmed = String(url).trim();
@@ -1209,12 +1259,14 @@
 
     async function fetchDatabaseFromGas() {
       const dbStatus = document.getElementById('dbStatusText');
+      const statusDot = document.getElementById('statusDot');
       if (!gasWebAppUrl || gasWebAppUrl.includes('วาง_WEB_APP_URL')) {
-        dbStatus.textContent = 'โหมดข้อมูลจำลอง';
+        dbStatus.textContent = 'โหมดข้อมูลจำลอง (ยังไม่ใส่ Web App URL)';
+        dbStatus.style.color = '#ffffff';
+        if (statusDot) statusDot.style.background = '#94a3b8';
         renderBookDashboard();
         return;
       }
-
       try {
         const res = await fetch(gasWebAppUrl);
         const data = await res.json();
@@ -1244,6 +1296,8 @@
             };
           }
           dbStatus.textContent = 'เชื่อมต่อ Google Sheets สำเร็จ';
+          dbStatus.style.color = '#86efac';
+          if (statusDot) statusDot.style.background = '#86efac';
           renderBooksAndPagination();
           renderAccessLogs();
           renderBorrowSection();
@@ -1253,10 +1307,13 @@
         }
       } catch (err) {
         dbStatus.textContent = 'เชื่อมต่อไม่สำเร็จ (ใช้ข้อมูลจำลอง)';
+        dbStatus.style.color = '#fca5a5';
+        if (statusDot) statusDot.style.background = '#f87171';
         renderBookDashboard();
       }
     }
 
+    // ================= แดชบอร์ดสรุปสถิติหนังสือ (4 ด้าน) =================
     function renderBookDashboard() {
       const totalBooks = booksData.length;
       const currentlyBorrowed = booksData.filter(b => b.status === 'ถูกยืม').length;
@@ -1279,6 +1336,7 @@
       document.getElementById('statBookPendingBar').style.width = Math.min(100, pendingPct) + '%';
     }
 
+    // ================= จัดการสลับโหมดบุคคลทั่วไป =================
     const visitorRole = document.getElementById('visitorRole');
     const visitorCodeGroup = document.getElementById('visitorCodeGroup');
     const visitorCode = document.getElementById('visitorCode');
@@ -1327,6 +1385,7 @@
 
     document.getElementById('backToGateBtn').addEventListener('click', window.openEntryGate);
 
+    // ตรวจสอบฟอร์มเข้าใช้งาน
     document.getElementById('entryForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const role = visitorRole.value;
@@ -1384,6 +1443,16 @@
       document.getElementById('currentUserChip').textContent = `ผู้ใช้งาน: ${finalName} (${role})`;
       document.getElementById('borrowerNameInput').value = finalName;
 
+      // จัดการปุ่มออกจากระบบตามประเภทผู้ใช้งาน
+      if (role !== 'บุคคลทั่วไป') {
+        document.getElementById('navUserLogoutBtn').style.display = 'inline-flex';
+        document.getElementById('sidebarUserLogoutWrap').style.display = 'block';
+        document.getElementById('sidebarUserNameSpan').textContent = finalName;
+      } else {
+        document.getElementById('navUserLogoutBtn').style.display = 'none';
+        document.getElementById('sidebarUserLogoutWrap').style.display = 'none';
+      }
+
       const gate = document.getElementById('entryScreen');
       gate.classList.remove('active');
       gate.style.display = 'none';
@@ -1392,6 +1461,27 @@
       renderAccessLogs();
     });
 
+    // ฟังก์ชันออกจากระบบสำหรับผู้ใช้ทั่วไป (นักเรียน/ครู/บุคลากร)
+    function logoutMemberUser() {
+      currentLoggedUser = null;
+      document.getElementById('currentUserChip').textContent = 'ผู้ใช้งาน: ผู้เยี่ยมชม';
+      document.getElementById('borrowerNameInput').value = '';
+      document.getElementById('navUserLogoutBtn').style.display = 'none';
+      document.getElementById('sidebarUserLogoutWrap').style.display = 'none';
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebarBackdrop').classList.remove('open');
+
+      Swal.fire({
+        icon: 'success',
+        title: 'ออกจากระบบเรียบร้อย',
+        text: 'ขอบคุณที่เข้าใช้บริการระบบห้องสมุดออนไลน์ครับ',
+        timer: 1500,
+        showConfirmButton: false
+      });
+      switchView('home');
+    }
+
+    // ================= ระบบ Dashboard & Navigation =================
     function renderAccessLogs() {
       const total = accessLogs.length;
       const counts = { 'นักเรียน': 0, 'ครู / อาจารย์': 0, 'บุคลากรโรงเรียน': 0, 'บุคคลทั่วไป': 0 };
@@ -1421,6 +1511,7 @@
       }
     }
 
+    // Modal เปิดอ่านหนังสือ
     const bookModal = document.getElementById('bookModal');
     const modalBookTitle = document.getElementById('modalBookTitle');
     const modalBookContent = document.getElementById('modalBookContent');
@@ -1428,20 +1519,21 @@
     window.openBookModal = function (bookId) {
       const book = booksData.find(b => b.id === bookId);
       if (!book) return;
+
       modalBookTitle.textContent = `${book.id} - ${book.title}`;
       modalBookContent.innerHTML = `
-        <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:16px;">
-          <img src="${book.cover_url}" alt="${book.title}" style="width:120px; border-radius:8px; border:1px solid var(--border); object-fit:cover;">
-          <div style="flex:1; min-width:200px;">
-            <p style="margin:0 0 8px;"><strong>หมวดหมู่:</strong> ${book.category}</p>
-            <p style="margin:0 0 8px;"><strong>ผู้แต่ง:</strong> ${book.author}</p>
-            <p style="margin:0 0 8px;"><strong>สถานะ:</strong> ${book.status}</p>
-            <p style="margin:0; color:var(--muted); font-size:13px;">
+        <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:14px;">
+          <img src="${book.cover_url}" alt="${book.title}" style="width:110px; border-radius:6px; border:1px solid var(--border); object-fit:cover;">
+          <div style="flex:1; min-width:180px;">
+            <p style="margin:0 0 6px;"><strong>หมวดหมู่:</strong> ${book.category}</p>
+            <p style="margin:0 0 6px;"><strong>ผู้แต่ง:</strong> ${book.author}</p>
+            <p style="margin:0 0 6px;"><strong>สถานะ:</strong> ${book.status}</p>
+            <p style="margin:0; color:var(--muted); font-size:12.5px;">
               เมื่อเชื่อมต่อกับ Google Drive และ Google Sheets ระบบจะดึงลิงก์อ่านไฟล์ PDF มาแสดงผลในกรอบด้านล่างนี้ได้โดยอัตโนมัติ
             </p>
           </div>
         </div>
-        <div style="padding:16px; background:var(--surface-alt); border:1px dashed var(--border); border-radius:8px; text-align:center; color:var(--muted);">
+        <div style="padding:14px; background:var(--surface-alt); border:1px dashed var(--border); border-radius:6px; text-align:center; color:var(--muted); font-size:13px;">
           พื้นที่จำลองการแสดงผลไฟล์ E-Book สำหรับเรื่อง <strong>"${book.title}"</strong>
         </div>
       `;
@@ -1456,12 +1548,14 @@
       if (e.target === bookModal) bookModal.classList.remove('open');
     });
 
+    // แสดงรายการหนังสือ พร้อมปุ่ม "เปิดอ่าน" (สีน้ำเงิน) และปุ่ม "ยืม" (สีขาวขอบเทา)
     function renderBooksAndPagination() {
       const grid = document.getElementById('bookGrid');
       const q = document.getElementById('bookSearchInput').value.toLowerCase();
       const cat = document.getElementById('bookCategorySelect').value;
       const filtered = booksData.filter(b => (!q || b.title.toLowerCase().includes(q)) && (cat === 'ALL' || b.category === cat));
       const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+
       if (currentPage > totalPages) currentPage = totalPages;
       const start = (currentPage - 1) * ITEMS_PER_PAGE;
       const pageItems = filtered.slice(start, start + ITEMS_PER_PAGE);
@@ -1523,6 +1617,7 @@
       renderBookDashboard();
     }
 
+    // ฟังก์ชันตรวจสอบสิทธิ์ก่อนไปยังเมนูยืม-คืน
     function navigateToBorrowView(targetBookId = null) {
       if (!currentLoggedUser || !currentLoggedUser.code) {
         Swal.fire({
@@ -1610,6 +1705,7 @@
       });
     };
 
+    // ปรับปรุงฟังก์ชัน switchView ให้เลื่อนหน้าจอกลับไปด้านบนสุด (Scroll to Top) อัตโนมัติทุกครั้ง
     function switchView(k) {
       if (k === 'borrow') {
         if (!currentLoggedUser || !currentLoggedUser.code) {
@@ -1617,12 +1713,13 @@
           return;
         }
       }
-
       document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.getAttribute('data-view') === k));
       document.querySelectorAll('.view-section').forEach(s => s.classList.toggle('active', s.id === 'view-' + k));
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('sidebarBackdrop').classList.remove('open');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // เลื่อนหน้าจอกลับสู่ด้านบนสุดทันทีเมื่อสลับหน้า
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
     document.querySelectorAll('.nav-item').forEach(b => b.addEventListener('click', function () { switchView(this.getAttribute('data-view')); }));
@@ -1637,6 +1734,7 @@
       document.getElementById('sidebarBackdrop').classList.remove('open');
     });
 
+    // ================= ระบบความปลอดภัย และเมนู เจ้าหน้าที่/Admin =================
     function updateSecurityUI() {
       const staffPill = document.getElementById('staffAttemptPill');
       const staffBanner = document.getElementById('staffLockBanner');
@@ -1667,6 +1765,7 @@
       }
     }
 
+    // ล็อกอิน เจ้าหน้าที่
     document.getElementById('staffLoginForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       const pin = document.getElementById('staffPinInput').value.trim();
@@ -1676,9 +1775,7 @@
           isStaffAuthenticated = true;
           document.getElementById('staffAuthGate').style.display = 'none';
           document.getElementById('staffProtectedContent').style.display = 'block';
-          if (window.innerWidth > 768) {
-            document.getElementById('navRoleLogoutBtn').style.display = 'inline-flex';
-          }
+          document.getElementById('navRoleLogoutBtn').style.display = 'inline-flex';
           document.getElementById('staffSessionLabel').textContent = res.staffName || 'เจ้าหน้าที่ห้องสมุด';
           Swal.fire({
             icon: 'success',
@@ -1704,6 +1801,7 @@
       }
     });
 
+    // ล็อกอิน Admin
     document.getElementById('adminLoginForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       const pin = document.getElementById('adminPinInput').value.trim();
@@ -1713,9 +1811,7 @@
           isAdminAuthenticated = true;
           document.getElementById('adminAuthGate').style.display = 'none';
           document.getElementById('adminProtectedContent').style.display = 'block';
-          if (window.innerWidth > 768) {
-            document.getElementById('navRoleLogoutBtn').style.display = 'inline-flex';
-          }
+          document.getElementById('navRoleLogoutBtn').style.display = 'inline-flex';
           Swal.fire({
             icon: 'success',
             title: 'ยินดีต้อนรับ Admin!',
@@ -1740,6 +1836,7 @@
       }
     });
 
+    // ออกจากระบบทุกเมนู
     document.querySelectorAll('.role-logout-btn, #navRoleLogoutBtn').forEach(b => b.addEventListener('click', () => {
       isStaffAuthenticated = false;
       isAdminAuthenticated = false;
@@ -1748,6 +1845,7 @@
       document.getElementById('adminAuthGate').style.display = 'block';
       document.getElementById('adminProtectedContent').style.display = 'none';
       document.getElementById('navRoleLogoutBtn').style.display = 'none';
+
       Swal.fire({
         icon: 'info',
         title: 'ออกจากระบบเรียบร้อย',
@@ -1756,6 +1854,7 @@
       });
     }));
 
+    // Admin ปลดล็อกรหัสเจ้าหน้าที่
     document.getElementById('adminUnlockStaffBtn').addEventListener('click', async () => {
       securityState.staffFails = 0;
       securityState.staffLocked = false;
@@ -1770,6 +1869,7 @@
       });
     });
 
+    // จัดการเพิ่มหนังสือ
     function addBookCommon(title, author, category, coverInputUrl) {
       const formattedCover = formatCoverUrl(coverInputUrl);
       const newBook = {
@@ -1828,6 +1928,7 @@
       this.reset();
     });
 
+    // Admin เพิ่มเจ้าหน้าที่ใหม่
     document.getElementById('addStaffForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const name = document.getElementById('newStaffName').value.trim();
@@ -1885,6 +1986,7 @@
       });
     };
 
+    // ตั้งค่า Web App URL
     document.getElementById('gasConfigForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const url = document.getElementById('gasUrlInput').value.trim();
