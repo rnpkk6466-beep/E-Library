@@ -7,129 +7,34 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- SweetAlert2 สำหรับแจ้งเตือนแบบ Pop-up สวยงาม -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     :root {
-      --bg: #1d4ed8;
-      --surface: #ffffff;
-      --surface-alt: #f8fafc;
-      --border: #e2e8f0;
-      --ink: #0f172a;
-      --muted: #475569;
-      --brand: #1d4ed8;
-      --brand-hover: #1e40af;
-      --brand-soft: #eff6ff;
-      --brand-ink: #ffffff;
-      --accent: #0284c7;
-      --success: #15803d;
-      --success-bg: #dcfce7;
-      --warning: #b45309;
-      --warning-bg: #fef3c7;
-      --danger: #b91c1c;
-      --danger-bg: #fee2e2;
-      --radius: 10px;
-      --radius-sm: 6px;
+      --bg: #1d4ed8; --surface: #ffffff; --surface-alt: #f8fafc; --border: #e2e8f0;
+      --ink: #0f172a; --muted: #475569; --brand: #1d4ed8; --brand-hover: #1e40af;
+      --brand-soft: #eff6ff; --brand-ink: #ffffff; --accent: #0284c7;
+      --success: #15803d; --success-bg: #dcfce7; --warning: #b45309; --warning-bg: #fef3c7;
+      --danger: #b91c1c; --danger-bg: #fee2e2; --radius: 10px; --radius-sm: 6px;
       --shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
       --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
-      --sidebar-width: 250px;
-      --navbar-height: 60px;
+      --sidebar-width: 250px; --navbar-height: 60px;
       --font: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-
     * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: var(--font);
-      color: var(--ink);
-      background: var(--bg);
-      line-height: 1.45;
-      min-height: 100vh;
-    }
-
-    /* ================= ENTRY GATE SCREEN ================= */
-    .entry-screen {
-      min-height: 100vh;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #0284c7 100%);
-    }
-
+    body { margin: 0; font-family: var(--font); color: var(--ink); background: var(--bg); line-height: 1.45; min-height: 100vh; }
+    .entry-screen { min-height: 100vh; display: none; align-items: center; justify-content: center; padding: 20px; background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #0284c7 100%); }
     .entry-screen.active { display: flex; }
-
-    .entry-card {
-      background: var(--surface);
-      width: 100%;
-      max-width: 500px;
-      border-radius: 14px;
-      padding: 32px 28px;
-      box-shadow: var(--shadow-lg);
-      text-align: center;
-    }
-
-    .entry-logo {
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 14px;
-      background: var(--brand-soft);
-      color: var(--brand);
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
+    .entry-card { background: var(--surface); width: 100%; max-width: 500px; border-radius: 14px; padding: 32px 28px; box-shadow: var(--shadow-lg); text-align: center; }
+    .entry-logo { width: 64px; height: 64px; margin: 0 auto 14px; background: var(--brand-soft); color: var(--brand); border-radius: 14px; display: flex; align-items: center; justify-content: center; }
     .entry-title { font-size: 24px; font-weight: 700; margin: 0 0 6px; }
     .entry-subtitle { font-size: 14px; color: var(--muted); margin: 0 0 20px; }
     .entry-form { text-align: left; margin-bottom: 16px; }
     .form-group { margin-bottom: 14px; width: 100%; }
     .form-label { display: block; font-size: 13.5px; font-weight: 600; margin-bottom: 5px; word-break: break-word; }
-
-    .form-input, .form-select {
-      width: 100%;
-      max-width: 100%;
-      padding: 9px 12px;
-      font: inherit;
-      font-size: 14.5px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      background: var(--surface);
-      color: var(--ink);
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-
-    .form-input:focus, .form-select:focus {
-      outline: none;
-      border-color: var(--brand);
-      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
-    }
-
-    .form-input:disabled, .form-select:disabled {
-      background: #f1f5f9 !important;
-      color: #94a3b8 !important;
-      cursor: not-allowed;
-      border-color: #cbd5e1;
-    }
-
-    .btn {
-      font: inherit;
-      font-weight: 600;
-      padding: 9px 16px;
-      border-radius: var(--radius-sm);
-      border: 1px solid transparent;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: background 0.15s, transform 0.1s;
-      text-decoration: none;
-      box-sizing: border-box;
-    }
-
+    .form-input, .form-select { width: 100%; max-width: 100%; padding: 9px 12px; font: inherit; font-size: 14.5px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--ink); transition: border-color 0.15s, box-shadow 0.15s; }
+    .form-input:focus, .form-select:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15); }
+    .form-input:disabled, .form-select:disabled { background: #f1f5f9 !important; color: #94a3b8 !important; cursor: not-allowed; border-color: #cbd5e1; }
+    .btn { font: inherit; font-weight: 600; padding: 9px 16px; border-radius: var(--radius-sm); border: 1px solid transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: background 0.15s, transform 0.1s; text-decoration: none; box-sizing: border-box; }
     .btn:active { transform: translateY(1px); }
     .btn-primary { background: var(--brand); color: var(--brand-ink); }
     .btn-primary:hover { background: var(--brand-hover); }
@@ -138,318 +43,61 @@
     .btn-danger { background: var(--danger); color: #ffffff; }
     .btn-danger:hover { background: #991b1b; }
     .btn-goToBooks { background: var(--accent); color: #ffffff; }
-
-    .btn-enter {
-      width: 100%;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
-    }
-
+    .btn-enter { width: 100%; padding: 12px 20px; font-size: 16px; border-radius: 8px; box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25); }
     .entry-note { font-size: 12.5px; color: var(--muted); margin-top: 12px; text-align: center; }
-
-    /* ================= APP SHELL ================= */
     .app-shell { display: none; min-height: 100vh; flex-direction: column; width: 100%; }
     .app-shell.active { display: flex; }
-
-    /* ตรึง Navbar ไว้ด้านบนสุดเสมอ (Fixed) */
-    .navbar {
-      height: var(--navbar-height);
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 0 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 50;
-      gap: 10px;
-      width: 100%;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    }
-
+    .navbar { height: var(--navbar-height); background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 20px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; right: 0; z-index: 50; gap: 10px; width: 100%; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
     .navbar-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-
-    .hamburger-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 38px;
-      height: 38px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .brand-mark {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 700;
-      font-size: 17px;
-      color: var(--brand);
-      white-space: nowrap;
-    }
-
-    .navbar-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: nowrap;
-      justify-content: flex-end;
-    }
-
-    .user-chip {
-      font-size: 12.5px;
-      color: var(--muted);
-      background: var(--surface-alt);
-      padding: 5px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      white-space: nowrap;
-    }
-
-    .app-body { 
-      display: flex; 
-      flex: 1; 
-      position: relative; 
-      width: 100%; 
-      padding-top: var(--navbar-height); 
-      min-height: 100vh; 
-    }
-
-    /* ================= SIDEBAR (Fixed ตลอดความสูงหน้าจอ) ================= */
-    .sidebar {
-      width: var(--sidebar-width);
-      background: linear-gradient(180deg, #326be8 0%, #1e40af 100%);
-      border-right: 1px solid rgba(255, 255, 255, 0.15);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: fixed;
-      top: var(--navbar-height);
-      bottom: 0;
-      left: 0;
-      z-index: 45;
-      transform: translateX(-100%);
-      transition: transform 0.25s ease;
-      overflow-y: auto;
-    }
-
+    .hamburger-btn { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); cursor: pointer; flex-shrink: 0; }
+    .brand-mark { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; color: var(--brand); white-space: nowrap; }
+    .navbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; justify-content: flex-end; }
+    .user-chip { font-size: 12.5px; color: var(--muted); background: var(--surface-alt); padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border); white-space: nowrap; }
+    .app-body { display: flex; flex: 1; position: relative; width: 100%; padding-top: var(--navbar-height); min-height: 100vh; }
+    .sidebar { width: var(--sidebar-width); background: linear-gradient(180deg, #326be8 0%, #1e40af 100%); border-right: 1px solid rgba(255, 255, 255, 0.15); display: flex; flex-direction: column; justify-content: space-between; position: fixed; top: var(--navbar-height); bottom: 0; left: 0; z-index: 45; transform: translateX(-100%); transition: transform 0.25s ease; overflow-y: auto; }
     .sidebar.open { transform: translateX(0); }
-
-    .sidebar-backdrop {
-      display: none;
-      position: fixed;
-      inset: var(--navbar-height) 0 0 0;
-      background: rgba(15, 23, 42, 0.4);
-      z-index: 40;
-    }
-
+    .sidebar-backdrop { display: none; position: fixed; inset: var(--navbar-height) 0 0 0; background: rgba(15, 23, 42, 0.4); z-index: 40; }
     .sidebar-backdrop.open { display: block; }
     .sidebar-nav { padding: 14px 10px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
-
-    .sidebar-header-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      margin-bottom: 8px;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: var(--radius-sm);
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
-    }
-
-    .sidebar-logo-img {
-      width: 38px;
-      height: 38px;
-      object-fit: contain;
-      border-radius: 6px;
-      background: #ffffff;
-      padding: 2px;
-    }
-
+    .sidebar-header-logo { display: flex; align-items: center; gap: 10px; padding: 10px 12px; margin-bottom: 8px; background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: var(--radius-sm); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06); }
+    .sidebar-logo-img { width: 38px; height: 38px; object-fit: contain; border-radius: 6px; background: #ffffff; padding: 2px; }
     .sidebar-logo-text { display: flex; flex-direction: column; }
     .sidebar-logo-title { font-size: 14px; font-weight: 700; color: var(--brand); line-height: 1.2; }
     .sidebar-logo-sub { font-size: 10.5px; color: var(--muted); }
-
-    .nav-item {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: var(--radius-sm);
-      border: none;
-      background: transparent;
-      color: #ffffff;
-      font: inherit;
-      font-size: 14px;
-      font-weight: 500;
-      text-align: left;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-    }
-
+    .nav-item { width: 100%; display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--radius-sm); border: none; background: transparent; color: #ffffff; font: inherit; font-size: 14px; font-weight: 500; text-align: left; cursor: pointer; transition: background 0.15s, color 0.15s; }
     .nav-item:hover { background: rgba(255, 255, 255, 0.15); }
     .nav-item.active { background: #ffffff; color: var(--brand); font-weight: 700; box-shadow: var(--shadow); }
-
-    /* ส่วนท้าย Sidebar */
-    .sidebar-bottom-section {
-      padding: 12px 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      background: rgba(15, 23, 42, 0.12);
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    .sidebar-footer-box { 
-      padding: 9px 12px; 
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: var(--radius-sm);
-      font-size: 12px; 
-      color: #ffffff;
-    }
-
-    .status-dot-wrap {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11.5px;
-      opacity: 0.9;
-      margin-bottom: 2px;
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #86efac;
-      display: inline-block;
-      box-shadow: 0 0 5px #86efac;
-      flex-shrink: 0;
-    }
-
+    .sidebar-bottom-section { padding: 12px 10px; display: flex; flex-direction: column; gap: 8px; background: rgba(15, 23, 42, 0.12); border-top: 1px solid rgba(255, 255, 255, 0.15); }
+    .sidebar-footer-box { padding: 9px 12px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: var(--radius-sm); font-size: 12px; color: #ffffff; cursor: pointer; transition: background 0.2s, transform 0.1s; }
+    .sidebar-footer-box:hover { background: rgba(255, 255, 255, 0.16); transform: translateY(-1px); }
+    .status-dot-wrap { display: flex; align-items: center; gap: 6px; font-size: 11.5px; opacity: 0.9; margin-bottom: 2px; }
+    .status-dot { width: 7px; height: 7px; border-radius: 999px; background: #86efac; display: inline-block; box-shadow: 0 0 5px #86efac; flex-shrink: 0; }
     .sidebar-user-logout-wrap { display: none; }
-    .btn-sidebar-logout {
-      width: 100%;
-      background: #ef4444;
-      color: #ffffff;
-      padding: 8px 12px;
-      font-size: 13.5px;
-      font-weight: 600;
-      border-radius: var(--radius-sm);
-      border: none;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: background 0.15s;
-    }
+    .btn-sidebar-logout { width: 100%; background: #ef4444; color: #ffffff; padding: 8px 12px; font-size: 13.5px; font-weight: 600; border-radius: var(--radius-sm); border: none; box-shadow: 0 2px 5px rgba(0,0,0,0.2); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background 0.15s; }
     .btn-sidebar-logout:hover { background: #dc2626; }
-
-    /* ================= MAIN WRAPPER (ใส่ภาพ Background ฝั่งรายละเอียด) ================= */
-    .main-wrapper { 
-      flex: 1; 
-      display: flex; 
-      flex-direction: column; 
-      min-width: 0; 
-      width: 100%; 
-      background-image: 
-        linear-gradient(rgba(29, 78, 216, 0.72), rgba(30, 58, 138, 0.82)),
-        url('https://s.imgz.io/2026/11/12/360_F_560447618_PEr4H2GCkr795pN3i6uR2bjwaph4SxlG671a8c1a92c1b03b.jpg');
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    }
-
-    .main-content { 
-      flex: 1; 
-      padding: 20px 24px; 
-      max-width: 1260px; 
-      width: 100%; 
-      margin: 0 auto; 
-      box-sizing: border-box; 
-    }
-
-    /* จอคอมพิวเตอร์และแท็บเล็ตแนวนอน */
+    .main-wrapper { flex: 1; display: flex; flex-direction: column; min-width: 0; width: 100%; background-image: linear-gradient(rgba(29, 78, 216, 0.72), rgba(30, 58, 138, 0.82)), url('https://s.imgz.io/2026/11/12/360_F_560447618_PEr4H2GCkr795pN3i6uR2bjwaph4SxlG671a8c1a92c1b03b.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat; background-attachment: fixed; }
+    .main-content { flex: 1; padding: 20px 24px; max-width: 1260px; width: 100%; margin: 0 auto; box-sizing: border-box; }
     @media (min-width: 1024px) {
       .hamburger-btn { display: none; }
-      .sidebar { 
-        transform: translateX(0); 
-        position: fixed;
-        top: var(--navbar-height);
-        bottom: 0;
-        left: 0;
-        width: var(--sidebar-width);
-      }
+      .sidebar { transform: translateX(0); position: fixed; top: var(--navbar-height); bottom: 0; left: 0; width: var(--sidebar-width); }
       .sidebar-backdrop { display: none !important; }
-      .main-wrapper { 
-        margin-left: var(--sidebar-width); 
-      }
+      .main-wrapper { margin-left: var(--sidebar-width); }
       .main-content { padding: 22px 28px; }
     }
-
     .view-section { display: none; width: 100%; }
     .view-section.active { display: block; }
-
-    .page-header {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
-      width: 100%;
-    }
-
+    .page-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; width: 100%; }
     .page-title { font-size: 21px; font-weight: 700; margin: 0; color: #ffffff; text-shadow: 0 1px 3px rgba(0,0,0,0.3); word-break: break-word; }
     .page-subtitle { font-size: 13px; color: #ffffff; margin: 3px 0 0; opacity: 0.95; text-shadow: 0 1px 2px rgba(0,0,0,0.25); word-break: break-word; }
-
-    .card { 
-      background: var(--surface); 
-      border: 1px solid var(--border); 
-      border-radius: var(--radius); 
-      box-shadow: var(--shadow); 
-      padding: 16px 18px; 
-      margin-bottom: 16px; 
-      width: 100%;
-      max-width: 100%;
-      box-sizing: border-box;
-      overflow: hidden;
-    }
-
-    /* DASHBOARDS COMPACT */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px 18px; margin-bottom: 16px; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
     .dashboard-card { margin-bottom: 16px; background: #ebc520; color: #1e293b; border: none; padding: 14px 16px; }
     .dashboard-header { margin-bottom: 12px; }
     .dashboard-title { margin: 0; font-size: 16px; font-weight: 700; word-break: break-word; }
-
-    .dashboard-grid-5 { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 10px; }
-    @media (min-width: 540px) { .dashboard-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (min-width: 1100px) { .dashboard-grid-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-
-    .dashboard-grid-4 { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 10px; }
-    @media (min-width: 540px) { .dashboard-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .dashboard-grid-5, .dashboard-grid-4 { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 10px; }
+    @media (min-width: 540px) { .dashboard-grid-5, .dashboard-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (min-width: 1024px) { .dashboard-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-
-    .stat-box { 
-      background: var(--surface-alt); 
-      border: 1px solid var(--border); 
-      border-radius: var(--radius-sm); 
-      padding: 10px 13px; 
-    }
+    @media (min-width: 1100px) { .dashboard-grid-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+    .stat-box { background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 13px; }
     .stat-box.stat-total { background: var(--brand-soft); border-color: #bfdbfe; }
     .stat-label { font-size: 12px; font-weight: 600; color: var(--muted); }
     .stat-box.stat-total .stat-label { color: var(--brand); }
@@ -457,198 +105,56 @@
     .stat-unit { font-size: 11.5px; color: var(--muted); font-weight: 500; }
     .stat-bar-track { width: 100%; height: 5px; background: #e2e8f0; border-radius: 999px; overflow: hidden; margin-top: 6px; }
     .stat-bar-fill { height: 100%; border-radius: 999px; background: var(--brand); width: 0%; transition: width 0.3s; }
-
-    /* ================= ปฏิทินสถิติการเข้าใช้งานประจำเดือน ================= */
-    .calendar-container {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .calendar-header-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 4px;
-    }
-
-    .calendar-month-title {
-      font-size: 15.5px;
-      font-weight: 700;
-      color: var(--brand);
-      margin: 0;
-    }
-
-    .calendar-nav-btn-group {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .cal-btn {
-      padding: 4px 10px;
-      font-size: 12px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: var(--surface-alt);
-      cursor: pointer;
-      font-weight: 600;
-      color: var(--ink);
-      transition: background 0.15s;
-    }
+    .card:has(.calendar-container) { width: 100%; display: flex; flex-direction: column; gap: 8px; background: #ddf892; border-color: #f70777;}
+    .calendar-header-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+    .calendar-month-title { font-size: 15.5px; font-weight: 700; color: var(--brand); margin: 0; }
+    .calendar-nav-btn-group { display: flex; align-items: center; gap: 4px; }
+    .cal-btn { padding: 4px 10px; font-size: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface-alt); cursor: pointer; font-weight: 600; color: var(--ink); transition: background 0.15s; }
     .cal-btn:hover { background: #e2e8f0; }
-
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-      text-align: center;
-    }
-
-    .calendar-day-head {
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--muted);
-      padding: 4px 0;
-      background: var(--surface-alt);
-      border-radius: 4px;
-    }
-
-    .calendar-cell {
-      min-height: 48px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 4px 2px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      background: var(--surface);
-      font-size: 12px;
-      transition: border-color 0.15s, background 0.15s;
-    }
-
-    .calendar-cell.empty {
-      background: #f8fafc;
-      border-color: #f1f5f9;
-      opacity: 0.5;
-    }
-
-    .calendar-cell.today {
-      border-color: var(--brand);
-      background: #eff6ff;
-    }
-
-    .cal-day-num {
-      font-weight: 600;
-      color: var(--ink);
-      font-size: 12px;
-      line-height: 1;
-    }
-
-    .calendar-cell.today .cal-day-num {
-      color: var(--brand);
-      font-weight: 700;
-    }
-
-    .cal-badge {
-      display: inline-block;
-      margin-top: 4px;
-      padding: 1px 5px;
-      border-radius: 999px;
-      font-size: 10px;
-      font-weight: 700;
-      background: #e2e8f0;
-      color: #475569;
-      line-height: 1.2;
-    }
-
-    .cal-badge.has-count {
-      background: #dbeafe;
-      color: var(--brand);
-      border: 1px solid #bfdbfe;
-    }
-
-    .cal-badge.high-count {
-      background: var(--success-bg);
-      color: var(--success);
-      border: 1px solid #bbf7d0;
-    }
-
-    .calendar-summary-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 8px;
-      border-top: 1px solid var(--border);
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    /* BOOK GRID 5 COLUMNS */
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+    .calendar-day-head { font-size: 11.5px; font-weight: 700; color: var(--muted); padding: 4px 0; background: #f8d304; border-radius: 4px; }
+    .calendar-cell { min-height: 48px; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px 2px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; background: var(--surface); font-size: 12px; transition: border-color 0.15s, background 0.15s; }
+    .calendar-cell.empty { background: #f8fafc; border-color: #f1f5f9; opacity: 0.5; }
+    .calendar-cell.today { border-color: var(--brand); background: #b6d4fa; }
+    .cal-day-num { font-weight: 600; color: var(--ink); font-size: 12px; line-height: 1; }
+    .calendar-cell.today .cal-day-num { color: var(--brand); font-weight: 700; }
+    .cal-badge { display: inline-block; margin-top: 4px; padding: 1px 5px; border-radius: 999px; font-size: 10px; font-weight: 700; background: #e2e8f0; color: #475569; line-height: 1.2; }
+    .cal-badge.has-count { background: #dbeafe; color: var(--brand); border: 1px solid #bfdbfe; }
+    .cal-badge.high-count { background: var(--success-bg); color: var(--success); border: 1px solid #bbf7d0; }
+    .calendar-summary-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); margin-top: 4px; }
     .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; width: 100%; }
     .filter-search { flex: 1 1 240px; }
     .filter-category { flex: 0 1 200px; }
-
     .book-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 14px; }
     @media (min-width: 480px) { .book-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (min-width: 768px) { .book-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
     @media (min-width: 1024px) { .book-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
     @media (min-width: 1200px) { .book-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-
-    .book-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      box-shadow: var(--shadow);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
+    .book-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow); transition: transform 0.15s ease, box-shadow 0.15s ease; }
     .book-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
     .book-cover-wrap { position: relative; width: 100%; aspect-ratio: 3 / 4; background: #e2e8f0; }
     .book-cover-svg { width: 100%; height: 100%; object-fit: cover; display: block; }
     .book-status-badge { position: absolute; top: 6px; right: 6px; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
     .status-available { background: var(--success-bg); color: var(--success); }
     .status-borrowed { background: var(--danger-bg); color: var(--danger); }
-
     .book-info { padding: 10px 12px 12px; display: flex; flex-direction: column; flex: 1; justify-content: space-between; gap: 8px; }
     .book-category-tag { font-size: 10.5px; font-weight: 600; color: var(--brand); background: var(--brand-soft); padding: 1px 6px; border-radius: 4px; display: inline-block; align-self: flex-start; }
     .book-title { font-size: 13.5px; font-weight: 700; margin: 3px 0 2px; line-height: 1.3; word-break: break-word; }
     .book-author { font-size: 11.5px; color: var(--muted); margin: 0; word-break: break-word; }
     .book-actions { display: flex; gap: 5px; margin-top: 4px; }
     .book-actions .btn { flex: 1; padding: 6px 8px; font-size: 12px; white-space: nowrap; }
-
     .pagination-wrap { margin-top: 22px; display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
     .pagination-info { font-size: 12.5px; color: #ffffff; text-align: center; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
     .pagination-list { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
     .page-btn { min-width: 34px; height: 34px; padding: 0 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-size: 13px; font-weight: 600; }
     .page-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
     .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    /* TABLE WRAPPER */
-    .table-wrap { 
-      overflow-x: auto; 
-      -webkit-overflow-scrolling: touch; 
-      border: 1px solid var(--border); 
-      border-radius: var(--radius-sm); 
-      width: 100%; 
-      max-width: 100%;
-      box-sizing: border-box;
-      margin-top: 8px;
-    }
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: var(--radius-sm); width: 100%; max-width: 100%; box-sizing: border-box; margin-top: 8px; }
     table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--surface); }
     th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--border); word-break: break-word; }
     th { background: var(--surface-alt); font-weight: 700; white-space: nowrap; font-size: 13px; }
-
     .grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; width: 100%; }
     @media (min-width: 860px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
-
     .auth-gate-card { max-width: 460px; margin: 20px auto; text-align: center; padding: 26px 20px; }
     .auth-icon { width: 50px; height: 50px; margin: 0 auto 10px; border-radius: 12px; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; font-size: 22px; }
     .auth-error { display: none; margin-bottom: 12px; padding: 9px 12px; border-radius: var(--radius-sm); background: var(--danger-bg); color: var(--danger); font-size: 12.5px; text-align: left; }
@@ -659,102 +165,40 @@
     .attempt-pill.warn { background: var(--warning-bg); color: var(--warning); }
     .attempt-pill.locked { background: var(--danger-bg); color: var(--danger); }
     .unlock-guide-box { margin-top: 14px; padding: 12px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12.5px; text-align: left; word-break: break-word; }
-
-    .auth-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 14px;
-      margin-bottom: 16px;
-      background: var(--surface);
-      border-radius: var(--radius-sm);
-      box-shadow: var(--shadow);
-      gap: 10px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    /* FOOTER */
-    .footer { 
-      background: rgba(15, 23, 42, 0.45); 
-      border-top: 1px solid rgba(255, 255, 255, 0.15); 
-      padding: 14px 20px; 
-      text-align: center; 
-      font-size: 12.5px; 
-      color: rgba(255, 255, 255, 0.95); 
-      margin-top: auto; 
-      backdrop-filter: blur(4px);
-    }
-
+    .auth-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; margin-bottom: 16px; background: var(--surface); border-radius: var(--radius-sm); box-shadow: var(--shadow); gap: 10px; width: 100%; box-sizing: border-box; }
+    .footer { background: rgba(15, 23, 42, 0.45); border-top: 1px solid rgba(255, 255, 255, 0.15); padding: 14px 20px; text-align: center; font-size: 12.5px; color: rgba(255, 255, 255, 0.95); margin-top: auto; backdrop-filter: blur(4px); }
     .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55); z-index: 60; align-items: center; justify-content: center; padding: 16px; }
     .modal-backdrop.open { display: flex; }
     .modal-card { background: var(--surface); border-radius: var(--radius); max-width: 520px; width: 100%; padding: 20px; box-sizing: border-box; }
     .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
     .modal-title { font-size: 17px; font-weight: 700; margin: 0; word-break: break-word; }
-
-    /* ================= RESPONSIVE MOBILE TWEAKS ================= */
     @media (max-width: 768px) {
       .navbar { padding: 0 12px; }
       .brand-mark span { font-size: 15px; }
-
-      /* ซ่อนปุ่มบน Navbar ในจอมือถือ */
-      .navbar-right #currentUserChip,
-      .navbar-right #backToGateBtn,
-      .navbar-right #navRoleLogoutBtn,
-      .navbar-right #navUserLogoutBtn {
-        display: none !important;
-      }
-
-      .main-wrapper {
-        background-attachment: scroll; /* ป้องกันภาพกระตุกบนเบราว์เซอร์มือถือ */
-      }
-
+      .navbar-right #currentUserChip, .navbar-right #backToGateBtn, .navbar-right #navRoleLogoutBtn, .navbar-right #navUserLogoutBtn { display: none !important; }
+      .main-wrapper { background-attachment: scroll; }
       .main-content { padding: 12px 10px; width: 100%; }
       .page-header { margin-bottom: 12px; gap: 8px; }
       .page-title { font-size: 18px; }
       .page-subtitle { font-size: 12px; }
-
       .card { padding: 12px 12px; margin-bottom: 12px; border-radius: 8px; }
       .grid-2 { gap: 12px; }
-
       .form-input, .form-select { font-size: 13.5px; padding: 8px 10px; }
-
-      .admin-security-box {
-        flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 10px !important;
-      }
-
-      .admin-security-box button,
-      #adminUnlockStaffBtn {
-        width: 100% !important;
-        font-size: 12.5px !important;
-        padding: 8px 10px !important;
-        white-space: normal !important;
-        text-align: center !important;
-        line-height: 1.3 !important;
-      }
-
+      .admin-security-box { flex-direction: column !important; align-items: stretch !important; gap: 10px !important; }
+      .admin-security-box button, #adminUnlockStaffBtn { width: 100% !important; font-size: 12.5px !important; padding: 8px 10px !important; white-space: normal !important; text-align: center !important; line-height: 1.3 !important; }
       table { font-size: 12px; min-width: 100%; }
       th, td { padding: 7px 8px; }
-
       .auth-bar { padding: 8px 10px; font-size: 12.5px; flex-wrap: wrap; }
       .auth-bar .role-logout-btn { padding: 5px 10px; font-size: 12px; }
       .btn { padding: 7px 12px; font-size: 12.5px; }
-
       .calendar-cell { min-height: 42px; padding: 2px 1px; }
       .cal-day-num { font-size: 11px; }
       .cal-badge { font-size: 9px; padding: 1px 3px; }
     }
-
-    @media (min-width: 769px) {
-      #sidebarUserLogoutWrap { display: none !important; }
-    }
+    @media (min-width: 769px) { #sidebarUserLogoutWrap { display: none !important; } }
   </style>
 </head>
 <body>
-
-  <!-- ================= 1. หน้าตรวจสอบสิทธิ์ก่อนเข้าใช้งาน ================= -->
   <section id="entryScreen" class="entry-screen">
     <div class="entry-card">
       <div class="entry-logo" aria-hidden="true">
@@ -765,7 +209,6 @@
       </div>
       <h1 class="entry-title">ระบบห้องสมุดออนไลน์ (E-Library)</h1>
       <p class="entry-subtitle">กรุณาระบุข้อมูลผู้เข้าใช้งานเพื่อบันทึกสถิติและเข้าคลังหนังสือของโรงเรียน</p>
-
       <form id="entryForm" class="entry-form">
         <div class="form-group">
           <label class="form-label" for="visitorRole">ประเภทผู้เข้าใช้งาน</label>
@@ -776,35 +219,26 @@
             <option value="บุคคลทั่วไป">บุคคลทั่วไป (Guest)</option>
           </select>
         </div>
-
         <div class="form-group" id="visitorCodeGroup">
           <label class="form-label" for="visitorCode">รหัสประจำตัวของท่าน <span style="color: var(--danger);">*</span></label>
           <input type="text" id="visitorCode" class="form-input" placeholder="เช่น 67001 หรือ T001" required>
         </div>
-
         <div class="form-group" id="visitorNameGroup" style="display: none;">
           <label class="form-label" for="visitorName">ชื่อ-นามสกุล ผู้เข้าใช้งาน <span style="color: var(--danger);">*</span></label>
           <input type="text" id="visitorName" class="form-input" placeholder="กรอกชื่อ-นามสกุลของคุณ">
         </div>
-
         <button type="submit" class="btn btn-primary btn-enter">
           <span>เข้าสู่ระบบ E-Library และบันทึกการเข้าใช้งาน</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path>
           </svg>
         </button>
-
-        <button type="button" id="cancelGateBtn" class="btn btn-secondary" style="width:100%; margin-top:10px;">
-          กลับไปหน้าเมนูหลัก
-        </button>
+        <button type="button" id="cancelGateBtn" class="btn btn-secondary" style="width:100%; margin-top:10px;">กลับไปหน้าเมนูหลัก</button>
       </form>
-      <div class="entry-note">
-        ระบบจะตรวจสอบรหัสกับระบบทะเบียนโรงเรียนใน Google Sheets เพื่อค้นหาชื่อและบันทึกเวลาเข้าใช้โดยอัตโนมัติ
-      </div>
+      <div class="entry-note">ระบบจะตรวจสอบรหัสกับระบบทะเบียนโรงเรียนใน Google Sheets เพื่อค้นหาชื่อและบันทึกเวลาเข้าใช้โดยอัตโนมัติ</div>
     </div>
   </section>
 
-  <!-- ================= 2. โครงสร้างหลัก (Navbar + Sidebar + Main) ================= -->
   <div id="appShell" class="app-shell active">
     <header class="navbar">
       <div class="navbar-left">
@@ -821,20 +255,11 @@
           <span>E-Library</span>
         </div>
       </div>
-
       <div class="navbar-right">
         <span id="currentUserChip" class="user-chip">ผู้ใช้งาน: ผู้เยี่ยมชม</span>
-        <!-- ปุ่มออกจากระบบสำหรับนักเรียน/ครู/บุคลากร บนคอมพิวเตอร์ -->
-        <button id="navUserLogoutBtn" type="button" class="btn btn-danger" style="display: none; padding: 5px 12px; font-size: 12.5px;" onclick="logoutMemberUser()">
-          ออกจากระบบ
-        </button>
-        <!-- ปุ่มออกจากระบบสำหรับเจ้าหน้าที่/Admin บนคอมพิวเตอร์ -->
-        <button id="navRoleLogoutBtn" type="button" class="btn btn-danger" style="display: none; padding: 5px 12px; font-size: 12.5px;">
-          <span>ออกจากระบบ (เจ้าหน้าที่/Admin)</span>
-        </button>
-        <button id="backToGateBtn" type="button" class="btn btn-secondary" style="padding: 5px 12px; font-size: 12.5px;">
-          หน้าลงชื่อเข้าใช้
-        </button>
+        <button id="navUserLogoutBtn" type="button" class="btn btn-danger" style="display: none; padding: 5px 12px; font-size: 12.5px;" onclick="logoutMemberUser()">ออกจากระบบ</button>
+        <button id="navRoleLogoutBtn" type="button" class="btn btn-danger" style="display: none; padding: 5px 12px; font-size: 12.5px;"><span>ออกจากระบบ (เจ้าหน้าที่/Admin)</span></button>
+        <button id="backToGateBtn" type="button" class="btn btn-secondary" style="padding: 5px 12px; font-size: 12.5px;">หน้าลงชื่อเข้าใช้</button>
       </div>
     </header>
 
@@ -849,32 +274,19 @@
               <span class="sidebar-logo-sub">เมนูระบบห้องสมุด</span>
             </div>
           </div>
-          <button type="button" class="nav-item active" data-view="home">
-            <span>🏠 เมนูหลัก</span>
-          </button>
-          <button type="button" class="nav-item" data-view="books">
-            <span>📚 เมนูรายการหนังสือ</span>
-          </button>
-          <button type="button" class="nav-item" data-view="borrow">
-            <span>🔄 เมนูยืม-คืน</span>
-          </button>
-          <button type="button" class="nav-item" data-view="staff">
-            <span>📋 เมนูเจ้าหน้าที่</span>
-          </button>
-          <button type="button" class="nav-item" data-view="admin">
-            <span>⚙️ เมนู Admin</span>
-          </button>
+          <button type="button" class="nav-item active" data-view="home"><span>🏠 เมนูหลัก</span></button>
+          <button type="button" class="nav-item" data-view="books"><span>📚 เมนูรายการหนังสือ</span></button>
+          <button type="button" class="nav-item" data-view="borrow"><span>🔄 เมนูยืม-คืน</span></button>
+          <button type="button" class="nav-item" data-view="staff"><span>📋 เมนูเจ้าหน้าที่</span></button>
+          <button type="button" class="nav-item" data-view="admin"><span>⚙️ เมนู Admin</span></button>
         </nav>
-
         <div class="sidebar-bottom-section">
-          <!-- ปุ่มออกจากระบบสำหรับนักเรียน/ครู/บุคลากร ใน Sidebar บนจอมือถือ -->
           <div id="sidebarUserLogoutWrap" class="sidebar-user-logout-wrap">
             <button type="button" class="btn-sidebar-logout" onclick="logoutMemberUser()">
               <span>🚪 ออกจากระบบ</span> (<span id="sidebarUserNameSpan">ผู้ใช้</span>)
             </button>
           </div>
-          <!-- การ์ดสถานะการเชื่อมต่อกระจกโปร่งแสง -->
-          <div class="sidebar-footer-box">
+          <div class="sidebar-footer-box" id="sidebarStatusBox" title="คลิกเพื่อตรวจสอบหรือตั้งค่า Google Web App URL">
             <div class="status-dot-wrap">
               <span class="status-dot" id="statusDot"></span>
               <span>สถานะระบบ:</span>
@@ -886,25 +298,18 @@
 
       <div class="main-wrapper">
         <main class="main-content">
-          <!-- VIEW 1: เมนูหลัก + แดชบอร์ด + ปฏิทินสถิติ -->
           <section id="view-home" class="view-section active">
             <div class="page-header">
               <div>
                 <h2 class="page-title">เมนูหลัก (หน้าภาพรวมระบบ E-Library)</h2>
                 <p class="page-subtitle">ยินดีต้อนรับสู่ระบบห้องสมุดดิจิทัลของโรงเรียน</p>
               </div>
-              <button type="button" id="goToBooksGateBtn" class="btn btn-goToBooks" onclick="openEntryGate()">
-                ลงชื่อเข้าใช้งาน
-              </button>
+              <button type="button" id="goToBooksGateBtn" class="btn btn-goToBooks" onclick="openEntryGate()">ลงชื่อเข้าใช้งาน</button>
             </div>
-
-            <!-- แดชบอร์ดที่ 1: สถานะหนังสือ (สัดส่วน Compact) -->
             <div class="card dashboard-card" style="border-left: 4px solid var(--accent);">
               <div class="dashboard-header">
                 <h3 class="dashboard-title">📖 แดชบอร์ดสถานะหนังสือในระบบห้องสมุด</h3>
-                <p style="margin:2px 0 0; font-size:12.5px; color:#334155;">
-                  สรุปภาพรวมจำนวนหนังสือทั้งหมด อัตราการยืม และสถานะการส่งคืนหนังสือแบบเรียลไทม์
-                </p>
+                <p style="margin:2px 0 0; font-size:12.5px; color:#334155;">สรุปภาพรวมจำนวนหนังสือทั้งหมด อัตราการยืม และสถานะการส่งคืนหนังสือแบบเรียลไทม์</p>
               </div>
               <div class="dashboard-grid-4">
                 <div class="stat-box stat-total">
@@ -930,13 +335,10 @@
               </div>
             </div>
 
-            <!-- แดชบอร์ดที่ 2: สถิติการเข้าใช้งาน (สัดส่วน Compact) -->
             <div class="card dashboard-card">
               <div class="dashboard-header">
                 <h3 class="dashboard-title">👥 แดชบอร์ดจำนวนการเข้าใช้งานแบ่งตามประเภทผู้เข้าใช้งาน</h3>
-                <p style="margin:2px 0 0; font-size:12.5px; color:#334155;">
-                  สถิติผู้เข้าใช้บริการห้องสมุดออนไลน์จำแนกตามสถานะ
-                </p>
+                <p style="margin:2px 0 0; font-size:12.5px; color:#334155;">สถิติผู้เข้าใช้บริการห้องสมุดออนไลน์จำแนกตามสถานะ</p>
               </div>
               <div class="dashboard-grid-5">
                 <div class="stat-box stat-total">
@@ -967,21 +369,16 @@
               </div>
             </div>
 
-            <!-- ส่วนล่าง: ตารางบันทึกการเข้าใช้ + ปฏิทินสถิติการเข้าใช้งานประจำเดือน -->
             <div class="grid-2">
               <div class="card">
                 <h3 style="margin-top:0; font-size:16px;">การบันทึกการเข้าใช้งานล่าสุด</h3>
                 <div class="table-wrap">
                   <table>
-                    <thead>
-                      <tr><th>เวลาที่เข้าใช้</th><th>ชื่อผู้เข้าใช้งาน</th><th>ประเภท</th></tr>
-                    </thead>
+                    <thead><tr><th>เวลาที่เข้าใช้</th><th>ชื่อผู้เข้าใช้งาน</th><th>ประเภท</th></tr></thead>
                     <tbody id="recentAccessBody"></tbody>
                   </table>
                 </div>
               </div>
-
-              <!-- ปฏิทินสถิติการเข้าใช้งานประจำเดือน (แทนที่ทางลัดเดิม) -->
               <div class="card">
                 <div class="calendar-container">
                   <div class="calendar-header-nav">
@@ -992,7 +389,6 @@
                       <button type="button" class="cal-btn" onclick="nextCalendarMonth()">ถัดไป &gt;</button>
                     </div>
                   </div>
-
                   <div class="calendar-grid">
                     <div class="calendar-day-head" style="color:#b91c1c;">อา.</div>
                     <div class="calendar-day-head">จ.</div>
@@ -1002,9 +398,7 @@
                     <div class="calendar-day-head">ศ.</div>
                     <div class="calendar-day-head" style="color:var(--brand);">ส.</div>
                   </div>
-
                   <div class="calendar-grid" id="calendarDaysGrid"></div>
-
                   <div class="calendar-summary-footer">
                     <span>* ตัวเลขในป้ายสีฟ้าคือยอดผู้เข้าใช้งาน (ครั้ง)</span>
                     <strong id="calendarMonthSummaryText">ยอดรวมเดือนนี้: 0 ครั้ง</strong>
@@ -1014,7 +408,6 @@
             </div>
           </section>
 
-          <!-- VIEW 2: รายการหนังสือ (5 คอลัมน์ กระชับ สมส่วน) -->
           <section id="view-books" class="view-section">
             <div class="page-header">
               <div>
@@ -1044,7 +437,6 @@
             </div>
           </section>
 
-          <!-- VIEW 3: เมนูยืม-คืน -->
           <section id="view-borrow" class="view-section">
             <div class="page-header">
               <h2 class="page-title">เมนูยืม-คืนหนังสือ</h2>
@@ -1077,7 +469,6 @@
             </div>
           </section>
 
-          <!-- VIEW 4: เมนูเจ้าหน้าที่ -->
           <section id="view-staff" class="view-section">
             <div class="page-header">
               <div>
@@ -1105,7 +496,6 @@
                 <button type="button" class="btn btn-danger role-logout-btn">ออกจากระบบ</button>
               </div>
               <div class="grid-2" style="margin-bottom:16px;">
-                <!-- ฟอร์มเพิ่มหนังสือสำหรับเจ้าหน้าที่ -->
                 <div class="card">
                   <h3 style="margin-top:0; font-size:16px;">เพิ่มหนังสือเข้าคลัง (สำหรับเจ้าหน้าที่)</h3>
                   <form id="staffAddBookForm">
@@ -1135,7 +525,6 @@
                     <button type="submit" class="btn btn-primary" style="width:100%;">เพิ่มหนังสือลงในระบบ</button>
                   </form>
                 </div>
-                <!-- ตารางตรวจสอบการยืม-คืนสำหรับเจ้าหน้าที่ -->
                 <div class="card">
                   <h3 style="margin-top:0; font-size:16px;">ตรวจสอบและจัดการการยืม-คืนหนังสือ</h3>
                   <div class="table-wrap">
@@ -1158,7 +547,6 @@
             </div>
           </section>
 
-          <!-- VIEW 5: เมนู Admin -->
           <section id="view-admin" class="view-section">
             <div class="page-header">
               <div>
@@ -1191,21 +579,15 @@
                 <div>สถานะ: <strong>ผู้ดูแลระบบสูงสุด (Admin)</strong></div>
                 <button type="button" class="btn btn-danger role-logout-btn">ออกจากระบบ</button>
               </div>
-              <!-- ระบบควบคุมการปลดล็อกเจ้าหน้าที่ -->
               <div class="card" style="margin-bottom:16px; border-left: 4px solid var(--brand);">
                 <div class="admin-security-box" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
                   <div>
                     <h3 style="margin:0 0 2px; font-size:15.5px;">การจัดการความปลอดภัยและปลดล็อกรหัสผ่านเจ้าหน้าที่</h3>
-                    <p style="margin:0; font-size:12.5px; color:var(--muted);">
-                      สถานะรหัสเจ้าหน้าที่: <strong id="adminStaffStatusText">ปกติ (0/3)</strong>
-                    </p>
+                    <p style="margin:0; font-size:12.5px; color:var(--muted);">สถานะรหัสเจ้าหน้าที่: <strong id="adminStaffStatusText">ปกติ (0/3)</strong></p>
                   </div>
-                  <button type="button" id="adminUnlockStaffBtn" class="btn btn-secondary">
-                    🔓 ปลดล็อกรหัสเจ้าหน้าที่ (รีเซ็ตเป็น 0 ครั้ง)
-                  </button>
+                  <button type="button" id="adminUnlockStaffBtn" class="btn btn-secondary">🔓 ปลดล็อกรหัสเจ้าหน้าที่ (รีเซ็ตเป็น 0 ครั้ง)</button>
                 </div>
               </div>
-              <!-- ส่วนเพิ่มและจัดการรายชื่อเจ้าหน้าที่ -->
               <div class="grid-2" style="margin-bottom:16px;">
                 <div class="card">
                   <h3 style="margin-top:0; font-size:16px;">เพิ่มเจ้าหน้าที่ห้องสมุด</h3>
@@ -1232,7 +614,6 @@
                   </div>
                 </div>
               </div>
-              <!-- ส่วนเพิ่มหนังสือ และตั้งค่า Web App URL -->
               <div class="grid-2">
                 <div class="card">
                   <h3 style="margin-top:0; font-size:16px;">เพิ่มหนังสือเข้าคลัง (Admin)</h3>
@@ -1282,7 +663,6 @@
     </div>
   </div>
 
-  <!-- Modal เปิดอ่านรายละเอียดหนังสือ -->
   <div id="bookModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalBookTitle">
     <div class="modal-card">
       <div class="modal-header">
@@ -1294,41 +674,27 @@
   </div>
 
   <script>
-    // =========================================================================
-// ⚙️ ตัวแปร API Endpoint (เข้ารหัส Base64 ป้องกันการส่องโค้ดโดยตรง)
-// =========================================================================
-const _APP_CIPHER = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3VU9ad1FEU2gyUzBOTmU5RXZsM2hHbW0xVHhNdTBFR2Jid3ZKaEFAWm1tLW9oNWpGcU1HcUrybnV1cWUyOFhoSk4vZXhlYw==';
-const _APP_SECRET = 'SCHOOL_LIB_SECURE_2026'; // กุญแจลับสำหรับเชื่อมต่อ Apps Script
+    // 🛡️ ความปลอดภัยระดับที่ 3: Base64 URL Encoding + Secret App Key
+    const _0xec = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3VU9ad1FEU2gyUzBOTmU5RXZsM2hHbW0xVHhNdTBFV2Jid3ZKaEZBWm1tLW9oNWpGcU1HcURybnV1cWUyOFhoSk4vZXhlYw==';
+    const APP_SECRET_KEY = 'SCHOOL_LIB_SECURE_2026';
 
-function getEndpointUrl() {
-  try {
-    return atob(_APP_CIPHER);
-  } catch (err) {
-    return '';
-  }
-}
+    function getDecodedGasUrl() {
+      try {
+        const savedUrl = localStorage.getItem('school_elibrary_gas_url');
+        if (savedUrl && savedUrl.startsWith('https://') && !savedUrl.includes('@') && !savedUrl.includes('%C3%B2')) {
+          return savedUrl;
+        }
+        localStorage.removeItem('school_elibrary_gas_url');
+        return atob(_0xec);
+      } catch (_) {
+        return atob(_0xec);
+      }
+    }
 
-let gasWebAppUrl = getEndpointUrl();
-
-    // try {
-    // const savedUrl = localStorage.getItem('school_elibrary_gas_url');
-    // if (savedUrl && savedUrl.startsWith('https://')) gasWebAppUrl = savedUrl;
-    // } catch (_) {}
-
-
-    try {
-      const savedUrl = localStorage.getItem('school_elibrary_gas_url');
-      if (savedUrl && savedUrl.startsWith('https://')) gasWebAppUrl = savedUrl;
-    } catch (_) {}
-
-    // ตัวแปรสำหรับปฏิทิน
+    let gasWebAppUrl = getDecodedGasUrl();
     let currentCalDate = new Date();
-    const THAI_MONTH_NAMES = [
-      'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
-      'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
-    ];
+    const THAI_MONTH_NAMES = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
 
-    // ฟังก์ชันจัดรูปแบบวัน-เวลา เป็น วัน/เดือน/ปี เวลา ชม.:นาที น.
     function formatThaiDateTime(rawDateStr) {
       if (!rawDateStr) return '-';
       const str = String(rawDateStr).trim();
@@ -1342,38 +708,24 @@ let gasWebAppUrl = getEndpointUrl();
         const hours = String(d.getHours()).padStart(2, '0');
         const minutes = String(d.getMinutes()).padStart(2, '0');
         return `${day}/${month}/${year} ${hours}:${minutes} น.`;
-      } catch (_) {
-        return str;
-      }
+      } catch (_) { return str; }
     }
 
-    // ฟังก์ชันซ่อนนามสกุลด้วย xxxx เพื่อป้องกัน PDPA
     function maskLastNamePDPA(rawName) {
       if (!rawName) return '-';
-      let clean = String(rawName).replace(/\(รหัส:[^)]+\)/g, '').trim();
-      clean = clean.replace(/\s+/g, ' ');
-      if (clean === 'บุคคลทั่วไป' || clean === 'ผู้เข้าใช้งานทั่วไป' || clean === 'ผู้เยี่ยมชม') {
-        return clean;
-      }
+      let clean = String(rawName).replace(/\(รหัส:[^)]+\)/g, '').trim().replace(/\s+/g, ' ');
+      if (clean === 'บุคคลทั่วไป' || clean === 'ผู้เข้าใช้งานทั่วไป' || clean === 'ผู้เยี่ยมชม') return clean;
       const parts = clean.split(' ');
-      if (parts.length > 1) {
-        return parts[0] + ' xxxx';
-      }
-      return clean;
+      return parts.length > 1 ? parts[0] + ' xxxx' : clean;
     }
 
-    // ฟังก์ชันช่วยแปลง URL ของ Google Drive เป็น URL แสดงภาพโดยตรง
     function formatCoverUrl(url) {
       if (!url) return '';
       const trimmed = String(url).trim();
       const driveMatch = trimmed.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-      if (driveMatch && driveMatch[1]) {
-        return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w600`;
-      }
+      if (driveMatch && driveMatch[1]) return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w600`;
       const idMatch = trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-      if (idMatch && idMatch[1] && trimmed.includes('drive.google.com')) {
-        return `https://drive.google.com/thumbnail?id=${idMatch[1]}&sz=w600`;
-      }
+      if (idMatch && idMatch[1] && trimmed.includes('drive.google.com')) return `https://drive.google.com/thumbnail?id=${idMatch[1]}&sz=w600`;
       return trimmed;
     }
 
@@ -1385,7 +737,7 @@ let gasWebAppUrl = getEndpointUrl();
       'เคมีอินทรีย์ฉบับเข้าใจง่าย', 'สถิติและความน่าจะเป็น', 'การเขียนเรียงความเชิงวิชาการ', 'ฐานข้อมูล Google Sheets เบื้องต้น', 'อารยธรรมโลกยุคโบราณ',
       'ชีววิทยาของเซลล์และพืช', 'พีชคณิตเชิงเส้นเบื้องต้น', 'นิทานพื้นบ้านและวัฒนธรรม', 'การสร้าง Web App ด้วย JavaScript', 'หน้าที่พลเมืองและจริยธรรม',
       'พลังงานทดแทนเพื่ออนาคต', 'แคลคูลัสเบื้องต้นสำหรับนักเรียน', 'การสื่อสารภาษาจีนเบื้องต้น', 'ระบบเครือข่ายและความปลอดภัย', 'เศรษฐศาสตร์ในชีวิตประจำวัน',
-      'การทดลองวิทยาศาสตร์แสนสนุก', 'ทฤษฎีจำนวนเบื้องต้น', 'วรรณกรรมเยาวชนสร้างแรงบันดาลใจ', 'การใช้งาน GitHub Pages ฉบับสมบูรณ์', 'อาเซียนศึกษาและประเทศเพื่อนบ้าน'
+      'การทดลองวิทยาศาสตร์แสนสนุก', 'ทฤษฎีจำนวนเบื้องต้น', 'วรรณกรรมเยาวชนสร้างแรงบันาลใจ', 'การใช้งาน GitHub Pages ฉบับสมบูรณ์', 'อาเซียนศึกษาและประเทศเพื่อนบ้าน'
     ];
 
     let memberUsersDatabase = [
@@ -1394,39 +746,26 @@ let gasWebAppUrl = getEndpointUrl();
       { id: 'T001', name: 'อ.สมศรี ทรงปัญญา', status: 'ครู / อาจารย์' },
       { id: 'S001', name: 'นายสมชาย ใจดี', status: 'บุคลากรโรงเรียน' }
     ];
-
     let currentLoggedUser = null;
 
     function createCoverSvg(id, title, cat, idx) {
       const [c1, c2] = PALETTES[idx % PALETTES.length];
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400">
-        <defs><linearGradient id="g${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs>
-        <rect width="300" height="400" fill="url(#g${id})"/>
-        <text x="150" y="150" text-anchor="middle" fill="#fff" font-size="22" font-weight="bold">BOOK #${id}</text>
-        <text x="150" y="230" text-anchor="middle" fill="#fff" font-size="16">${(title || '').slice(0, 20)}</text>
-        <text x="150" y="260" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="13">${cat}</text>
-      </svg>`;
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400"><defs><linearGradient id="g${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs><rect width="300" height="400" fill="url(#g${id})"/><text x="150" y="150" text-anchor="middle" fill="#fff" font-size="22" font-weight="bold">BOOK #${id}</text><text x="150" y="230" text-anchor="middle" fill="#fff" font-size="16">${(title || '').slice(0, 20)}</text><text x="150" y="260" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="13">${cat}</text></svg>`;
       return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
     }
 
     const ITEMS_PER_PAGE = 20;
     let currentPage = 1;
     let booksData = SAMPLE_TITLES.map((t, i) => ({
-      id: 'B' + String(i + 1).padStart(3, '0'),
-      title: t,
-      author: 'คณาจารย์ห้องสมุดโรงเรียน (' + (i + 1) + ')',
-      category: CATEGORIES[i % CATEGORIES.length],
-      status: i % 7 === 0 ? 'ถูกยืม' : 'ว่าง',
-      cover_url: createCoverSvg(i + 1, t, CATEGORIES[i % CATEGORIES.length], i),
-      pdf_url: ''
+      id: 'B' + String(i + 1).padStart(3, '0'), title: t, author: 'คณาจารย์ห้องสมุดโรงเรียน (' + (i + 1) + ')',
+      category: CATEGORIES[i % CATEGORIES.length], status: i % 7 === 0 ? 'ถูกยืม' : 'ว่าง',
+      cover_url: createCoverSvg(i + 1, t, CATEGORIES[i % CATEGORIES.length], i), pdf_url: ''
     }));
-
     let accessLogs = [];
     let borrowLogs = [
       { bookId: 'B001', bookTitle: SAMPLE_TITLES[0], borrower: 'ด.ช.สมพงษ์ เรียนดี', borrowedAt: '10/11/2026 09:30 น.', status: 'คืนแล้ว' },
       { bookId: 'B007', bookTitle: SAMPLE_TITLES[6], borrower: 'ด.ญ.สุดา รักเรียน', borrowedAt: '11/11/2026 10:15 น.', status: 'กำลังยืม' }
     ];
-
     let staffAccounts = [{ id: 'STF-01', name: 'เจ้าหน้าที่ห้องสมุดหลัก', isDefault: true }];
     let securityState = { staffFails: 0, staffLocked: false, adminFails: 0, adminLocked: false };
     let isStaffAuthenticated = false;
@@ -1434,10 +773,11 @@ let gasWebAppUrl = getEndpointUrl();
 
     async function callGasApi(payload) {
       if (!gasWebAppUrl || gasWebAppUrl.includes('วาง_WEB_APP_URL')) throw new Error('NO_GAS_URL');
+      const securePayload = { ...payload, appKey: APP_SECRET_KEY };
       const res = await fetch(gasWebAppUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(securePayload)
       });
       return await res.json();
     }
@@ -1446,22 +786,18 @@ let gasWebAppUrl = getEndpointUrl();
       const dbStatus = document.getElementById('dbStatusText');
       const statusDot = document.getElementById('statusDot');
       if (!gasWebAppUrl || gasWebAppUrl.includes('วาง_WEB_APP_URL')) {
-        dbStatus.textContent = 'โหมดข้อมูลจำลอง (ยังไม่ใส่ Web App URL)';
+        dbStatus.textContent = 'โหมดข้อมูลจำลอง (คลิกตั้งค่า URL)';
         dbStatus.style.color = '#ffffff';
         if (statusDot) statusDot.style.background = '#94a3b8';
-        renderBookDashboard();
-        renderMonthlyCalendar();
-        return;
+        renderBookDashboard(); renderMonthlyCalendar(); return;
       }
       try {
-        const res = await fetch(gasWebAppUrl);
+        const fetchUrl = gasWebAppUrl + (gasWebAppUrl.includes('?') ? '&' : '?') + 'appKey=' + encodeURIComponent(APP_SECRET_KEY);
+        const res = await fetch(fetchUrl);
         const data = await res.json();
         if (data && data.status === 'ok') {
           if (Array.isArray(data.books) && data.books.length > 0) {
-            booksData = data.books.map((b, i) => ({
-              ...b,
-              cover_url: formatCoverUrl(b.cover_url) || createCoverSvg(i + 1, b.title, b.category, i)
-            }));
+            booksData = data.books.map((b, i) => ({ ...b, cover_url: formatCoverUrl(b.cover_url) || createCoverSvg(i + 1, b.title, b.category, i) }));
           }
           if (Array.isArray(data.accessLogs)) accessLogs = data.accessLogs;
           if (Array.isArray(data.borrowLogs)) borrowLogs = data.borrowLogs;
@@ -1475,150 +811,103 @@ let gasWebAppUrl = getEndpointUrl();
           }
           if (data.security) {
             securityState = {
-              staffFails: Number(data.security.staffFails || 0),
-              staffLocked: !!data.security.staffLocked,
-              adminFails: Number(data.security.adminFails || 0),
-              adminLocked: !!data.security.adminLocked
+              staffFails: Number(data.security.staffFails || 0), staffLocked: !!data.security.staffLocked,
+              adminFails: Number(data.security.adminFails || 0), adminLocked: !!data.security.adminLocked
             };
           }
           dbStatus.textContent = 'เชื่อมต่อ Google Sheets สำเร็จ';
           dbStatus.style.color = '#86efac';
           if (statusDot) statusDot.style.background = '#86efac';
-          renderBooksAndPagination();
-          renderAccessLogs();
-          renderBorrowSection();
-          renderStaffAccounts();
-          renderBookDashboard();
-          renderMonthlyCalendar();
-          updateSecurityUI();
-        }
+          renderBooksAndPagination(); renderAccessLogs(); renderBorrowSection(); renderStaffAccounts();
+          renderBookDashboard(); renderMonthlyCalendar(); updateSecurityUI();
+        } else { throw new Error('API_STATUS_NOT_OK'); }
       } catch (err) {
-        dbStatus.textContent = 'เชื่อมต่อไม่สำเร็จ (ใช้ข้อมูลจำลอง)';
+        dbStatus.textContent = 'เชื่อมต่อไม่สำเร็จ (คลิกเพื่อแก้ URL)';
         dbStatus.style.color = '#fca5a5';
         if (statusDot) statusDot.style.background = '#f87171';
-        renderBookDashboard();
-        renderMonthlyCalendar();
+        renderBookDashboard(); renderMonthlyCalendar();
       }
     }
 
-    // ================= แดชบอร์ดสรุปสถิติหนังสือ (4 ด้าน) =================
+    const sidebarStatusBox = document.getElementById('sidebarStatusBox');
+    if (sidebarStatusBox) {
+      sidebarStatusBox.addEventListener('click', async () => {
+        const { value: inputUrl } = await Swal.fire({
+          title: '⚙️ ตั้งค่า Google Web App URL',
+          input: 'text',
+          inputLabel: 'ตรวจสอบหรือวาง Web App URL ที่ถูกต้อง (ลงท้ายด้วย /exec)',
+          inputValue: gasWebAppUrl,
+          showCancelButton: true,
+          confirmButtonText: 'บันทึกและเชื่อมต่อใหม่',
+          cancelButtonText: 'ยกเลิก',
+          confirmButtonColor: '#1d4ed8'
+        });
+        if (inputUrl && inputUrl.trim().startsWith('https://')) {
+          gasWebAppUrl = inputUrl.trim();
+          localStorage.setItem('school_elibrary_gas_url', gasWebAppUrl);
+          Swal.fire({ icon: 'success', title: 'บันทึก URL สำเร็จ!', text: 'กำลังเชื่อมต่อใหม่...', timer: 1400, showConfirmButton: false });
+          fetchDatabaseFromGas();
+        }
+      });
+    }
+
     function renderBookDashboard() {
       const totalBooks = booksData.length;
       const currentlyBorrowed = booksData.filter(b => b.status === 'ถูกยืม').length;
       const totalReturned = borrowLogs.filter(b => b.status === 'คืนแล้ว').length;
       const pendingReturn = borrowLogs.filter(b => b.status === 'กำลังยืม').length;
-
       document.getElementById('statBookTotal').innerHTML = `${totalBooks} <span class="stat-unit">เล่ม</span>`;
       document.getElementById('statBookBorrowed').innerHTML = `${currentlyBorrowed} <span class="stat-unit">เล่ม</span>`;
       document.getElementById('statBookReturned').innerHTML = `${totalReturned} <span class="stat-unit">ครั้ง</span>`;
       document.getElementById('statBookPending').innerHTML = `${pendingReturn} <span class="stat-unit">รายการ</span>`;
-
       const pct = (n) => totalBooks > 0 ? (n / totalBooks) * 100 : 0;
       document.getElementById('statBookBorrowedBar').style.width = Math.min(100, pct(currentlyBorrowed)) + '%';
-
-      const borrowLogCount = borrowLogs.length;
-      const returnedPct = borrowLogCount > 0 ? (totalReturned / borrowLogCount) * 100 : 0;
-      const pendingPct = borrowLogCount > 0 ? (pendingReturn / borrowLogCount) * 100 : 0;
-
-      document.getElementById('statBookReturnedBar').style.width = Math.min(100, returnedPct) + '%';
-      document.getElementById('statBookPendingBar').style.width = Math.min(100, pendingPct) + '%';
+      const count = borrowLogs.length;
+      document.getElementById('statBookReturnedBar').style.width = Math.min(100, count > 0 ? (totalReturned / count) * 100 : 0) + '%';
+      document.getElementById('statBookPendingBar').style.width = Math.min(100, count > 0 ? (pendingReturn / count) * 100 : 0) + '%';
     }
 
-    // ================= ปฏิทินสถิติการเข้าใช้งานประจำเดือน =================
     function parseDateFromLog(logStr) {
       if (!logStr) return null;
-      const str = String(logStr).trim();
-      const match = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-      if (match) {
-        const d = parseInt(match[1], 10);
-        const m = parseInt(match[2], 10) - 1;
-        const y = parseInt(match[3], 10);
-        return new Date(y, m, d);
-      }
-      try {
-        const d = new Date(str);
-        if (!isNaN(d.getTime())) return d;
-      } catch (_) {}
+      const m = String(logStr).trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+      if (m) return new Date(parseInt(m[3], 10), parseInt(m[2], 10) - 1, parseInt(m[1], 10));
+      try { const d = new Date(logStr); if (!isNaN(d.getTime())) return d; } catch (_) {}
       return null;
     }
 
     function renderMonthlyCalendar() {
-      const year = currentCalDate.getFullYear();
-      const month = currentCalDate.getMonth();
-      const thaiYear = year + 543;
-
+      const year = currentCalDate.getFullYear(), month = currentCalDate.getMonth();
       const titleElem = document.getElementById('calendarMonthTitle');
-      if (titleElem) {
-        titleElem.textContent = `📅 สถิติประจำเดือน ${THAI_MONTH_NAMES[month]} ${thaiYear}`;
-      }
-
-      const dailyCounts = {};
-      let monthTotal = 0;
-
+      if (titleElem) titleElem.textContent = `📅 สถิติประจำเดือน ${THAI_MONTH_NAMES[month]} ${year + 543}`;
+      const dailyCounts = {}; let monthTotal = 0;
       accessLogs.forEach(log => {
-        const logDate = parseDateFromLog(log.timestamp);
-        if (logDate && logDate.getFullYear() === year && logDate.getMonth() === month) {
-          const dayNum = logDate.getDate();
-          dailyCounts[dayNum] = (dailyCounts[dayNum] || 0) + 1;
+        const d = parseDateFromLog(log.timestamp);
+        if (d && d.getFullYear() === year && d.getMonth() === month) {
+          dailyCounts[d.getDate()] = (dailyCounts[d.getDate()] || 0) + 1;
           monthTotal++;
         }
       });
-
       const summaryElem = document.getElementById('calendarMonthSummaryText');
-      if (summaryElem) {
-        summaryElem.textContent = `ยอดรวมเดือนนี้: ${monthTotal} ครั้ง`;
-      }
-
+      if (summaryElem) summaryElem.textContent = `ยอดรวมเดือนนี้: ${monthTotal} ครั้ง`;
       const grid = document.getElementById('calendarDaysGrid');
       if (!grid) return;
-
-      const firstDayIndex = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-      const today = new Date();
-      const isCurrentMonthNow = (today.getFullYear() === year && today.getMonth() === month);
-      const todayDateNum = today.getDate();
-
+      const firstDay = new Date(year, month, 1).getDay(), totalDays = new Date(year, month + 1, 0).getDate();
+      const today = new Date(), isNow = (today.getFullYear() === year && today.getMonth() === month);
       let html = '';
-
-      for (let i = 0; i < firstDayIndex; i++) {
-        html += '<div class="calendar-cell empty"></div>';
+      for (let i = 0; i < firstDay; i++) html += '<div class="calendar-cell empty"></div>';
+      for (let day = 1; day <= totalDays; day++) {
+        const isToday = isNow && (day === today.getDate()), cnt = dailyCounts[day] || 0;
+        let badgeCls = 'cal-badge';
+        if (cnt >= 5) badgeCls += ' high-count'; else if (cnt > 0) badgeCls += ' has-count';
+        html += `<div class="calendar-cell ${isToday ? 'today' : ''}"><span class="cal-day-num">${day}</span><span class="${badgeCls}">${cnt > 0 ? cnt + ' ครั้ง' : '-'}</span></div>`;
       }
-
-      for (let day = 1; day <= daysInMonth; day++) {
-        const isToday = isCurrentMonthNow && (day === todayDateNum);
-        const count = dailyCounts[day] || 0;
-        let badgeClass = 'cal-badge';
-        if (count >= 5) badgeClass += ' high-count';
-        else if (count > 0) badgeClass += ' has-count';
-
-        html += `
-          <div class="calendar-cell ${isToday ? 'today' : ''}">
-            <span class="cal-day-num">${day}</span>
-            <span class="${badgeClass}">${count > 0 ? count + ' ครั้ง' : '-'}</span>
-          </div>
-        `;
-      }
-
       grid.innerHTML = html;
     }
 
-    window.prevCalendarMonth = function () {
-      currentCalDate.setMonth(currentCalDate.getMonth() - 1);
-      renderMonthlyCalendar();
-    };
+    window.prevCalendarMonth = () => { currentCalDate.setMonth(currentCalDate.getMonth() - 1); renderMonthlyCalendar(); };
+    window.nextCalendarMonth = () => { currentCalDate.setMonth(currentCalDate.getMonth() + 1); renderMonthlyCalendar(); };
+    window.resetCalendarToday = () => { currentCalDate = new Date(); renderMonthlyCalendar(); };
 
-    window.nextCalendarMonth = function () {
-      currentCalDate.setMonth(currentCalDate.getMonth() + 1);
-      renderMonthlyCalendar();
-    };
-
-    window.resetCalendarToday = function () {
-      currentCalDate = new Date();
-      renderMonthlyCalendar();
-    };
-
-    // ================= จัดการสลับโหมดบุคคลทั่วไป =================
     const visitorRole = document.getElementById('visitorRole');
     const visitorCodeGroup = document.getElementById('visitorCodeGroup');
     const visitorCode = document.getElementById('visitorCode');
@@ -1626,125 +915,63 @@ let gasWebAppUrl = getEndpointUrl();
     const visitorName = document.getElementById('visitorName');
 
     function applyRoleState() {
-      const currentRole = visitorRole.value;
-      if (currentRole === 'บุคคลทั่วไป') {
-        visitorCodeGroup.style.display = 'none';
-        visitorCode.disabled = true;
-        visitorCode.required = false;
-        visitorCode.value = '';
-        visitorNameGroup.style.display = 'block';
-        visitorName.disabled = false;
-        visitorName.required = true;
-      } else {
-        visitorCodeGroup.style.display = 'block';
-        visitorCode.disabled = false;
-        visitorCode.required = true;
-        visitorNameGroup.style.display = 'none';
-        visitorName.disabled = true;
-        visitorName.required = false;
-        visitorName.value = '';
-      }
+      const isGuest = visitorRole.value === 'บุคคลทั่วไป';
+      visitorCodeGroup.style.display = isGuest ? 'none' : 'block';
+      visitorCode.disabled = isGuest; visitorCode.required = !isGuest; if (isGuest) visitorCode.value = '';
+      visitorNameGroup.style.display = isGuest ? 'block' : 'none';
+      visitorName.disabled = !isGuest; visitorName.required = isGuest; if (!isGuest) visitorName.value = '';
     }
-
     visitorRole.addEventListener('change', applyRoleState);
     applyRoleState();
 
-    window.openEntryGate = function () {
+    window.openEntryGate = () => {
       document.getElementById('appShell').classList.remove('active');
       const gate = document.getElementById('entryScreen');
-      gate.classList.add('active');
-      gate.style.display = 'flex';
+      gate.classList.add('active'); gate.style.display = 'flex';
       applyRoleState();
     };
 
-    document.getElementById('cancelGateBtn').addEventListener('click', function () {
+    document.getElementById('cancelGateBtn').addEventListener('click', () => {
       const gate = document.getElementById('entryScreen');
-      gate.classList.remove('active');
-      gate.style.display = 'none';
+      gate.classList.remove('active'); gate.style.display = 'none';
       document.getElementById('appShell').classList.add('active');
       switchView('home');
     });
-
     document.getElementById('backToGateBtn').addEventListener('click', window.openEntryGate);
 
-    // ตรวจสอบฟอร์มเข้าใช้งาน
-    document.getElementById('entryForm').addEventListener('submit', function (e) {
+    document.getElementById('entryForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const role = visitorRole.value;
-      let finalName = '';
-      let inputCode = '';
-
+      let finalName = '', inputCode = '';
       if (role === 'บุคคลทั่วไป') {
         finalName = visitorName.value.trim() || 'บุคคลทั่วไป';
         currentLoggedUser = { name: finalName, role: 'บุคคลทั่วไป', code: '' };
       } else {
         inputCode = visitorCode.value.trim();
-        const matched = memberUsersDatabase.find(u => {
-          const idMatch = String(u.id).trim().toLowerCase() === inputCode.toLowerCase();
-          const roleMatch = String(u.status).trim() === role.trim();
-          return idMatch && roleMatch;
-        });
-
+        const matched = memberUsersDatabase.find(u => String(u.id).trim().toLowerCase() === inputCode.toLowerCase() && String(u.status).trim() === role.trim());
         if (!matched) {
-          Swal.fire({
-            icon: 'error',
-            title: 'ไม่พบข้อมูลผู้เข้าใช้งาน!',
-            text: `ไม่พบรหัสประจำตัว "${inputCode}" ในหมวดหมู่ "${role}" กรุณาตรวจสอบรหัสใหม่อีกครั้ง หรือติดต่อเจ้าหน้าที่ห้องสมุดครับ`,
-            confirmButtonText: 'ลองอีกครั้ง',
-            confirmButtonColor: '#1d4ed8'
-          });
+          Swal.fire({ icon: 'error', title: 'ไม่พบข้อมูล!', text: `ไม่พบรหัสประจำตัว "${inputCode}" ในหมวดหมู่ "${role}"`, confirmButtonText: 'ลองอีกครั้ง', confirmButtonColor: '#1d4ed8' });
           return;
         }
-
         finalName = matched.name;
         currentLoggedUser = { name: finalName, role: role, code: inputCode };
       }
-
-      const d = new Date();
-      const day = String(d.getDate()).padStart(2, '0');
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const year = d.getFullYear();
-      const hours = String(d.getHours()).padStart(2, '0');
-      const minutes = String(d.getMinutes()).padStart(2, '0');
-      const nowStr = `${day}/${month}/${year} ${hours}:${minutes} น.`;
-
+      const d = new Date(), nowStr = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')} น.`;
       accessLogs.unshift({ timestamp: nowStr, name: finalName, role: role });
-
-      try {
-        callGasApi({ action: 'ENTER_LIBRARY', name: finalName, role: role });
-      } catch (_) {}
-
-      Swal.fire({
-        icon: 'success',
-        title: 'ยืนยันตัวตนสำเร็จ!',
-        text: `ยินดีต้อนรับ คุณ ${finalName} เข้าสู่คลังหนังสือ E-Library`,
-        timer: 1800,
-        showConfirmButton: false
-      });
-
+      try { callGasApi({ action: 'ENTER_LIBRARY', name: finalName, role: role }); } catch (_) {}
+      Swal.fire({ icon: 'success', title: 'ยืนยันตัวตนสำเร็จ!', text: `ยินดีต้อนรับ คุณ ${finalName}`, timer: 1600, showConfirmButton: false });
       document.getElementById('currentUserChip').textContent = `ผู้ใช้งาน: ${finalName} (${role})`;
       document.getElementById('borrowerNameInput').value = finalName;
-
-      // จัดการปุ่มออกจากระบบตามประเภทผู้ใช้งาน
-      if (role !== 'บุคคลทั่วไป') {
-        document.getElementById('navUserLogoutBtn').style.display = 'inline-flex';
-        document.getElementById('sidebarUserLogoutWrap').style.display = 'block';
-        document.getElementById('sidebarUserNameSpan').textContent = finalName;
-      } else {
-        document.getElementById('navUserLogoutBtn').style.display = 'none';
-        document.getElementById('sidebarUserLogoutWrap').style.display = 'none';
-      }
-
+      const isMember = role !== 'บุคคลทั่วไป';
+      document.getElementById('navUserLogoutBtn').style.display = isMember ? 'inline-flex' : 'none';
+      document.getElementById('sidebarUserLogoutWrap').style.display = isMember ? 'block' : 'none';
+      if (isMember) document.getElementById('sidebarUserNameSpan').textContent = finalName;
       const gate = document.getElementById('entryScreen');
-      gate.classList.remove('active');
-      gate.style.display = 'none';
+      gate.classList.remove('active'); gate.style.display = 'none';
       document.getElementById('appShell').classList.add('active');
-      switchView('books');
-      renderAccessLogs();
-      renderMonthlyCalendar();
+      switchView('books'); renderAccessLogs(); renderMonthlyCalendar();
     });
 
-    // ฟังก์ชันออกจากระบบสำหรับผู้ใช้ทั่วไป (นักเรียน/ครู/บุคลากร)
     function logoutMemberUser() {
       currentLoggedUser = null;
       document.getElementById('currentUserChip').textContent = 'ผู้ใช้งาน: ผู้เยี่ยมชม';
@@ -1753,40 +980,28 @@ let gasWebAppUrl = getEndpointUrl();
       document.getElementById('sidebarUserLogoutWrap').style.display = 'none';
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('sidebarBackdrop').classList.remove('open');
-
-      Swal.fire({
-        icon: 'success',
-        title: 'ออกจากระบบเรียบร้อย',
-        text: 'ขอบคุณที่เข้าใช้บริการระบบห้องสมุดออนไลน์ครับ',
-        timer: 1500,
-        showConfirmButton: false
-      });
+      Swal.fire({ icon: 'success', title: 'ออกจากระบบเรียบร้อย', timer: 1300, showConfirmButton: false });
       switchView('home');
     }
 
-    // ================= ระบบ Dashboard & Navigation =================
     function renderAccessLogs() {
-      const total = accessLogs.length;
       const counts = { 'นักเรียน': 0, 'ครู / อาจารย์': 0, 'บุคลากรโรงเรียน': 0, 'บุคคลทั่วไป': 0 };
       accessLogs.forEach(l => { if (counts[l.role] !== undefined) counts[l.role]++; else counts['บุคคลทั่วไป']++; });
-
+      const total = accessLogs.length;
       document.getElementById('statTotalCount').innerHTML = `${total} <span class="stat-unit">ครั้ง</span>`;
       document.getElementById('statStudentCount').innerHTML = `${counts['นักเรียน']} <span class="stat-unit">ครั้ง</span>`;
       document.getElementById('statTeacherCount').innerHTML = `${counts['ครู / อาจารย์']} <span class="stat-unit">ครั้ง</span>`;
       document.getElementById('statStaffCount').innerHTML = `${counts['บุคลากรโรงเรียน']} <span class="stat-unit">ครั้ง</span>`;
       document.getElementById('statGuestCount').innerHTML = `${counts['บุคคลทั่วไป']} <span class="stat-unit">ครั้ง</span>`;
-
       const pct = (n) => total > 0 ? (n / total) * 100 : 0;
       document.getElementById('statStudentBar').style.width = pct(counts['นักเรียน']) + '%';
       document.getElementById('statTeacherBar').style.width = pct(counts['ครู / อาจารย์']) + '%';
       document.getElementById('statStaffBar').style.width = pct(counts['บุคลากรโรงเรียน']) + '%';
       document.getElementById('statGuestBar').style.width = pct(counts['บุคคลทั่วไป']) + '%';
-
       const recentBody = document.getElementById('recentAccessBody');
       const staffBody = document.getElementById('staffAccessLogBody');
-
-      if (accessLogs.length === 0) {
-        recentBody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:var(--muted);">ยังไม่มีประวัติการเข้าใช้งาน</td></tr>`;
+      if (total === 0) {
+        recentBody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:var(--muted);">ยังไม่มีประวัติ</td></tr>`;
         if (staffBody) staffBody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--muted);">ยังไม่มีประวัติ</td></tr>`;
       } else {
         recentBody.innerHTML = accessLogs.slice(0, 5).map(a => `<tr><td>${formatThaiDateTime(a.timestamp)}</td><td>${maskLastNamePDPA(a.name)}</td><td>${a.role}</td></tr>`).join('');
@@ -1794,62 +1009,42 @@ let gasWebAppUrl = getEndpointUrl();
       }
     }
 
-    // Modal เปิดอ่านหนังสือ
     const bookModal = document.getElementById('bookModal');
-    const modalBookTitle = document.getElementById('modalBookTitle');
-    const modalBookContent = document.getElementById('modalBookContent');
-
-    window.openBookModal = function (bookId) {
-      const book = booksData.find(b => b.id === bookId);
-      if (!book) return;
-
-      modalBookTitle.textContent = `${book.id} - ${book.title}`;
-      modalBookContent.innerHTML = `
+    window.openBookModal = (id) => {
+      const b = booksData.find(x => x.id === id); if (!b) return;
+      document.getElementById('modalBookTitle').textContent = `${b.id} - ${b.title}`;
+      document.getElementById('modalBookContent').innerHTML = `
         <div style="display:flex; gap:14px; flex-wrap:wrap; margin-bottom:14px;">
-          <img src="${book.cover_url}" alt="${book.title}" style="width:110px; border-radius:6px; border:1px solid var(--border); object-fit:cover;">
+          <img src="${b.cover_url}" alt="${b.title}" style="width:110px; border-radius:6px; border:1px solid var(--border); object-fit:cover;">
           <div style="flex:1; min-width:180px;">
-            <p style="margin:0 0 6px;"><strong>หมวดหมู่:</strong> ${book.category}</p>
-            <p style="margin:0 0 6px;"><strong>ผู้แต่ง:</strong> ${book.author}</p>
-            <p style="margin:0 0 6px;"><strong>สถานะ:</strong> ${book.status}</p>
-            <p style="margin:0; color:var(--muted); font-size:12.5px;">
-              เมื่อเชื่อมต่อกับ Google Drive และ Google Sheets ระบบจะดึงลิงก์อ่านไฟล์ PDF มาแสดงผลในกรอบด้านล่างนี้ได้โดยอัตโนมัติ
-            </p>
+            <p style="margin:0 0 6px;"><strong>หมวดหมู่:</strong> ${b.category}</p>
+            <p style="margin:0 0 6px;"><strong>ผู้แต่ง:</strong> ${b.author}</p>
+            <p style="margin:0 0 6px;"><strong>สถานะ:</strong> ${b.status}</p>
           </div>
         </div>
         <div style="padding:14px; background:var(--surface-alt); border:1px dashed var(--border); border-radius:6px; text-align:center; color:var(--muted); font-size:13px;">
-          พื้นที่จำลองการแสดงผลไฟล์ E-Book สำหรับเรื่อง <strong>"${book.title}"</strong>
-        </div>
-      `;
+          พื้นที่จำลองการแสดงผลไฟล์ E-Book สำหรับเรื่อง <strong>"${b.title}"</strong>
+        </div>`;
       bookModal.classList.add('open');
     };
+    document.getElementById('closeModalBtn').addEventListener('click', () => bookModal.classList.remove('open'));
+    bookModal.addEventListener('click', (e) => { if (e.target === bookModal) bookModal.classList.remove('open'); });
 
-    document.getElementById('closeModalBtn').addEventListener('click', function () {
-      bookModal.classList.remove('open');
-    });
-
-    bookModal.addEventListener('click', function (e) {
-      if (e.target === bookModal) bookModal.classList.remove('open');
-    });
-
-    // แสดงรายการหนังสือ พร้อมปุ่ม "เปิดอ่าน" (สีน้ำเงิน) และปุ่ม "ยืม" (สีขาวขอบเทา)
     function renderBooksAndPagination() {
-      const grid = document.getElementById('bookGrid');
       const q = document.getElementById('bookSearchInput').value.toLowerCase();
       const cat = document.getElementById('bookCategorySelect').value;
       const filtered = booksData.filter(b => (!q || b.title.toLowerCase().includes(q)) && (cat === 'ALL' || b.category === cat));
       const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
-
       if (currentPage > totalPages) currentPage = totalPages;
       const start = (currentPage - 1) * ITEMS_PER_PAGE;
       const pageItems = filtered.slice(start, start + ITEMS_PER_PAGE);
-
-      grid.innerHTML = pageItems.map(b => {
-        const isAvailable = b.status === 'ว่าง';
+      document.getElementById('bookGrid').innerHTML = pageItems.map(b => {
+        const isAvail = b.status === 'ว่าง';
         return `
         <div class="book-card">
           <div class="book-cover-wrap">
-            <img src="${b.cover_url}" class="book-cover-svg" alt="ปกหนังสือ ${b.title}" onerror="this.onerror=null; this.src='${createCoverSvg(b.id, b.title, b.category, 0)}';">
-            <span class="book-status-badge ${isAvailable ? 'status-available' : 'status-borrowed'}">${b.status}</span>
+            <img src="${b.cover_url}" class="book-cover-svg" alt="${b.title}" onerror="this.onerror=null; this.src='${createCoverSvg(b.id, b.title, b.category, 0)}';">
+            <span class="book-status-badge ${isAvail ? 'status-available' : 'status-borrowed'}">${b.status}</span>
           </div>
           <div class="book-info">
             <div>
@@ -1859,196 +1054,105 @@ let gasWebAppUrl = getEndpointUrl();
             </div>
             <div class="book-actions">
               <button type="button" class="btn btn-primary" onclick="openBookModal('${b.id}')">เปิดอ่าน</button>
-              <button type="button" class="btn btn-secondary" onclick="quickBorrow('${b.id}')" ${!isAvailable ? 'disabled' : ''}>
-                ${isAvailable ? 'ยืม' : 'ถูกยืม'}
-              </button>
+              <button type="button" class="btn btn-secondary" onclick="quickBorrow('${b.id}')" ${!isAvail ? 'disabled' : ''}>${isAvail ? 'ยืม' : 'ถูกยืม'}</button>
             </div>
           </div>
-        </div>
-      `;
+        </div>`;
       }).join('');
-
       document.getElementById('paginationInfo').textContent = `แสดงรายการที่ ${start + 1} - ${Math.min(start + ITEMS_PER_PAGE, filtered.length)} จากทั้งหมด ${filtered.length} เล่ม`;
       let btns = `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>&laquo;</button>`;
-      for (let p = 1; p <= totalPages; p++) {
-        btns += `<button class="page-btn ${p === currentPage ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>`;
-      }
+      for (let p = 1; p <= totalPages; p++) btns += `<button class="page-btn ${p === currentPage ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>`;
       btns += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>&raquo;</button>`;
       document.getElementById('paginationControls').innerHTML = btns;
     }
-
-    window.goToPage = function (p) { currentPage = p; renderBooksAndPagination(); };
+    window.goToPage = (p) => { currentPage = p; renderBooksAndPagination(); };
     document.getElementById('bookSearchInput').addEventListener('input', () => { currentPage = 1; renderBooksAndPagination(); });
     document.getElementById('bookCategorySelect').addEventListener('change', () => { currentPage = 1; renderBooksAndPagination(); });
 
     function renderBorrowSection() {
-      const select = document.getElementById('borrowBookSelect');
-      select.innerHTML = booksData.filter(b => b.status === 'ว่าง').map(b => `<option value="${b.id}">${b.id} - ${b.title}</option>`).join('');
-
-      const tbody = document.getElementById('borrowListBody');
-      const staffBorrowBody = document.getElementById('staffBorrowLogBody');
+      document.getElementById('borrowBookSelect').innerHTML = booksData.filter(b => b.status === 'ว่าง').map(b => `<option value="${b.id}">${b.id} - ${b.title}</option>`).join('');
       const active = borrowLogs.filter(b => b.status === 'กำลังยืม');
-
-      tbody.innerHTML = active.length === 0 ? `<tr><td colspan="4" style="text-align:center;color:var(--muted);">ไม่มีหนังสือค้างส่งคืน</td></tr>` :
+      document.getElementById('borrowListBody').innerHTML = active.length === 0 ? `<tr><td colspan="4" style="text-align:center;color:var(--muted);">ไม่มีหนังสือค้างส่งคืน</td></tr>` :
         active.map(b => `<tr><td>${b.bookId}</td><td>${b.bookTitle}</td><td>${maskLastNamePDPA(b.borrower)}</td><td><button class="btn btn-secondary" style="padding:4px 8px;font-size:12px;" onclick="returnBook('${b.bookId}')">คืนหนังสือ</button></td></tr>`).join('');
-
+      const staffBorrowBody = document.getElementById('staffBorrowLogBody');
       if (staffBorrowBody) {
         staffBorrowBody.innerHTML = borrowLogs.length === 0 ? `<tr><td colspan="5" style="text-align:center;color:var(--muted);">ยังไม่มีประวัติการยืม</td></tr>` :
           borrowLogs.map(b => `<tr><td>${b.bookId}</td><td>${b.bookTitle}</td><td>${maskLastNamePDPA(b.borrower)}</td><td>${formatThaiDateTime(b.borrowedAt)}</td><td>${b.status === 'กำลังยืม' ? `<button class="btn btn-secondary" style="padding:4px 8px;font-size:12px;" onclick="returnBook('${b.bookId}')">รับคืน</button>` : '<span style="color:var(--success);font-weight:600;">คืนแล้ว</span>'}</td></tr>`).join('');
       }
-
       renderBookDashboard();
     }
 
-    // ฟังก์ชันตรวจสอบสิทธิ์ก่อนไปยังเมนูยืม-คืน
-    function navigateToBorrowView(targetBookId = null) {
+    function navigateToBorrowView(targetId = null) {
       if (!currentLoggedUser || !currentLoggedUser.code) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'กรุณายืนยันตัวตนก่อนยืมหนังสือ!',
-          text: 'เมนูยืม-คืนหนังสือสงวนสิทธิ์เฉพาะนักเรียน, ครู-อาจารย์ และบุคลากรที่ลงชื่อเข้าใช้ด้วยรหัสประจำตัวเท่านั้นครับ',
-          showCancelButton: true,
-          confirmButtonText: 'ไปหน้าลงชื่อเข้าใช้',
-          cancelButtonText: 'ยกเลิก',
-          confirmButtonColor: '#1d4ed8'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.openEntryGate();
-          }
-        });
+        Swal.fire({ icon: 'warning', title: 'กรุณายืนยันตัวตนก่อนยืมหนังสือ!', text: 'สงวนสิทธิ์เฉพาะผู้ลงชื่อเข้าใช้ด้วยรหัสประจำตัวเท่านั้นครับ', showCancelButton: true, confirmButtonText: 'ไปหน้าลงชื่อเข้าใช้', confirmButtonColor: '#1d4ed8' }).then(r => { if (r.isConfirmed) window.openEntryGate(); });
         return false;
       }
-
       document.getElementById('borrowerNameInput').value = currentLoggedUser.name;
       switchView('borrow');
-      if (targetBookId) {
-        document.getElementById('borrowBookSelect').value = targetBookId;
-      }
+      if (targetId) document.getElementById('borrowBookSelect').value = targetId;
       return true;
     }
+    window.quickBorrow = (id) => navigateToBorrowView(id);
 
-    window.quickBorrow = function (id) {
-      navigateToBorrowView(id);
-    };
-
-    document.getElementById('borrowForm').addEventListener('submit', function (e) {
+    document.getElementById('borrowForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      if (!currentLoggedUser || !currentLoggedUser.code) {
-        navigateToBorrowView();
-        return;
-      }
-
-      const id = document.getElementById('borrowBookSelect').value;
-      const name = currentLoggedUser.name;
-      const b = booksData.find(x => x.id === id);
-
+      if (!currentLoggedUser || !currentLoggedUser.code) return navigateToBorrowView();
+      const id = document.getElementById('borrowBookSelect').value, name = currentLoggedUser.name, b = booksData.find(x => x.id === id);
       if (b && name) {
         b.status = 'ถูกยืม';
-        const d = new Date();
-        const day = String(d.getDate()).padStart(2, '0');
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const year = d.getFullYear();
-        const hours = String(d.getHours()).padStart(2, '0');
-        const minutes = String(d.getMinutes()).padStart(2, '0');
-        const nowStr = `${day}/${month}/${year} ${hours}:${minutes} น.`;
-
+        const d = new Date(), nowStr = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')} น.`;
         borrowLogs.unshift({ bookId: id, bookTitle: b.title, borrower: name, borrowedAt: nowStr, status: 'กำลังยืม' });
         try { callGasApi({ action: 'BORROW_BOOK', bookId: id, bookTitle: b.title, borrower: name }); } catch (_) {}
-
-        renderBooksAndPagination();
-        renderBorrowSection();
-
-        Swal.fire({
-          icon: 'success',
-          title: 'ยืมหนังสือสำเร็จ!',
-          text: `คุณได้ยืมหนังสือเรื่อง "${b.title}" เรียบร้อยแล้ว`,
-          timer: 1800,
-          showConfirmButton: false
-        });
+        renderBooksAndPagination(); renderBorrowSection();
+        Swal.fire({ icon: 'success', title: 'ยืมหนังสือสำเร็จ!', text: `คุณได้ยืมเรื่อง "${b.title}" เรียบร้อยแล้ว`, timer: 1600, showConfirmButton: false });
       }
     });
 
-    window.returnBook = function (id) {
-      const b = booksData.find(x => x.id === id);
-      if (b) b.status = 'ว่าง';
-      const log = borrowLogs.find(x => x.bookId === id && x.status === 'กำลังยืม');
-      if (log) log.status = 'คืนแล้ว';
-
+    window.returnBook = (id) => {
+      const b = booksData.find(x => x.id === id); if (b) b.status = 'ว่าง';
+      const log = borrowLogs.find(x => x.bookId === id && x.status === 'กำลังยืม'); if (log) log.status = 'คืนแล้ว';
       try { callGasApi({ action: 'RETURN_BOOK', bookId: id }); } catch (_) {}
-
-      renderBooksAndPagination();
-      renderBorrowSection();
-
-      Swal.fire({
-        icon: 'success',
-        title: 'คืนหนังสือเรียบร้อย!',
-        text: 'ระบบได้ปรับปรุงสถานะหนังสือให้พร้อมยืมแล้วครับ',
-        timer: 1500,
-        showConfirmButton: false
-      });
+      renderBooksAndPagination(); renderBorrowSection();
+      Swal.fire({ icon: 'success', title: 'คืนหนังสือเรียบร้อย!', timer: 1400, showConfirmButton: false });
     };
 
-    // ฟังก์ชัน switchView พร้อมเลื่อนหน้าจอกลับไปด้านบนสุด (Scroll to Top)
     function switchView(k) {
-      if (k === 'borrow') {
-        if (!currentLoggedUser || !currentLoggedUser.code) {
-          navigateToBorrowView();
-          return;
-        }
-      }
+      if (k === 'borrow' && (!currentLoggedUser || !currentLoggedUser.code)) return navigateToBorrowView();
       document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.getAttribute('data-view') === k));
       document.querySelectorAll('.view-section').forEach(s => s.classList.toggle('active', s.id === 'view-' + k));
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('sidebarBackdrop').classList.remove('open');
-
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
-
-    document.querySelectorAll('.nav-item').forEach(b => b.addEventListener('click', function () { switchView(this.getAttribute('data-view')); }));
-
+    document.querySelectorAll('.nav-item').forEach(b => b.addEventListener('click', function() { switchView(this.getAttribute('data-view')); }));
     document.getElementById('hamburgerBtn').addEventListener('click', () => {
       document.getElementById('sidebar').classList.toggle('open');
       document.getElementById('sidebarBackdrop').classList.toggle('open');
     });
-
     document.getElementById('sidebarBackdrop').addEventListener('click', () => {
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('sidebarBackdrop').classList.remove('open');
     });
 
-    // ================= ระบบความปลอดภัย และเมนู เจ้าหน้าที่/Admin =================
     function updateSecurityUI() {
-      const staffPill = document.getElementById('staffAttemptPill');
-      const staffBanner = document.getElementById('staffLockBanner');
-      const adminPill = document.getElementById('adminAttemptPill');
-      const adminBanner = document.getElementById('adminLockBanner');
-      const adminStaffStatus = document.getElementById('adminStaffStatusText');
-
+      const sp = document.getElementById('staffAttemptPill'), sb = document.getElementById('staffLockBanner');
+      const ap = document.getElementById('adminAttemptPill'), ab = document.getElementById('adminLockBanner');
+      const st = document.getElementById('adminStaffStatusText');
       if (securityState.staffLocked) {
-        staffPill.textContent = 'บัญชีถูกระงับชั่วคราว (ผิดเกิน 3 ครั้ง)';
-        staffPill.className = 'attempt-pill locked';
-        staffBanner.classList.add('show');
-        if (adminStaffStatus) adminStaffStatus.textContent = '🔒 ถูกล็อก (ผิดครบ 3 ครั้ง)';
+        sp.textContent = 'บัญชีถูกระงับชั่วคราว (ผิดเกิน 3 ครั้ง)'; sp.className = 'attempt-pill locked'; sb.classList.add('show');
+        if (st) st.textContent = '🔒 ถูกล็อก (ผิดครบ 3 ครั้ง)';
       } else {
-        staffPill.textContent = `จำนวนครั้งที่ผิด: ${securityState.staffFails} / 3 ครั้ง`;
-        staffPill.className = securityState.staffFails > 0 ? 'attempt-pill warn' : 'attempt-pill';
-        staffBanner.classList.remove('show');
-        if (adminStaffStatus) adminStaffStatus.textContent = `ปกติ (ผิด ${securityState.staffFails}/3 ครั้ง)`;
+        sp.textContent = `จำนวนครั้งที่ผิด: ${securityState.staffFails} / 3 ครั้ง`; sp.className = securityState.staffFails > 0 ? 'attempt-pill warn' : 'attempt-pill'; sb.classList.remove('show');
+        if (st) st.textContent = `ปกติ (ผิด ${securityState.staffFails}/3 ครั้ง)`;
       }
-
       if (securityState.adminLocked) {
-        adminPill.textContent = 'บัญชี Admin ถูกล็อกชั่วคราว';
-        adminPill.className = 'attempt-pill locked';
-        adminBanner.classList.add('show');
+        ap.textContent = 'บัญชี Admin ถูกล็อกชั่วคราว'; ap.className = 'attempt-pill locked'; ab.classList.add('show');
       } else {
-        adminPill.textContent = `จำนวนครั้งที่ผิด: ${securityState.adminFails} / 3 ครั้ง`;
-        adminPill.className = securityState.adminFails > 0 ? 'attempt-pill warn' : 'attempt-pill';
-        adminBanner.classList.remove('show');
+        ap.textContent = `จำนวนครั้งที่ผิด: ${securityState.adminFails} / 3 ครั้ง`; ap.className = securityState.adminFails > 0 ? 'attempt-pill warn' : 'attempt-pill'; ab.classList.remove('show');
       }
     }
 
-    // ล็อกอิน เจ้าหน้าที่
-    document.getElementById('staffLoginForm').addEventListener('submit', async function (e) {
+    document.getElementById('staffLoginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const pin = document.getElementById('staffPinInput').value.trim();
       try {
@@ -2059,32 +1163,17 @@ let gasWebAppUrl = getEndpointUrl();
           document.getElementById('staffProtectedContent').style.display = 'block';
           document.getElementById('navRoleLogoutBtn').style.display = 'inline-flex';
           document.getElementById('staffSessionLabel').textContent = res.staffName || 'เจ้าหน้าที่ห้องสมุด';
-          Swal.fire({
-            icon: 'success',
-            title: 'ยินดีต้อนรับเจ้าหน้าที่!',
-            text: `เข้าสู่ระบบสำเร็จในฐานะ: ${res.staffName || 'เจ้าหน้าที่ห้องสมุด'}`,
-            timer: 1800,
-            showConfirmButton: false
-          });
+          Swal.fire({ icon: 'success', title: 'ยินดีต้อนรับเจ้าหน้าที่!', text: `เข้าสู่ระบบสำเร็จในฐานะ: ${res.staffName || 'เจ้าหน้าที่'}`, timer: 1600, showConfirmButton: false });
         } else {
-          securityState.staffFails = res.fails || 1;
-          securityState.staffLocked = !!res.locked;
-          updateSecurityUI();
+          securityState.staffFails = res.fails || 1; securityState.staffLocked = !!res.locked; updateSecurityUI();
           document.getElementById('staffAuthError').classList.add('show');
         }
       } catch (_) {
-        Swal.fire({
-          icon: 'info',
-          title: 'แจ้งเตือนการเชื่อมต่อ',
-          text: 'กรุณาตั้งค่า Web App URL ของ Apps Script ก่อนทดสอบล็อกอินครับ',
-          confirmButtonText: 'เข้าใจแล้ว',
-          confirmButtonColor: '#1d4ed8'
-        });
+        Swal.fire({ icon: 'info', title: 'แจ้งเตือนการเชื่อมต่อ', text: 'กรุณาตรวจสอบการเชื่อมต่อ Web App URL ก่อนครับ', confirmButtonColor: '#1d4ed8' });
       }
     });
 
-    // ล็อกอิน Admin
-    document.getElementById('adminLoginForm').addEventListener('submit', async function (e) {
+    document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const pin = document.getElementById('adminPinInput').value.trim();
       try {
@@ -2094,199 +1183,92 @@ let gasWebAppUrl = getEndpointUrl();
           document.getElementById('adminAuthGate').style.display = 'none';
           document.getElementById('adminProtectedContent').style.display = 'block';
           document.getElementById('navRoleLogoutBtn').style.display = 'inline-flex';
-          Swal.fire({
-            icon: 'success',
-            title: 'ยินดีต้อนรับ Admin!',
-            text: 'เข้าสู่ระบบผู้ดูแลระบบสูงสุดเรียบร้อยแล้ว',
-            timer: 1800,
-            showConfirmButton: false
-          });
+          Swal.fire({ icon: 'success', title: 'ยินดีต้อนรับ Admin!', timer: 1600, showConfirmButton: false });
         } else {
-          securityState.adminFails = res.fails || 1;
-          securityState.adminLocked = !!res.locked;
-          updateSecurityUI();
+          securityState.adminFails = res.fails || 1; securityState.adminLocked = !!res.locked; updateSecurityUI();
           document.getElementById('adminAuthError').classList.add('show');
         }
       } catch (_) {
-        Swal.fire({
-          icon: 'info',
-          title: 'แจ้งเตือนการเชื่อมต่อ',
-          text: 'กรุณาตั้งค่า Web App URL ของ Apps Script ก่อนทดสอบล็อกอินครับ',
-          confirmButtonText: 'เข้าใจแล้ว',
-          confirmButtonColor: '#1d4ed8'
-        });
+        Swal.fire({ icon: 'info', title: 'แจ้งเตือนการเชื่อมต่อ', text: 'กรุณาตรวจสอบการเชื่อมต่อ Web App URL ก่อนครับ', confirmButtonColor: '#1d4ed8' });
       }
     });
 
-    // ออกจากระบบทุกเมนู
     document.querySelectorAll('.role-logout-btn, #navRoleLogoutBtn').forEach(b => b.addEventListener('click', () => {
-      isStaffAuthenticated = false;
-      isAdminAuthenticated = false;
+      isStaffAuthenticated = false; isAdminAuthenticated = false;
       document.getElementById('staffAuthGate').style.display = 'block';
       document.getElementById('staffProtectedContent').style.display = 'none';
       document.getElementById('adminAuthGate').style.display = 'block';
       document.getElementById('adminProtectedContent').style.display = 'none';
       document.getElementById('navRoleLogoutBtn').style.display = 'none';
-
-      Swal.fire({
-        icon: 'info',
-        title: 'ออกจากระบบเรียบร้อย',
-        timer: 1200,
-        showConfirmButton: false
-      });
+      Swal.fire({ icon: 'info', title: 'ออกจากระบบเรียบร้อย', timer: 1200, showConfirmButton: false });
     }));
 
-    // Admin ปลดล็อกรหัสเจ้าหน้าที่
     document.getElementById('adminUnlockStaffBtn').addEventListener('click', async () => {
-      securityState.staffFails = 0;
-      securityState.staffLocked = false;
-      updateSecurityUI();
+      securityState.staffFails = 0; securityState.staffLocked = false; updateSecurityUI();
       try { await callGasApi({ action: 'UNLOCK_STAFF' }); } catch (_) {}
-      Swal.fire({
-        icon: 'success',
-        title: 'ปลดล็อกรหัสเจ้าหน้าที่เรียบร้อยแล้ว',
-        text: 'ระบบได้รีเซ็ตจำนวนครั้งที่กรอกผิดเป็น 0 ครั้ง เจ้าหน้าที่สามารถล็อกอินได้ตามปกติครับ',
-        confirmButtonText: 'ตกลง',
-        confirmButtonColor: '#1d4ed8'
-      });
+      Swal.fire({ icon: 'success', title: 'ปลดล็อกรหัสเจ้าหน้าที่เรียบร้อยแล้ว', confirmButtonColor: '#1d4ed8' });
     });
 
-    // จัดการเพิ่มหนังสือ
     function addBookCommon(title, author, category, coverInputUrl) {
       const formattedCover = formatCoverUrl(coverInputUrl);
       const newBook = {
         id: 'B' + String(booksData.length + 1).padStart(3, '0'),
-        title: title,
-        author: author,
-        category: category,
-        status: 'ว่าง',
-        cover_url: formattedCover || createCoverSvg(booksData.length + 1, title, category, booksData.length),
-        pdf_url: ''
+        title: title, author: author, category: category, status: 'ว่าง',
+        cover_url: formattedCover || createCoverSvg(booksData.length + 1, title, category, booksData.length), pdf_url: ''
       };
       booksData.unshift(newBook);
-      try { 
-        callGasApi({ 
-          action: 'ADD_BOOK', 
-          title: title, 
-          author: author, 
-          category: category, 
-          cover_url: newBook.cover_url 
-        }); 
-      } catch (_) {}
-
-      renderBooksAndPagination();
-      renderBorrowSection();
-      renderBookDashboard();
-
-      Swal.fire({
-        icon: 'success',
-        title: 'เพิ่มหนังสือสำเร็จ!',
-        text: `เพิ่มหนังสือเรื่อง "${title}" ลงในคลังเรียบร้อยแล้ว`,
-        timer: 2000,
-        showConfirmButton: false
-      });
+      try { callGasApi({ action: 'ADD_BOOK', title: title, author: author, category: category, cover_url: newBook.cover_url }); } catch (_) {}
+      renderBooksAndPagination(); renderBorrowSection(); renderBookDashboard();
+      Swal.fire({ icon: 'success', title: 'เพิ่มหนังสือสำเร็จ!', text: `เพิ่มเรื่อง "${title}" เรียบร้อยแล้ว`, timer: 1800, showConfirmButton: false });
       switchView('books');
     }
 
     document.getElementById('staffAddBookForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      addBookCommon(
-        document.getElementById('staffBookTitle').value.trim(),
-        document.getElementById('staffBookAuthor').value.trim(),
-        document.getElementById('staffBookCategory').value,
-        document.getElementById('staffBookCoverUrl').value.trim()
-      );
+      addBookCommon(document.getElementById('staffBookTitle').value.trim(), document.getElementById('staffBookAuthor').value.trim(), document.getElementById('staffBookCategory').value, document.getElementById('staffBookCoverUrl').value.trim());
       this.reset();
     });
-
     document.getElementById('addBookForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      addBookCommon(
-        document.getElementById('newBookTitle').value.trim(),
-        document.getElementById('newBookAuthor').value.trim(),
-        document.getElementById('newBookCategory').value,
-        document.getElementById('newBookCoverUrl').value.trim()
-      );
+      addBookCommon(document.getElementById('newBookTitle').value.trim(), document.getElementById('newBookAuthor').value.trim(), document.getElementById('newBookCategory').value, document.getElementById('newBookCoverUrl').value.trim());
       this.reset();
     });
 
-    // Admin เพิ่มเจ้าหน้าที่ใหม่
     document.getElementById('addStaffForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const name = document.getElementById('newStaffName').value.trim();
-      const pin = document.getElementById('newStaffPin').value.trim();
-      const newId = 'STF-' + String(staffAccounts.length + 1).padStart(2, '0');
-      staffAccounts.push({ id: newId, name: name, isDefault: false });
-
+      const name = document.getElementById('newStaffName').value.trim(), pin = document.getElementById('newStaffPin').value.trim(), nextId = 'STF-' + String(staffAccounts.length + 1).padStart(2, '0');
+      staffAccounts.push({ id: nextId, name: name, isDefault: false });
       try { await callGasApi({ action: 'ADD_STAFF', name: name, pin: pin }); } catch (_) {}
-      renderStaffAccounts();
-      this.reset();
-
-      Swal.fire({
-        icon: 'success',
-        title: 'เพิ่มเจ้าหน้าที่เรียบร้อย!',
-        text: `ได้เพิ่ม "${name}" (รหัส: ${newId}) เข้าสู่ระบบแล้ว`,
-        timer: 2000,
-        showConfirmButton: false
-      });
+      renderStaffAccounts(); this.reset();
+      Swal.fire({ icon: 'success', title: 'เพิ่มเจ้าหน้าที่เรียบร้อย!', text: `รหัส: ${nextId}`, timer: 1800, showConfirmButton: false });
     });
 
     function renderStaffAccounts() {
-      const tbody = document.getElementById('staffAccountsBody');
-      if (!tbody) return;
-      tbody.innerHTML = staffAccounts.map(s => `
-        <tr>
-          <td>${s.id}</td>
-          <td>${s.name}</td>
-          <td>${s.isDefault ? '<span style="color:var(--muted);">มาตรฐาน</span>' : `<button class="btn btn-secondary" style="padding:4px 8px;font-size:12px;" onclick="removeStaffAccount('${s.id}')">ลบ</button>`}</td>
-        </tr>
-      `).join('');
+      const tbody = document.getElementById('staffAccountsBody'); if (!tbody) return;
+      tbody.innerHTML = staffAccounts.map(s => `<tr><td>${s.id}</td><td>${s.name}</td><td>${s.isDefault ? '<span style="color:var(--muted);">มาตรฐาน</span>' : `<button class="btn btn-secondary" style="padding:4px 8px;font-size:12px;" onclick="removeStaffAccount('${s.id}')">ลบ</button>`}</td></tr>`).join('');
     }
 
-    window.removeStaffAccount = async function(id) {
-      Swal.fire({
-        title: 'ยืนยันการลบรายชื่อ?',
-        text: 'คุณต้องการลบเจ้าหน้าที่ท่านนี้ออกจากระบบหรือไม่',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#b91c1c',
-        cancelButtonColor: '#64748b',
-        confirmButtonText: 'ใช่, ลบเลย',
-        cancelButtonText: 'ยกเลิก'
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          staffAccounts = staffAccounts.filter(s => s.id !== id);
-          try { await callGasApi({ action: 'REMOVE_STAFF', id: id }); } catch (_) {}
-          renderStaffAccounts();
-          Swal.fire({
-            icon: 'success',
-            title: 'ลบเรียบร้อยแล้ว',
-            timer: 1500,
-            showConfirmButton: false
-          });
-        }
-      });
+    window.removeStaffAccount = async (id) => {
+      const res = await Swal.fire({ title: 'ยืนยันการลบ?', text: 'ต้องการลบเจ้าหน้าที่ท่านนี้หรือไม่', icon: 'warning', showCancelButton: true, confirmButtonColor: '#b91c1c', confirmButtonText: 'ใช่, ลบเลย' });
+      if (res.isConfirmed) {
+        staffAccounts = staffAccounts.filter(s => s.id !== id);
+        try { await callGasApi({ action: 'REMOVE_STAFF', id: id }); } catch (_) {}
+        renderStaffAccounts();
+        Swal.fire({ icon: 'success', title: 'ลบเรียบร้อยแล้ว', timer: 1300, showConfirmButton: false });
+      }
     };
 
-    // ตั้งค่า Web App URL
-    document.getElementById('gasConfigForm').addEventListener('submit', function (e) {
+    document.getElementById('gasConfigForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const url = document.getElementById('gasUrlInput').value.trim();
       if (url) {
         gasWebAppUrl = url;
         localStorage.setItem('school_elibrary_gas_url', url);
         fetchDatabaseFromGas();
-        Swal.fire({
-          icon: 'success',
-          title: 'บันทึกสำเร็จ!',
-          text: 'บันทึก Web App URL และดึงข้อมูลใหม่จาก Google Sheets เรียบร้อยแล้ว',
-          timer: 2000,
-          showConfirmButton: false
-        });
+        Swal.fire({ icon: 'success', title: 'บันทึกสำเร็จ!', text: 'กำลังเชื่อมต่อใหม่...', timer: 1600, showConfirmButton: false });
       }
     });
 
-    // เริ่มต้นระบบ
     renderBooksAndPagination();
     renderAccessLogs();
     renderBorrowSection();
